@@ -20,8 +20,8 @@ export default class SignUpScreen extends React.Component {
         this.handleNameChange = this.handleNameChange.bind(this);
     }
 
-    handleNameChange(phone_number) {
-        this.setState({phone_number})
+    handleNameChange(phoneNumber) {
+        this.setState({phoneNumber})
     }
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password} = this.state;
