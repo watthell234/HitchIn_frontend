@@ -24,9 +24,9 @@ export default class SignUpScreen extends React.Component {
         this.setState({phone_number})
     }
     onSignUp() {
-        const {accountCreate, phone_number, firstName, lastName, email, password} = this.state;
+        const {accountCreate, phoneNumber, firstName, lastName, email, password} = this.state;
         if (!accountCreate) {
-            http.post('/sign_up', {phone_number, firstName, lastName, email, password})
+            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
             .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))
 
@@ -43,7 +43,7 @@ export default class SignUpScreen extends React.Component {
                     style={styles.textInput}
                     onChangeText={this.handleNameChange}
                     placeholder="Mobile Phone Number"
-                    value={this.state.phone_number}
+                    value={this.state.phoneNumber}
                     onBlur={Keyboard.dismiss}
                 />
                 <TextInput
