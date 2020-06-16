@@ -17,14 +17,14 @@ export default class LoginScreen extends React.Component {
         this.handleNameChange = this.handleNameChange.bind(this);
     }
 
-    handleNameChange(phone_number) {
-        this.setState({phone_number})
+    handleNameChange(phoneNumber) {
+        this.setState({phoneNumber})
     }
 
     onLogin() {
-        const {Login, phone_number, password} = this.state;
+        const {Login, phoneNumber, password} = this.state;
         if (!Login) {
-            http.post('/login', {phone_number, password})
+            http.post('/login', {phoneNumber, password})
             .then(() => this.setState({Login: true})).then(() => this.props.navigation.navigate('Pairing'))
             .catch((err) => console.log(err))
 
@@ -41,7 +41,7 @@ export default class LoginScreen extends React.Component {
                     style={styles.textInput}
                     onChangeText={this.handleNameChange}
                     placeholder="Mobile Phone Number"
-                    value={this.state.phone_number}
+                    value={this.state.phoneNumber}
                     onBlur={Keyboard.dismiss}
                 />
                 <TextInput
