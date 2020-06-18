@@ -21,7 +21,7 @@ export default function App() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Bar code with type ${type} and data ${JSON.parse(data)} has been scanned!`);
     // http.post('/slug', data['carpool_id']).then(() => this.props.navigation.navigate('Position'))
 
   };
