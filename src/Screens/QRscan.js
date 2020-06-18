@@ -24,7 +24,7 @@ export default function App() {
     data = JSON.parse(data)
     alert(`Bar code with type ${type} and Carpool id: ${data.carpool_id} has been scanned!`);
     carpoolId = data
-    http.post('/slug', carpoolId)
+    http.post('/slug', {carpoolId})
     .then(() => this.props.navigation.navigate('Position'))
     .catch((err) => console.log(err))
 
