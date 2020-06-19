@@ -20,11 +20,11 @@ export default function App() {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
     data = JSON.parse(data)
     alert(`Bar code with type ${type} and Slug id: ${data.slug_id} has been scanned!`);
-    slugId = data.slug_id
+    slugId = data
     http.post('/slug', {slugId})
+    .then(() => setScanned(true))
     .then(() => this.props.navigation.navigate('Position'))
     .catch((err) => console.log(err))
 
