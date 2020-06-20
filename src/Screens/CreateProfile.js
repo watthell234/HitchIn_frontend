@@ -16,7 +16,7 @@ export default class CreateProfileScreen extends React.Component {
                       <Text>With</Text>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.props.navigation.navigate('Position')}}>
+                      onPress={() => {this.props.navigation.navigate('QRScan')}}>
                       <Text style={{color: "#FFFFFF"}}>Next</Text>
                   </TouchableOpacity>
       </View>

@@ -8,7 +8,7 @@ const http = axios.create({
     baseURL: serverUrl,
 });
 
-export default function App() {
+export default function QRReaderScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -25,7 +25,7 @@ export default function App() {
     // alert(`Bar code with type ${type} and Slug id: ${data.slug_id} has been scanned!`);
     slugId = data.slug_id
     http.post('/slug', {slugId})
-    .then(() => this.props.navigation.navigate('Position'))
+    .then(() => navigation.navigate('Position'))
     .catch((err) => console.log(err))
 
   };

@@ -25,7 +25,7 @@ export default class LoginScreen extends React.Component {
         const {Login, phoneNumber, password} = this.state;
         if (!Login) {
             http.post('/login', {phoneNumber, password})
-            .then(() => this.setState({Login: true})).then(() => this.props.navigation.navigate('Pairing'))
+            .then(() => this.setState({Login: true})).then(() => this.props.navigation.navigate('QRScan'))
             .catch((err) => console.log(err))
 
         }
