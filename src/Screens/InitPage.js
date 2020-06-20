@@ -2,10 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 
-const serverUrl = 'http://192.168.1.158:5000';
-const http = axios.create({
-    baseURL: serverUrl,
-});
 
 export default class InitScreen extends React.Component {
     render() {
