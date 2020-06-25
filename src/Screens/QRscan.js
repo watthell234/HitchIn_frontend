@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Button, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
 const http = axios.create({
     baseURL: serverUrl,
 });
 
-export default function QRReaderScreen({navigation}) {
+const { width } = Dimensions.get('window')
+const qrSize = width * 0.7
+
+function QRReaderScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -46,10 +52,91 @@ export default function QRReaderScreen({navigation}) {
       }}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+        style={[StyleSheet.absoluteFillObject, styles.container]}>
+        <Text style={styles.description}>HitchIn</Text>
+        <Image
+          style={styles.qr}
+          source={require('./assets/qr-scanner.png')}
+        />
+      </BarCodeScanner>
 
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
 }
+
+function StartRide() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Start Ride Button Here!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="QRReaderScreen"
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+      }}
+    >
+      <Tab.Screen
+        name="QRReaderScreen"
+        component={QRReaderScreen}
+        options={{
+          tabBarLabel: 'Rider',
+          // tabBarIcon: ({ color, size }) => (
+          //   <MaterialCommunityIcons name="home" color={color} size={size} />
+          // ),
+        }}
+      />
+      <Tab.Screen
+        name="StartRide"
+        component={StartRide}
+        options={{
+          tabBarLabel: 'Driver',
+          // tabBarIcon: ({ color, size }) => (
+          //   <MaterialCommunityIcons name="bell" color={color} size={size} />
+          // ),
+        }}
+      />
+      </Tab.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      alignItems: 'center',
+    },
+    qr: {
+      marginTop: '20%',
+      marginBottom: '20%',
+      width: qrSize,
+      height: qrSize,
+    },
+    description: {
+      fontSize: width * 0.09,
+      marginTop: '10%',
+      textAlign: 'center',
+      width: '70%',
+      color: 'white',
+    },
+    cancel: {
+      fontSize: width * 0.05,
+      textAlign: 'center',
+      width: '70%',
+      color: 'white',
+    },
+});
