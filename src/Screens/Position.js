@@ -29,7 +29,7 @@ import * as Permissions from 'expo-permissions';
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
 
-export default class Position2 extends Component {
+export default class Position extends Component {
     constructor(props) {
       super(props);
 

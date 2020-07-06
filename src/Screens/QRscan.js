@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, Text, View, Button, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
 import { NavigationContainer } from '@react-navigation/native';
@@ -68,7 +68,11 @@ function QRReaderScreen({navigation}) {
 function StartRide() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Start Ride Button Here!</Text>
+    <TouchableOpacity
+        style={styles.button}
+        onPress={() => {}}>
+        <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
+    </TouchableOpacity>
     </View>
   );
 }
@@ -139,4 +143,10 @@ const styles = StyleSheet.create({
       width: '70%',
       color: 'white',
     },
+    button: {
+        alignItems: "center",
+        backgroundColor: "#404e5a",
+        padding: 10,
+        width: 250,
+     },
 });
