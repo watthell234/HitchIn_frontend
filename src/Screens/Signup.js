@@ -21,8 +21,7 @@ export default class SignUpScreen extends React.Component {
             lastName: null,
             email: null,
             password: null,
-            checked: false,
-            // setChecked: false,
+            checked: true,
         }
         this.handleNameChange = this.handleNameChange.bind(this);
     }
@@ -33,7 +32,7 @@ export default class SignUpScreen extends React.Component {
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
         if (!accountCreate) {
-            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
+            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
             .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))
 
@@ -83,12 +82,12 @@ export default class SignUpScreen extends React.Component {
                       secureTextEntry={true}
                   />
                   <Checkbox.Item
-                    label='isDriver'
-                    disabled = {this.state.checked}
-                    labelStyle={styles.textInput}
+                    label= {`Checkbox status: + ${this.state.checked}`}
+                    disabled = {!this.state.checked}
+                    labelStyle={{}}
                     status={'checked'}
                     onPress={() => this.setState({checked: !checked})}
-                    color='#404e5a'
+                    color='black'
                   />
                   <TouchableOpacity
                       style={styles.button}
