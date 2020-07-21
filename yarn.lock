@@ -1460,6 +1460,14 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@callstack/react-theme-provider@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.5.tgz#a173e455e9603c9c45357a3b6ace1273086527ca"
+  integrity sha512-Iec+ybWN0FvNj87sD3oWo/49edGUP0UOSdMnzCJEFJIDYr992ECIuOV89burAAh2/ibPCxgLiK6dmgv2mO/8Tg==
+  dependencies:
+    deepmerge "^3.2.0"
+    hoist-non-react-statics "^3.3.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1583,6 +1591,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.11.0.tgz#bf81b8813080846f150c67f531987c429b442166"
   dependencies:
     deep-assign "^3.0.0"
+
+"@react-native-community/checkbox@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.4.2.tgz#109214058610200fcbb97e8761cf0cba8df5abd5"
+  integrity sha512-vGetj36fOD+o3xCx8AGg56HqopetKQAWCEslD3oj8cs0xaGyRLQh3Febu13wMBOdaAQP85kITpaIET9DF4Apaw==
 
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
@@ -3428,7 +3441,7 @@ hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
-hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   dependencies:
@@ -4990,6 +5003,15 @@ react-native-iphone-x-helper@^1.2.1:
 react-native-maps@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.26.1.tgz#6ec316259b38d259c8974448d894bd7a23101da4"
+
+react-native-paper@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.0.1.tgz#13d2272757fb738113582e900787f365cfa77c74"
+  integrity sha512-C1kHZ5sS3QU2XdmdHnLAzp88T+FWtkOa+43wYjBClevsDvi72aRf6H9PTs8GS69E8tlNHym3kbVcENgnDPMqhQ==
+  dependencies:
+    "@callstack/react-theme-provider" "^3.0.5"
+    color "^3.1.2"
+    react-native-safe-area-view "^0.14.9"
 
 react-native-permissions@^2.0.2:
   version "2.1.5"
