@@ -9,8 +9,6 @@ const serverUrl = 'https://hitchin-server.herokuapp.com';
 const http = axios.create({
     baseURL: serverUrl,
 });
-// const checked = false;
-// const
 
 export default class SignUpScreen extends React.Component {
     constructor(props) {
@@ -21,7 +19,7 @@ export default class SignUpScreen extends React.Component {
             lastName: null,
             email: null,
             password: null,
-            checked: false,
+            checked: true,
             // setChecked: false,
         }
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -30,17 +28,26 @@ export default class SignUpScreen extends React.Component {
     handleNameChange(phoneNumber) {
         this.setState({phoneNumber})
     }
+
+    handleCheckBox = () => {
+        this.setState({
+            checked: !this.state.checked
+            }
+        )
+        // console.log(checked);
+    }
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
+        console.log(checked);
         if (!accountCreate) {
-            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
+            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
             .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))
 
         }
     }
     render() {
-        const {accountCreate, checked} = this.state;
+        const {accountCreate} = this.state;
         return (
           <View style={styles.container}>
               <View>
@@ -84,10 +91,10 @@ export default class SignUpScreen extends React.Component {
                   />
                   <Checkbox.Item
                     label='isDriver'
-                    disabled = {this.state.checked}
+                    disabled = {!this.state.checked}
                     labelStyle={styles.textInput}
                     status={'checked'}
-                    onPress={() => this.setState({checked: !checked})}
+                    onPress={this.handleCheckBox}
                     color='#404e5a'
                   />
                   <TouchableOpacity
@@ -126,6 +133,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderWidth: 1,
         borderColor: "#AAB7BD",
-        color: "#808080"
+        color: "#000000"
     },
 });
