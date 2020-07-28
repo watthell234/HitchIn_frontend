@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import { Checkbox } from 'react-native-paper';
-import {styles} from './styles/styles'
+import { styles } from './styles/styles'
 
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
@@ -19,8 +19,7 @@ export default class SignUpScreen extends React.Component {
             lastName: null,
             email: null,
             password: null,
-            checked: true,
-            // setChecked: false,
+            checked: true
         }
         this.handleNameChange = this.handleNameChange.bind(this);
     }
