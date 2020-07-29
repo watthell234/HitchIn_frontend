@@ -1,16 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-// import {CheckBox} from './components/CheckBox'
 import { Checkbox } from 'react-native-paper';
+import { styles } from './styles/styles'
 
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
 const http = axios.create({
     baseURL: serverUrl,
 });
-// const checked = false;
-// const
 
 export default class SignUpScreen extends React.Component {
     constructor(props) {
@@ -29,8 +27,17 @@ export default class SignUpScreen extends React.Component {
     handleNameChange(phoneNumber) {
         this.setState({phoneNumber})
     }
+
+    handleCheckBox = () => {
+        this.setState({
+            checked: !this.state.checked
+            }
+        )
+        // console.log(checked);
+    }
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
+        console.log(checked);
         if (!accountCreate) {
             http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
             .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CreateProfile'))
@@ -39,7 +46,7 @@ export default class SignUpScreen extends React.Component {
         }
     }
     render() {
-        const {accountCreate, checked} = this.state;
+        const {accountCreate} = this.state;
         return (
           <View style={styles.container}>
               <View>
@@ -82,12 +89,21 @@ export default class SignUpScreen extends React.Component {
                       secureTextEntry={true}
                   />
                   <Checkbox.Item
+<<<<<<< HEAD
                     label= {`Checkbox status: + ${this.state.checked}`}
                     disabled = {!this.state.checked}
                     labelStyle={{}}
                     status={'checked'}
                     onPress={() => this.setState({checked: !checked})}
                     color='black'
+=======
+                    label='isDriver'
+                    disabled = {!this.state.checked}
+                    labelStyle={styles.textInput}
+                    status={'checked'}
+                    onPress={this.handleCheckBox}
+                    color='#404e5a'
+>>>>>>> 4aff1616276a3a0dc3fbe658f5cbc6d2f10a3427
                   />
                   <TouchableOpacity
                       style={styles.button}
@@ -101,30 +117,3 @@ export default class SignUpScreen extends React.Component {
 
     }
 }
-
-const styles = StyleSheet.create({
-   container: {
-        flex: 1,
-        backgroundColor: '#AAB7BD',
-        alignItems: 'center',
-    },
-    title: {
-        marginBottom: 20,
-        fontSize: 18,
-        fontWeight: 'bold',
-        fontSize: 32,
-        color: '#404e5a'
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "#404e5a",
-        padding: 10,
-        width: 250,
-    },
-    textInput: {
-        backgroundColor: "#FFFFFF",
-        borderWidth: 1,
-        borderColor: "#AAB7BD",
-        color: "#808080"
-    },
-});
