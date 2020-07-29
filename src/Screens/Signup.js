@@ -89,21 +89,18 @@ export default class SignUpScreen extends React.Component {
                       secureTextEntry={true}
                   />
                   <Checkbox.Item
-<<<<<<< HEAD
                     label= {`Checkbox status: + ${this.state.checked}`}
                     disabled = {!this.state.checked}
                     labelStyle={{}}
                     status={'checked'}
                     onPress={() => this.setState({checked: !checked})}
                     color='black'
-=======
                     label='isDriver'
                     disabled = {!this.state.checked}
                     labelStyle={styles.textInput}
                     status={'checked'}
                     onPress={this.handleCheckBox}
                     color='#404e5a'
->>>>>>> 4aff1616276a3a0dc3fbe658f5cbc6d2f10a3427
                   />
                   <TouchableOpacity
                       style={styles.button}
