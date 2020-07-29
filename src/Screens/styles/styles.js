@@ -21,9 +21,11 @@ const styles = StyleSheet.create({
     },
     textInput: {
         backgroundColor: "#FFFFFF",
-        borderWidth: 1,
+        borderWidth: 16,
         borderColor: "#AAB7BD",
-        color: "#000000"
+        color: "#000000",
+        height: 35,
+        padding: 24
     },
 });
 
