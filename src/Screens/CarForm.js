@@ -29,7 +29,6 @@ export default class CarForm extends React.Component {
 
     onCreateQR() {
         const {carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
-        console.log(checked);
         if (!carCreate) {
             http.post('/car', {carMake, carColor, carYear, licensePlate, ezpassTag})
             .then(() => this.setState({carCreate: true})).then(() => this.props.navigation.navigate(''))
