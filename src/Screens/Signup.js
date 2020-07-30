@@ -33,14 +33,14 @@ export default class SignUpScreen extends React.Component {
             checked: !this.state.checked
             }
         )
-        // console.log(checked);
     }
+
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
         console.log(checked);
         if (!accountCreate) {
             http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
-            .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CreateProfile'))
+            .then(() => this.setState({accountCreate: true})).then(() => this.props.navigation.navigate('CarForm'))
             .catch((err) => console.log(err))
 
         }
@@ -89,9 +89,7 @@ export default class SignUpScreen extends React.Component {
                       secureTextEntry={true}
                   />
                   <Checkbox.Item
-                    label= {`Checkbox status: + ${this.state.checked}`}
                     disabled = {!this.state.checked}
-                    labelStyle={{}}
                     status={'checked'}
                     onPress={() => this.setState({checked: !checked})}
                     color='black'

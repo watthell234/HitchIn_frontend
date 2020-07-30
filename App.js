@@ -9,6 +9,7 @@ import CreateProfileScreen from './src/Screens/CreateProfile';
 import Position from './src/Screens/Position'
 import PairingScreen from './src/Screens/Pairing'
 import QRReaderScreen from './src/Screens/QRscan'
+import CarForm from './src/Screens/CarForm'
 
 const MainNavigator = createStackNavigator({
     Home: {screen: HomeScreen,},
@@ -20,6 +21,7 @@ const MainNavigator = createStackNavigator({
     Position: {screen: Position,},
     Pairing: { screen: PairingScreen, },
     QRScan: { screen: QRReaderScreen, },
+    CarForm: { screen: CarForm }
 },
     {
         initialRouteName: "Init"

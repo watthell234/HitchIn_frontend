@@ -21,11 +21,11 @@ const styles = StyleSheet.create({
     },
     textInput: {
         backgroundColor: "#FFFFFF",
-        borderWidth: 16,
+        borderWidth: 14,
         borderColor: "#AAB7BD",
         color: "#000000",
-        height: 35,
-        padding: 24
+        height: 64,
+        // padding: 24,
     },
 });
 
