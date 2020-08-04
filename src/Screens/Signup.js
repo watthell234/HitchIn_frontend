@@ -47,13 +47,13 @@ export default class SignUpScreen extends React.Component {
             .catch((err) => console.log(err))
 
         }
-        const storeData = async (value) => {
-                            try {
-                              await AsyncStorage.setItem('user_id', value)
-                            } catch (e) {
-                              // saving error
-                            }
-                          }
+        // const storeData = async (value) => {
+        //                     try {
+        //                       await AsyncStorage.setItem('user_id', value)
+        //                     } catch (e) {
+        //                       // saving error
+        //                     }
+        //                   }
     }
 
     render() {

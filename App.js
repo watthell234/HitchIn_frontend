@@ -6,13 +6,12 @@ import Navigate from './src/Screens/NavigatingScreen';
 import CarpoolRoute from './src/Screens/CarpoolRoute';
 import LoginScreen from './src/Screens/LoginPage';
 import CreateProfileScreen from './src/Screens/CreateProfile';
-import Position from './src/Screens/Position'
-import PairingScreen from './src/Screens/Pairing'
-import QRReaderScreen from './src/Screens/QRscan'
-import CarForm from './src/Screens/CarForm'
+import Position from './src/Screens/Position';
+import PairingScreen from './src/Screens/Pairing';
+import QRReaderScreen from './src/Screens/QRscan';
+import CarForm from './src/Screens/CarForm';
 
 const MainNavigator = createStackNavigator({
-    Home: {screen: HomeScreen,},
     Init: {screen: InitScreen,},
     SignUpScreen: {screen: SignUpScreen,},
     CarpoolRoute: {screen: CarpoolRoute,},
@@ -20,9 +19,9 @@ const MainNavigator = createStackNavigator({
     CreateProfile: {screen: CreateProfileScreen,},
     Position: {screen: Position,},
     Pairing: { screen: PairingScreen, },
-    Navigate: { screen: Navigate, }
+    Navigate: { screen: Navigate, },
     QRScan: { screen: QRReaderScreen, },
-    CarForm: { screen: Car, }
+    CarForm: { screen: CarForm, }
 },
     {
         initialRouteName: "Init"

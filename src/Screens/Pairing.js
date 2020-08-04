@@ -3,10 +3,21 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 
 export default class PairingScreen extends React.Component {
+
+    onPress() {
+      if (2 >= 2) {
+        () => this.props.navigation.navigate('Navigate');
+      }
+    }
     render() {
         return (
-            <View>
-                <Text>"Loading: 0 out of 3"</Text
+            <View style={styles.container}>
+                <Text>Loading: 0 out of 3</Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {this.onPress()}}>
+                    <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
+                </TouchableOpacity>
         </View>
     )
     }

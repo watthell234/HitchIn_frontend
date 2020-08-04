@@ -33,20 +33,20 @@ export default class CarForm extends React.Component {
         if (!carCreate) {
             http.post('/car', {carMake, carColor, carYear, licensePlate, ezpassTag})
             .then(() => this.setState({carCreate: true}))
-            .then(() => this.props.navigation.navigate(''))
+            .then(() => this.props.navigation.navigate('Pairing'))
             .catch((err) => console.log(err))
 
         }
-        const getData = async () => {
-                          try {
-                            const value = await AsyncStorage.getItem('@storage_Key')
-                            if(value !== null) {
-                              // value previously stored
-                            }
-                          } catch(e) {
-                            // error reading value
-                          }
-                        }
+        // const getData = async () => {
+        //                   try {
+        //                     const value = await AsyncStorage.getItem('@storage_Key')
+        //                     if(value !== null) {
+        //                       // value previously stored
+        //                     }
+        //                   } catch(e) {
+        //                     // error reading value
+        //                   }
+        //                 }
     }
     render() {
         const {carCreate} = this.state;
