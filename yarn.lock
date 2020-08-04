@@ -2504,9 +2504,10 @@
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
 
-"@react-native-community/picker@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.0.tgz#ddb2b04ca251b79980e3052ece4e685b7abf0444"
+"@react-native-community/picker@^1.6.0":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.5.tgz#9489fdb6d0b4b5877491101e0c3185ea9511d1aa"
+  integrity sha512-mwt0sBaFdURJWkq6wFf2BrYh7fzB1CKK4/gx20zmDYDmahvk3CVUQVlkINDDyXE9m0lYZ9V8rBZBBAJy9W3GkQ==
 
 "@react-navigation/bottom-tabs@^5.5.2":
   version "5.5.2"
@@ -3791,6 +3792,11 @@ expand-brackets@^2.1.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+expo-analytics-segment@~8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/expo-analytics-segment/-/expo-analytics-segment-8.2.1.tgz#a17bfcf416d47b83d7940310614122b4b0308b4b"
+  integrity sha512-svVFIfGYoJm7WzLrJFuwARjnlGLMRnJWXo3a3BOk6N1pXbQSwMNSH45rzXcRZgJEjziWipxdUD4StVhBnd7YnQ==
 
 expo-asset@~8.1.7:
   version "8.1.7"

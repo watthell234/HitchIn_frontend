@@ -93,7 +93,7 @@ export default class CarForm extends React.Component {
                   <TouchableOpacity
                       style={styles.button}
                       onPress={() => {this.onCreateQR()}}>
-                      <Text style={{color: "#FFFFFF"}}>"Create QR Code"</Text>
+                      <Text style={{color: "#FFFFFF"}}>Create QR Code</Text>
                   </TouchableOpacity>
                   <Text> Car Creation: {carCreate ? 'Successful' : 'Fail'}</Text>
               </View>

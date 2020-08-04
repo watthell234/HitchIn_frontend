@@ -6,9 +6,10 @@ export default class PairingScreen extends React.Component {
 
     onPress() {
       if (2 >= 2) {
-        () => this.props.navigation.navigate('Navigate');
+        this.props.navigation.navigate('Position');
       }
     }
+
     render() {
         return (
             <View style={styles.container}>
