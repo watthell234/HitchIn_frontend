@@ -6,11 +6,7 @@ export default class PairingScreen extends React.Component {
     render() {
         return (
             <View>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {this.props.navigation.navigate('Position')}}>
-                    <Text style={{color: "#FFFFFF"}}>Safely Pair Me!</Text>
-                </TouchableOpacity>
+                <Text>"Loading: 0 out of 3"</Text
         </View>
     )
     }

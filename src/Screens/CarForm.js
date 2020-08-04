@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import { styles } from './styles/styles'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
@@ -31,10 +32,21 @@ export default class CarForm extends React.Component {
         const {carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
         if (!carCreate) {
             http.post('/car', {carMake, carColor, carYear, licensePlate, ezpassTag})
-            .then(() => this.setState({carCreate: true})).then(() => this.props.navigation.navigate(''))
+            .then(() => this.setState({carCreate: true}))
+            .then(() => this.props.navigation.navigate(''))
             .catch((err) => console.log(err))
 
         }
+        const getData = async () => {
+                          try {
+                            const value = await AsyncStorage.getItem('@storage_Key')
+                            if(value !== null) {
+                              // value previously stored
+                            }
+                          } catch(e) {
+                            // error reading value
+                          }
+                        }
     }
     render() {
         const {carCreate} = this.state;

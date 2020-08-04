@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import axios from 'axios';
 import { Checkbox } from 'react-native-paper';
 import { styles } from './styles/styles'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
@@ -46,7 +47,15 @@ export default class SignUpScreen extends React.Component {
             .catch((err) => console.log(err))
 
         }
+        const storeData = async (value) => {
+                            try {
+                              await AsyncStorage.setItem('user_id', value)
+                            } catch (e) {
+                              // saving error
+                            }
+                          }
     }
+
     render() {
         const {accountCreate} = this.state;
         return (

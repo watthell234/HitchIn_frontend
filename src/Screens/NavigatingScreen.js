@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class Navigate extends React.Component {
     render() {
         return (
 
