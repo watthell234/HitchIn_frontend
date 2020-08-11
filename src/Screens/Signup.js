@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 const serverUrl = 'https://hitchin-server.herokuapp.com';
+// const serverUrl = 'http://127.0.0.1:5000/'
 const http = axios.create({
     baseURL: serverUrl,
 });
@@ -36,24 +37,27 @@ export default class SignUpScreen extends React.Component {
         )
     }
 
+    async storeToken(user) {
+      try {
+        await AsyncStorage.setItem("userId", JSON.stringify(user));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
+
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
         console.log(checked);
         if (!accountCreate) {
             http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
+            .then((response) => this.storeToken(response.data.id))
             .then(() => this.setState({accountCreate: true}))
-            .then(() =>
-            checked ? this.props.navigation.navigate('CarForm') : this.props.navigation.navigate('CreateProfile'))
+            .then(() => checked ? this.props.navigation.navigate('CarForm') : this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))
 
         }
-        // const storeData = async (value) => {
-        //                     try {
-        //                       await AsyncStorage.setItem('user_id', value)
-        //                     } catch (e) {
-        //                       // saving error
-        //                     }
-        //                   }
+
     }
 
     render() {

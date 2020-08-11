@@ -14,6 +14,7 @@ export default class CarForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            userId: null,
             carMake: null,
             carColor: null,
             carYear: null,
@@ -27,26 +28,31 @@ export default class CarForm extends React.Component {
         this.setState({carMake})
     }
 
+    componentDidMount() {
+      this.getToken();
+      console.log(this.userId)
+    }
+
+    async getToken(user) {
+      try {
+        let userData = await AsyncStorage.getItem("userId");
+        let data = JSON.parse(userData);
+        console.log(data);
+        this.setState({userId: data});
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
 
     onCreateQR() {
-        const {carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
+        const {userId, carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
+        console.log(userId)
         if (!carCreate) {
-            http.post('/car', {carMake, carColor, carYear, licensePlate, ezpassTag})
+            http.post('/car', {userId, carMake, carColor, carYear, licensePlate, ezpassTag})
             .then(() => this.setState({carCreate: true}))
             .then(() => this.props.navigation.navigate('Pairing'))
             .catch((err) => console.log(err))
-
         }
-        // const getData = async () => {
-        //                   try {
-        //                     const value = await AsyncStorage.getItem('@storage_Key')
-        //                     if(value !== null) {
-        //                       // value previously stored
-        //                     }
-        //                   } catch(e) {
-        //                     // error reading value
-        //                   }
-        //                 }
     }
     render() {
         const {carCreate} = this.state;
