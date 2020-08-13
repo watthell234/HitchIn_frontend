@@ -25,11 +25,6 @@ export default class InitScreen extends React.Component {
                                     <Text style={{textDecorationLine: 'underline', color: '#0645AD', fontSize: 16, paddingBottom: 7 }}>Login</Text>
                                 </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={() => {this.props.navigation.navigate('QRScan')}}>
-                                    <Text style={{color: "#FFFFFF"}}>HITCH SCAN</Text>
-                                </TouchableOpacity>
             </View>
         )
     }

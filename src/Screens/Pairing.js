@@ -13,7 +13,8 @@ export default class PairingScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Loading: 0 out of 3</Text>
+              <Text>HitchIn</Text>
+                <Text>Waiting for: 3 Passengers</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {this.onPress()}}>

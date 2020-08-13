@@ -30,7 +30,6 @@ export default class CarForm extends React.Component {
 
     componentDidMount() {
       this.getToken();
-      console.log(this.userId)
     }
 
     async getToken(user) {
