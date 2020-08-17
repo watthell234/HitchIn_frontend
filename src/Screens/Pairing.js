@@ -1,10 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import axios from 'axios';
+import { http } from './constants/hitchBackendapi';
 
 export default class PairingScreen extends React.Component {
 
     onPress() {
+
+      http.get("/slug/1")
+      .then((slugs) => console.log(response.slug_count))
+      .catch((err) => console.log(err))
+
       if (2 >= 2) {
         this.props.navigation.navigate('Position');
       }

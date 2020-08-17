@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import http from './constants/hitchBackendapi';
+import { http } from './constants/hitchBackendapi';
 import {styles} from './styles/styles'
 
 
