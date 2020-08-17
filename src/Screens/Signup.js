@@ -1,16 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import axios from 'axios';
+import { http } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
-import { styles } from './styles/styles'
+import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-community/async-storage';
-
-
-const serverUrl = 'https://hitchin-server.herokuapp.com';
-// const serverUrl = 'http://127.0.0.1:5000/'
-const http = axios.create({
-    baseURL: serverUrl,
-});
 
 export default class SignUpScreen extends React.Component {
     constructor(props) {

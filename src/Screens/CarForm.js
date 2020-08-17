@@ -1,14 +1,9 @@
 import React from 'react';
 import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-native';
-import axios from 'axios';
-import { styles } from './styles/styles'
+import { http } from './constants/hitchBackendapi';
+import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
-const serverUrl = 'https://hitchin-server.herokuapp.com';
-const http = axios.create({
-    baseURL: serverUrl,
-});
 
 export default class CarForm extends React.Component {
     constructor(props) {

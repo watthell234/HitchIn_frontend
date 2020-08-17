@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import axios from 'axios';
+import http from './constants/hitchBackendapi';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
-const serverUrl = 'https://hitchin-server.herokuapp.com';
-const http = axios.create({
-    baseURL: serverUrl,
-});
 
 const { width } = Dimensions.get('window')
 const qrSize = width * 0.7

@@ -1,12 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import axios from 'axios';
+import http from './constants/hitchBackendapi';
 import {styles} from './styles/styles'
 
-const serverUrl = 'https://hitchin-server.herokuapp.com';
-const http = axios.create({
-    baseURL: serverUrl,
-});
 
 export default class LoginScreen extends React.Component {
     constructor(props) {
