@@ -55,7 +55,8 @@ function QRReaderScreen({navigation}) {
         />
       </BarCodeScanner>
 
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned && <Button title={'Tap to Scan Again'}
+      onPress={() => setScanned(false)} />}
     </View>
   );
 }
