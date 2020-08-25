@@ -3,18 +3,31 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import { http } from './constants/hitchBackendapi';
 
 export default class PairingScreen extends React.Component {
+  constructor(props) {
+      super (props);
+      this.state = {
+        passengerCount: null,
+      }
+  }
 
-    onPress() {
+ async getPassCount() {
+    try {
+    const response = await http.get('/cartrips/1');
+    console.log("Riders Checkedin" ,response.data.slugs);
+    return response.data.slugs
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+}
 
-      const passengers = () => http.get('/cartrips/1')
-      .then((response) => response.data.slugs)
-      .catch((err) => console.log(err));
-
-      if (passengers >= 3) {
+  async onPress() {
+      let passengerCount = await this.getPassCount();
+      console.log(passengerCount);
+      if (passengerCount >= 3) {
         this.props.navigation.navigate('Position');
       }
-      else {Alert.alert("Alert Title",
-      console.log(passengers().then(response)),
+      else { Alert.alert("Insufficient Passengers",
+      "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
       [
         {
           text: "Cancel",
