@@ -24,8 +24,8 @@ function QRReaderScreen({navigation}) {
     setScanned(true)
     data = JSON.parse(data)
     // alert(`Bar code with type ${type} and Slug id: ${data.slug_id} has been scanned!`);
-    slugId = data.slug_id
-    http.post('/slug', {slugId})
+    carQr = data.car_qr
+    http.post('/checkin', {carQr})
     .then(() => navigation.navigate('Position'))
     .catch((err) => console.log(err))
 

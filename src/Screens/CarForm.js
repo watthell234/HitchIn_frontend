@@ -38,11 +38,20 @@ export default class CarForm extends React.Component {
       }
     }
 
+    async storeCarId(carId) {
+      try {
+        await AsyncStorage.setItem("carId", JSON.stringify(carId));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
     onCreateQR() {
         const {userId, carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
         console.log(userId)
         if (!carCreate) {
             http.post('/car', {userId, carMake, carColor, carYear, licensePlate, ezpassTag})
+            .then((response) => this.storeCarId(response.data.id))
             .then(() => this.setState({carCreate: true}))
             .then(() => this.props.navigation.navigate('Pairing'))
             .catch((err) => console.log(err))

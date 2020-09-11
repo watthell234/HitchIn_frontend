@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import { http } from './constants/hitchBackendapi';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 export default class PairingScreen extends React.Component {
   constructor(props) {
@@ -10,10 +12,26 @@ export default class PairingScreen extends React.Component {
       }
   }
 
+  // componentDidMount() {
+  //   this.getCarId();
+  // }
+
+  async getCarId() {
+    try {
+      let carData = await AsyncStorage.getItem("carId");
+      let data = JSON.parse(carData);
+      console.log(data);
+      return data
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
  async getPassCount() {
     try {
-    const response = await http.get('/cartrips/1');
-    console.log("Riders Checkedin" ,response.data.slugs);
+    const carId = await this.getCarId();
+    const response = await http.get('/cartrips/' + carId);
+    console.log("Riders Checkedin" , response.data.slugs);
     return response.data.slugs
     } catch (error) {
       console.log("Something went wrong", error);
