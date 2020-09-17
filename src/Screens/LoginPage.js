@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import { http } from './constants/hitchBackendapi';
-import {styles} from './styles/styles'
+import {styles} from './styles/styles';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 export default class LoginScreen extends React.Component {
@@ -18,10 +19,19 @@ export default class LoginScreen extends React.Component {
         this.setState({phoneNumber})
     }
 
+    async storeToken(user) {
+      try {
+        await AsyncStorage.setItem("loggedUser", JSON.stringify(user));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
     onLogin() {
         const {Login, phoneNumber, password} = this.state;
         if (!Login) {
             http.post('/login', {phoneNumber, password})
+            .then((response) => this.storeToken(response.data.id))
             .then(() => this.setState({Login: true})).then(() => this.props.navigation.navigate('QRScan'))
             .catch((err) => console.log(err))
 
