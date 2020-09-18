@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import http from './constants/hitchBackendapi';
+import { http } from './constants/hitchBackendapi';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -22,19 +22,22 @@ class QRReader extends React.Component {
       this.getPermission();
     }
 
-  getPermission =
-    async () => {
+  async getPermission() {
+    try {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       this.setState({hasPermission: status === 'granted'});
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+
     }
 
     handleBarCodeScanned = ({ type, data }) => {
       data = JSON.parse(data)
       // alert(`Bar code with type ${type} and Slug id: ${data.slug_id} has been scanned!`);
       let carQr = data.car_qr
-      console.log(carQr)
       http.post('/checkin', {carQr})
-      .then(() => navigation.navigate('Position'))
+      .then(() => this.props.navigation.navigate('Position'))
       .catch((err) => console.log(err))
 
     };
@@ -191,10 +194,12 @@ const Tab = createBottomTabNavigator();
 class MyTabs extends React.Component {
   render() {
   return (
-    <Tab.Navigator>
+    <NavigationContainer>
+    <Tab.Navigator initialRouteName="QRReader">
       <Tab.Screen name="QR Scan" component={QRReader} />
       <Tab.Screen name="Drive" component={StartRide} />
     </Tab.Navigator>
+    </NavigationContainer>
   );
   }
 }

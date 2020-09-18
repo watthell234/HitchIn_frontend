@@ -7,18 +7,18 @@ import LoginScreen from './src/Screens/LoginPage';
 import CreateProfileScreen from './src/Screens/CreateProfile';
 import Position from './src/Screens/Position';
 import PairingScreen from './src/Screens/Pairing';
-import QRReaderScreen from './src/Screens/QRscan';
+import QRReader from './src/Screens/QRscan';
 import CarForm from './src/Screens/CarForm';
 
 const MainNavigator = createStackNavigator({
-    Init: {screen: InitScreen,},
-    SignUpScreen: {screen: SignUpScreen,},
-    CarpoolRoute: {screen: CarpoolRoute,},
-    Login: {screen: LoginScreen,},
-    CreateProfile: {screen: CreateProfileScreen,},
-    Position: {screen: Position,},
+    Init: {screen: InitScreen, },
+    SignUpScreen: {screen: SignUpScreen, },
+    CarpoolRoute: {screen: CarpoolRoute, },
+    Login: {screen: LoginScreen, },
+    CreateProfile: {screen: CreateProfileScreen, },
+    QRScan: { screen: QRReader, },
+    Position: {screen: Position, },
     Pairing: { screen: PairingScreen, },
-    QRScan: { screen: QRReaderScreen, },
     CarForm: { screen: CarForm, }
 },
     {
