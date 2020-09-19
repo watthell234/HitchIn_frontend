@@ -39,6 +39,7 @@ export default class PairingScreen extends React.Component {
 }
 
   async onPress() {
+    try {
       let passengerCount = await this.getPassCount();
       console.log(passengerCount);
       if (passengerCount >= 3) {
@@ -56,7 +57,10 @@ export default class PairingScreen extends React.Component {
       ],      { cancelable: false }
     );
   }
-    }
+} catch (error) {
+  console.log('Something went wrong'+ error)
+}
+}
 
     render() {
         return (

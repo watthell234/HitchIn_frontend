@@ -26,10 +26,9 @@ class QRReader extends React.Component {
     try {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       this.setState({hasPermission: status === 'granted'});
-    } catch (error) {
+      } catch (error) {
       console.log("Something went wrong", error);
-    }
-
+        }
     }
 
     handleBarCodeScanned = ({ type, data }) => {
