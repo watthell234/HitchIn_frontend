@@ -2,14 +2,12 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { http } from './constants/hitchBackendapi';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
 
 
-class QRReader extends React.Component {
+export default class QRReader extends React.Component {
   constructor(props) {
     super (props);
     this.state = {
@@ -75,47 +73,7 @@ class QRReader extends React.Component {
       </View>
   );
 }
-
 }
-
-class StartRide extends React.Component {
-  render() {
-    return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <TouchableOpacity
-          style={styles.button}
-          onPress={() => {}}>
-          <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
-      </TouchableOpacity>
-    </View>
-  );
-  }
-}
-
-
-const Tab = createBottomTabNavigator();
-
-class MyTabs extends React.Component {
-  render() {
-  return (
-    <NavigationContainer>
-    <Tab.Navigator initialRouteName="QRReader">
-      <Tab.Screen name="QR Scan" component={QRReader} />
-      <Tab.Screen name="Drive" component={StartRide} />
-    </Tab.Navigator>
-    </NavigationContainer>
-  );
-  }
-}
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
-  );
-}
-
 
 
 const styles = StyleSheet.create({
