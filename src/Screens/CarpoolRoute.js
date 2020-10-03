@@ -29,7 +29,7 @@ export default class CarpoolRoute extends React.Component {
                   </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.props.navigation.navigate('SignUpScreen')}}>
+                      onPress={() => {this.props.navigation.navigate('SignUp')}}>
                       <Text style={{color: "#FFFFFF"}}>Next</Text>
                   </TouchableOpacity>
       </View>

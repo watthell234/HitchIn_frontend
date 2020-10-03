@@ -32,8 +32,8 @@ class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Init">
           <Stack.Screen name="Init" component={InitScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="CarpoolRoute" component={CarpoolRoute} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
           <Stack.Screen name="Position" component={Position} />

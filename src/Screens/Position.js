@@ -167,6 +167,11 @@ export default class Position extends Component {
                 <Text style={styles.bottomBarContent}>
                   {parseFloat(this.state.distanceTravelled).toFixed(2)} km
                 </Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {this.onPress()}}>
+                    <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
+                </TouchableOpacity>
               </View>
             </View>
           );
@@ -195,10 +200,10 @@ const styles = StyleSheet.create({
     alignItems: "stretch"
   },
   button: {
-    width: 80,
-    paddingHorizontal: 12,
     alignItems: "center",
-    marginHorizontal: 10
+    backgroundColor: "#404e5a",
+    padding: 10,
+    width: 250,
   },
   buttonContainer: {
     flexDirection: "row",
