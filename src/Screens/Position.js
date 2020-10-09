@@ -50,7 +50,7 @@ export default class Position extends Component {
     }
 
     async componentDidMount() {
-
+        this.requestLocationPermission();
         let location = await Location.getCurrentPositionAsync({});
         this.setState( {
             coordinate: location.coords
@@ -66,7 +66,7 @@ export default class Position extends Component {
 
     Location.watchPositionAsync({
         distanceInterval: 0,
-        timeInterval: 200,},
+        timeInterval: 800,},
         location => {
 
         const { routeCoordinates } = this.state;
@@ -114,25 +114,27 @@ export default class Position extends Component {
 //
 // },
 
+
 }
 
+
+requestLocationPermission = async () => {
+let status = await Location.requestPermissionsAsync();
+
+if (status !== 'granted') {
+    console.log('PERMISSION to spy DENIED!');
+
+    this.setState({
+        errorMessage: 'PERMISSION not granted'
+    })
+}
+}
 
   calcDistance = newLatLng => {
     const { prevLatLng } = this.state;
     return haversine(prevLatLng, newLatLng) || 0;
   };
 
-  requestLocationPermission = async () => {
-  Location.requestPermissionsAsync();
-
-  if (status !== 'granted') {
-      console.log('PERMISSION to spy DENIED!');
-
-      this.setState({
-          errorMessage: 'PERMISSION not granted'
-      })
-  }
-}
 
     handleMapRegionChange (mapRegion){
         console.log(mapRegion);
@@ -167,12 +169,12 @@ export default class Position extends Component {
                 <Text style={styles.bottomBarContent}>
                   {parseFloat(this.state.distanceTravelled).toFixed(2)} km
                 </Text>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {this.onPress()}}>
-                    <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
-                </TouchableOpacity>
               </View>
+              <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {this.onPress()}}>
+                  <Text style={{color: "#FFFFFF"}}>End Trip</Text>
+              </TouchableOpacity>
             </View>
           );
         }
@@ -185,8 +187,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   map: {
-      width: 300,
-      height: 300,
+      width: 350,
+      height: 500,
   },
   bubble: {
     flex: 1,
