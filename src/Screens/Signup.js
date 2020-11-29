@@ -30,9 +30,10 @@ export default class SignUpScreen extends React.Component {
         )
     }
 
-    async storeToken(user) {
+    async storeToken(user, token) {
       try {
         await AsyncStorage.setItem("userId", JSON.stringify(user));
+        await AsyncStorage.setItem("authToken", JSON.stringify(token));
       } catch (error) {
         console.log("Something went wrong", error);
       }
@@ -44,7 +45,7 @@ export default class SignUpScreen extends React.Component {
         console.log(checked);
         if (!accountCreate) {
             http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
-            .then((response) => this.storeToken(response.data.id))
+            .then((response) => this.storeToken(response.data.id, response.data.auth_token23))
             .then(() => this.setState({accountCreate: true}))
             .then(() => checked ? this.props.navigation.navigate('CarForm') : this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))

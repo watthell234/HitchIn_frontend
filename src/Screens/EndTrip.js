@@ -8,14 +8,14 @@ export default class EndTripScreen extends React.Component {
   constructor(props) {
       super (props);
       this.state = {
-        passengerCount: null,
+      // Ended  : null,
       }
   }
 
   async getCarId() {
     try {
-      let carData = await AsyncStorage.getItem("carId");
-      let data = JSON.parse(carData);
+      let data = await AsyncStorage.getItem("carId");
+      let carData = JSON.parse(data);
       console.log(data);
       return data
     } catch (error) {
@@ -23,40 +23,16 @@ export default class EndTripScreen extends React.Component {
     }
   }
 
-//  async getPassCount() {
-//     try {
-//     const carId = await this.getCarId();
-//     const response = await http.get('/cartrips/' + carId);
-//     console.log("Riders Checkedin" , response.data.slugs);
-//     return response.data.slugs
-//     } catch (error) {
-//       console.log("Something went wrong", error);
-//     }
-// }
 
-//   async onPress() {
-//     try {
-//       let passengerCount = await this.getPassCount();
-//       console.log(passengerCount);
-//       if (passengerCount >= 3) {
-//         this.props.navigation.navigate('Position');
-//       }
-//       else { Alert.alert("Insufficient Passengers",
-//       "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
-//       [
-//         {
-//           text: "Cancel",
-//           onPress: () => console.log("Cancel Pressed"),
-//           style: "cancel"
-//         },
-//         { text: "OK", onPress: () => console.log("OK Pressed") }
-//       ],      { cancelable: false }
-//     );
-//   }
-// } catch (error) {
-//   console.log('Something went wrong'+ error)
-// }
-// }
+  onPress() {
+    let carId = getCarId()
+    http.post('/cartrips/' + {carId})
+    .then((response) => this.storeToken(response.data.id))
+    // .then(() => this.setState({Ended: true}))
+    .then(() => this.props.navigation.navigate(''))
+    .catch((err) => console.log(err))
+
+  }
 
     render() {
         return (
@@ -66,7 +42,7 @@ export default class EndTripScreen extends React.Component {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {this.onPress()}}>
-                    <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
+                    <Text style={{color: "#FFFFFF"}}>End Trip</Text>
                 </TouchableOpacity>
         </View>
     )

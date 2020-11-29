@@ -13,7 +13,7 @@ export default class InitScreen extends React.Component {
                           source={require('./assets/noun_car_garage.png')}></Image>
                           <TouchableOpacity
                               style={styles.button}
-                              onPress={() => {this.props.navigation.navigate('CarpoolRoute')}}>
+                              onPress={() => {this.props.navigation.navigate('SignUp')}}>
                               <Text style={{color: "#FFFFFF"}}>Get Started</Text>
                           </TouchableOpacity>
                           <View style={styles.flowRight}>
