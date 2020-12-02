@@ -27,12 +27,14 @@ export default class CarForm extends React.Component {
       this.getToken();
     }
 
-    async getToken(user) {
+    async getToken(user, token) {
       try {
-        let userData = await AsyncStorage.getItem("userId");
-        let data = JSON.parse(userData);
-        console.log(data);
-        this.setState({userId: data});
+        let getUserId = await AsyncStorage.getItem("userId");
+        let userId = JSON.parse(getUserId);
+        let getToken = await AsyncStorage.getItem("token");
+        let token = JSON.parse(getToken);
+        console.log(userId);
+        this.setState({userId: userId});
       } catch (error) {
         console.log("Something went wrong", error);
       }
