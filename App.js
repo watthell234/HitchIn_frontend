@@ -31,14 +31,14 @@ class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Init">
-          <Stack.Screen name="Init" component={InitScreen} />
+          <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
           <Stack.Screen name="CarpoolRoute" component={CarpoolRoute} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
           <Stack.Screen name="Position" component={Position} />
           <Stack.Screen name="Pairing" component={PairingScreen} />
-          <Stack.Screen name="CarForm" component={CarForm} />
+          <Stack.Screen name="CarForm" component={CarForm}options={{ title: 'Car' }}/>
           <Stack.Screen name="QRTabs" component={QRTabs} />
         </Stack.Navigator>
       </NavigationContainer>

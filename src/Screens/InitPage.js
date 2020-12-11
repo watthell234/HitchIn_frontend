@@ -4,11 +4,46 @@ import axios from 'axios';
 
 
 export default class InitScreen extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+          dataFromServer: 'null',
+      }
+    }
+
+setupWebsocket =   () => {
+
+
+  this.ws.onopen = () => {
+          console.log("Connected!");
+        };
+
+  this.ws.onmessage = (e) => {
+          const message = JSON.parse(e.data)
+          this.setState({dataFromServer: message})
+          console.log(message);
+          }
+
+}
+
+tearDownWebsocket = () => {
+    this.ws.close();
+  }
+
+  componentWillUnmount() {
+    this.tearDownWebsocket();
+  }
+
+componentDidMount() {
+  this.ws = new WebSocket("wss://hitchin-server.herokuapp.com/")
+        this.setupWebsocket();
+      }
+
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}
-                      category='h1'>Welcome to {'\n'}HitchIn</Text>
+                      category='h1'>{'\n'}HitchIn</Text>
                       <Image style={styles.image}
                           source={require('./assets/noun_car_garage.png')}></Image>
                           <TouchableOpacity
