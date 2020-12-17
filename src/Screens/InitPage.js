@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 
 export default class InitScreen extends React.Component {
@@ -9,25 +10,19 @@ export default class InitScreen extends React.Component {
       this.state = {
           dataFromServer: 'null',
       }
+
     }
 
-setupWebsocket =   () => {
+setupWebsocket =  () => {
 
+}
 
-  this.ws.onopen = () => {
-          console.log("Connected!");
-        };
-
-  this.ws.onmessage = (e) => {
-          const message = JSON.parse(e.data)
-          this.setState({dataFromServer: message})
-          console.log(message);
-          }
+getMessage = () => {
 
 }
 
 tearDownWebsocket = () => {
-    this.ws.close();
+
   }
 
   componentWillUnmount() {
@@ -35,15 +30,26 @@ tearDownWebsocket = () => {
   }
 
 componentDidMount() {
-  this.ws = new WebSocket("wss://hitchin-server.herokuapp.com/")
-        this.setupWebsocket();
-      }
+  // this.socket = io("wss://hitchin-server.herokuapp.com/");
+  this.socket = io("http://127.0.0.1:5000/");
+  this.socket.on("my_response", (e) => {
+        console.log(this.socket.connected)
+        console.log(e.data)
+   });
+  }
 
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}
                       category='h1'>{'\n'}HitchIn</Text>
+                <Text style={styles.title}
+                      category='h2'>{this.state.dataFromServer}</Text>
+                      <TouchableOpacity
+                          style={styles.button}
+                          onPress={() => {this.getMessage()}}>
+                          <Text style={{color: "#FFFFFF"}}>Change</Text>
+                      </TouchableOpacity>
                       <Image style={styles.image}
                           source={require('./assets/noun_car_garage.png')}></Image>
                           <TouchableOpacity

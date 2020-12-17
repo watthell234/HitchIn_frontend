@@ -29,6 +29,19 @@ export default class QRReader extends React.Component {
         }
     }
 
+    async getToken(user, token) {
+      try {
+        let getUserId = await AsyncStorage.getItem("userId");
+        let userId = JSON.parse(getUserId);
+        let getToken = await AsyncStorage.getItem("token");
+        let token = JSON.parse(getToken);
+        console.log(userId);
+        this.setState({userId: userId});
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
     handleBarCodeScanned = ({ type, data }) => {
       console.log(data)
       data = JSON.parse(data)

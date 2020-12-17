@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-native';
-import { http } from './constants/hitchBackendapi';
+import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -15,6 +15,7 @@ export default class CarForm extends React.Component {
             carYear: null,
             licensePlate: null,
             ezpassTag: null,
+            token: null
         }
         this.handleMakeChange = this.handleMakeChange.bind(this);
     }
@@ -31,10 +32,11 @@ export default class CarForm extends React.Component {
       try {
         let getUserId = await AsyncStorage.getItem("userId");
         let userId = JSON.parse(getUserId);
-        let getToken = await AsyncStorage.getItem("token");
+        let getToken = await AsyncStorage.getItem("authToken");
         let token = JSON.parse(getToken);
-        console.log(userId);
+        console.log(token);
         this.setState({userId: userId});
+        this.setState({token: token})
       } catch (error) {
         console.log("Something went wrong", error);
       }
@@ -49,10 +51,10 @@ export default class CarForm extends React.Component {
     }
 
     onCreateQR() {
-        const {userId, carCreate, carMake, carColor, carYear, licensePlate, ezpassTag} = this.state;
-        console.log(userId)
+        const {userId, carCreate, carMake, carColor, carYear, licensePlate, ezpassTag, token} = this.state;
+        console.log(token);
         if (!carCreate) {
-            http.post('/car', {userId, carMake, carColor, carYear, licensePlate, ezpassTag})
+            getAxios(token).post('/car', {userId, carMake, carColor, carYear, licensePlate, ezpassTag})
             .then((response) => this.storeCarId(response.data.id))
             .then(() => this.setState({carCreate: true}))
             .then(() => this.props.navigation.navigate('Pairing'))

@@ -31,7 +31,7 @@ export default class PairingScreen extends React.Component {
     try {
     const carId = await this.getCarId();
     const response = await http.get('/cartrips/' + carId);
-    console.log("Riders Checkedin" , response.data.slugs);
+    console.log("Riders Checked in:" , response.data.slugs);
     return response.data.slugs
     } catch (error) {
       console.log("Something went wrong", error);
@@ -42,7 +42,7 @@ export default class PairingScreen extends React.Component {
     try {
       let passengerCount = await this.getPassCount();
       console.log(passengerCount);
-      if (passengerCount >= 3) {
+      if (passengerCount >= 0) {
         this.props.navigation.navigate('Position');
       }
       else { Alert.alert("Insufficient Passengers",

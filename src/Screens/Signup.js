@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import { http } from './constants/hitchBackendapi';
+import { http, getAxios } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -34,6 +34,7 @@ export default class SignUpScreen extends React.Component {
       try {
         await AsyncStorage.setItem("userId", JSON.stringify(user));
         await AsyncStorage.setItem("authToken", JSON.stringify(token));
+
       } catch (error) {
         console.log("Something went wrong", error);
       }
@@ -45,7 +46,7 @@ export default class SignUpScreen extends React.Component {
         console.log(checked);
         if (!accountCreate) {
             http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
-            .then((response) => this.storeToken(response.data.id, response.data.auth_token23))
+            .then((response) => this.storeToken(response.data.id, response.data.auth_token))
             .then(() => this.setState({accountCreate: true}))
             .then(() => checked ? this.props.navigation.navigate('CarForm') : this.props.navigation.navigate('CreateProfile'))
             .catch((err) => console.log(err))

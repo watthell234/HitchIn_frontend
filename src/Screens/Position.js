@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Platform,
+  FlatList,
   PermissionsAndroid
 } from "react-native";
 import MapView, {
@@ -170,6 +171,14 @@ if (status !== 'granted') {
                   {parseFloat(this.state.distanceTravelled).toFixed(2)} km
                 </Text>
               </View>
+              <FlatList
+                  data={[
+                    {key: 'Devin'},
+                    {key: 'Dan'},
+                    {key: 'Dominic'},
+                  ]}
+                  renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                  />
               <TouchableOpacity
                   style={styles.button}
                   onPress={() => {this.onPress()}}>
@@ -211,5 +220,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     backgroundColor: "transparent"
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
   }
 });
