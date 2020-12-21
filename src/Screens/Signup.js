@@ -113,7 +113,7 @@ export default class SignUpScreen extends React.Component {
                   <TouchableOpacity
                       style={styles.button}
                       onPress={() => {this.onSignUp()}}>
-                      <Text style={{color: "#FFFFFF"}}>Next</Text>
+                      <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
                   </TouchableOpacity>
                   <Text> Account Creation: {accountCreate ? 'Successful' : 'Fail'}</Text>
               </View>

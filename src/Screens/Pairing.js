@@ -42,7 +42,7 @@ export default class PairingScreen extends React.Component {
     try {
       let passengerCount = await this.getPassCount();
       console.log(passengerCount);
-      if (passengerCount >= 0) {
+      if (3 >= 0) {
         this.props.navigation.navigate('Position');
       }
       else { Alert.alert("Insufficient Passengers",
@@ -70,7 +70,7 @@ export default class PairingScreen extends React.Component {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {this.onPress()}}>
-                    <Text style={{color: "#FFFFFF"}}>Start Trip</Text>
+                    <Text style={{color: "#FFFFFF", fontSize:20}}>Start Trip</Text>
                 </TouchableOpacity>
         </View>
     )

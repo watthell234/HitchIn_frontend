@@ -30,8 +30,8 @@ tearDownWebsocket = () => {
   }
 
 componentDidMount() {
-  // this.socket = io("wss://hitchin-server.herokuapp.com/");
-  this.socket = io("http://127.0.0.1:5000/");
+  this.socket = io("wss://hitchin-server.herokuapp.com/");
+  // this.socket = io("http://127.0.0.1:5000/");
   this.socket.on("my_response", (e) => {
         console.log(this.socket.connected)
         console.log(e.data)
@@ -41,21 +41,14 @@ componentDidMount() {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}
-                      category='h1'>{'\n'}HitchIn</Text>
-                <Text style={styles.title}
-                      category='h2'>{this.state.dataFromServer}</Text>
-                      <TouchableOpacity
-                          style={styles.button}
-                          onPress={() => {this.getMessage()}}>
-                          <Text style={{color: "#FFFFFF"}}>Change</Text>
-                      </TouchableOpacity>
+            <Text style={styles.title}
+                  category='h1'>{'\n'}HitchIn</Text>
                       <Image style={styles.image}
-                          source={require('./assets/noun_car_garage.png')}></Image>
+                          source={require('./assets/car.png')}></Image>
                           <TouchableOpacity
                               style={styles.button}
                               onPress={() => {this.props.navigation.navigate('SignUp')}}>
-                              <Text style={{color: "#FFFFFF"}}>Get Started</Text>
+                              <Text style={{color: "#FFFFFF", fontSize:20}}>GET STARTED</Text>
                           </TouchableOpacity>
                           <View style={styles.flowRight}>
                               <Text
@@ -63,7 +56,7 @@ componentDidMount() {
                                 <TouchableOpacity
                                     style={{}}
                                     onPress={() => {this.props.navigation.navigate('Login')}}>
-                                    <Text style={{textDecorationLine: 'underline', color: '#0645AD', fontSize: 16, paddingBottom: 7 }}>Login</Text>
+                                    <Text style={{textDecorationLine: 'underline', color: '#0645AD', fontSize: 16, paddingBottom: 7 }}>SIGN IN</Text>
                                 </TouchableOpacity>
                                 </View>
             </View>

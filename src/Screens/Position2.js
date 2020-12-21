@@ -22,7 +22,7 @@ const LONGITUDE_DELTA = 0.009;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
-export default class Position extends Component {
+export default class Position2 extends Component {
   constructor(props) {
     super(props);
 
@@ -109,7 +109,7 @@ export default class Position extends Component {
           showUserLocation
           followUserLocation
           loadingEnabled
-
+          
           region={this.getMapRegion()}
         >
           <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
@@ -143,7 +143,7 @@ export default class Position extends Component {
         <TouchableOpacity
             style={styles.button}
             onPress={() => {this.onPress()}}>
-            <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
+            <Text style={{color: "#FFFFFF"}}>End Trip</Text>
         </TouchableOpacity>
       </View>
     );
