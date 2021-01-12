@@ -1,25 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import io from 'socket.io-client';
+
 
 
 export default class InitScreen extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          dataFromServer: 'null',
+          dataFromServer: "null",
       }
 
     }
 
-setupWebsocket =  () => {
 
-}
-
-getMessage = () => {
-
-}
 
 tearDownWebsocket = () => {
 
@@ -30,12 +24,7 @@ tearDownWebsocket = () => {
   }
 
 componentDidMount() {
-  this.socket = io("wss://hitchin-server.herokuapp.com/");
-  // this.socket = io("http://127.0.0.1:5000/");
-  this.socket.on("my_response", (e) => {
-        console.log(this.socket.connected)
-        console.log(e.data)
-   });
+
   }
 
     render() {

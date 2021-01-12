@@ -16,6 +16,7 @@ import MapView, {
   PROVIDER_GOOGLE
 } from "react-native-maps";
 import haversine from "haversine";
+import io from 'socket.io-client';
 
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
@@ -36,53 +37,80 @@ export default class Position extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: 0,
-        longitudeDelta: 0
+        longitudeDelta: 0,
+        dataFromServer: "null",
       })
     };
   }
 
-  componentDidMount() {
-    const { coordinate } = this.state;
 
-    this.watchID = navigator.geolocation.watchPosition(
-      position => {
-        const { routeCoordinates, distanceTravelled } = this.state;
-        const { latitude, longitude } = position.coords;
+sendMessage =  () => {
 
-        const newCoordinate = {
-          latitude,
-          longitude
-        };
+this.socket.emit("event", "hi");
 
-        if (Platform.OS === "android") {
-          if (this.marker) {
-            this.marker._component.animateMarkerToCoordinate(
-              newCoordinate,
-              0
-            );
-          }
-        } else {
-          coordinate.timing(newCoordinate).start();
+}
+
+setupWebsocket = () => {
+  this.socket = io("https://hitchin-server.herokuapp.com/");
+
+   this.socket.on("my_response", (r) => {
+     console.log(this.socket.connected);
+      console.log(r.data);
+   });
+
+
+   this.socket.on("event", (e) => {
+     console.log(e.data);
+     this.setState({dataFromServer: e.data});
+     this.props.navigation.navigate('EndTrip');
+   });
+
+}
+
+componentDidMount() {
+  this.setupWebsocket();
+
+  const { coordinate } = this.state;
+
+  this.watchID = navigator.geolocation.watchPosition(
+    position => {
+      const { routeCoordinates, distanceTravelled } = this.state;
+      const { latitude, longitude } = position.coords;
+
+      const newCoordinate = {
+        latitude,
+        longitude
+      };
+
+      if (Platform.OS === "android") {
+        if (this.marker) {
+          this.marker._component.animateMarkerToCoordinate(
+            newCoordinate,
+            0
+          );
         }
-
-        this.setState({
-          latitude,
-          longitude,
-          routeCoordinates: routeCoordinates.concat([newCoordinate]),
-          distanceTravelled:
-            distanceTravelled + this.calcDistance(newCoordinate),
-          prevLatLng: newCoordinate
-        });
-      },
-      error => console.log(error),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 10
+      } else {
+        coordinate.timing(newCoordinate).start();
       }
-    );
-  }
+
+      this.setState({
+        latitude,
+        longitude,
+        routeCoordinates: routeCoordinates.concat([newCoordinate]),
+        distanceTravelled:
+          distanceTravelled + this.calcDistance(newCoordinate),
+        prevLatLng: newCoordinate
+      });
+    },
+    error => console.log(error),
+    {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 1000,
+      distanceFilter: 10
+    }
+  );
+}
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
@@ -110,8 +138,7 @@ export default class Position extends Component {
           followUserLocation
           loadingEnabled
 
-          region={this.getMapRegion()}
-        >
+          region={this.getMapRegion()} >
           <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
           <Marker.Animated
             ref={marker => {
@@ -142,7 +169,7 @@ export default class Position extends Component {
             />
         <TouchableOpacity
             style={styles.button}
-            onPress={() => {this.onPress()}}>
+            onPress={() => {this.sendMessage()}}>
             <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
         </TouchableOpacity>
       </View>

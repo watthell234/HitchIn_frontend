@@ -11,6 +11,7 @@ import Position from './src/Screens/Position';
 import PairingScreen from './src/Screens/Pairing';
 import QRReader from './src/Screens/QRscan';
 import CarForm from './src/Screens/CarForm';
+import EndTripScreen from './src/Screens/EndTrip'
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,6 +41,7 @@ class App extends React.Component {
           <Stack.Screen name="Pairing" component={PairingScreen} />
           <Stack.Screen name="CarForm" component={CarForm}options={{ title: 'Car' }}/>
           <Stack.Screen name="QRTabs" component={QRTabs} />
+          <Stack.Screen name="EndTrip" component={EndTripScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

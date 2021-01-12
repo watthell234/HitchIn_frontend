@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/Screens/assets/noun_car_garage.png",
+    "icon": "./src/Screens/assets/car.png",
     "splash": {
       "image": "./src/Screens/assets/splash.png",
       "resizeMode": "contain",
