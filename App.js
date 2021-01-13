@@ -48,4 +48,19 @@ class App extends React.Component {
   }
 }
 
+// state.userToken == null ? (
+//   <>
+//     <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
+//     <Stack.Screen name="Login" component={LoginScreen} />
+//     <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
+//   </>
+// ) : (
+//   <>
+//     <Stack.Screen name="Home" component={HomeScreen} />
+//     <Stack.Screen name="Profile" component={ProfileScreen} />
+//     <Stack.Screen name="Settings" component={SettingsScreen} />
+//   </>
+// )
+
+
 export default App;
