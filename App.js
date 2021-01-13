@@ -56,9 +56,11 @@ class App extends React.Component {
 //   </>
 // ) : (
 //   <>
-//     <Stack.Screen name="Home" component={HomeScreen} />
-//     <Stack.Screen name="Profile" component={ProfileScreen} />
-//     <Stack.Screen name="Settings" component={SettingsScreen} />
+//     <Stack.Screen name="CarForm" component={CarForm}options={{ title: 'Car' }}/>
+//     <Stack.Screen name="QRTabs" component={QRTabs} />
+//     <Stack.Screen name="Pairing" component={PairingScreen} />
+//     <Stack.Screen name="Position" component={Position} />
+//     <Stack.Screen name="EndTrip" component={EndTripScreen} />
 //   </>
 // )
 
