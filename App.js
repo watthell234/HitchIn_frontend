@@ -48,6 +48,17 @@ class App extends React.Component {
   }
 }
 
+// async getToken(token) {
+//   try {
+//     let getToken = await AsyncStorage.getItem("authToken");
+//     let token = JSON.parse(getToken);
+//     console.log(token);
+//     this.setState({token: token})
+//   } catch (error) {
+//     console.log("Something went wrong", error);
+//   }
+// }
+
 // state.userToken == null ? (
 //   <>
 //     <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
