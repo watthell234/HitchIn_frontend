@@ -45,11 +45,12 @@ export default class QRReader extends React.Component {
     }
 
     handleBarCodeScanned = ({ type, data }) => {
+      let userId = this.state.userId
       console.log(data)
       data = JSON.parse(data)
       // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
       let carQr = data.car_qr
-      http.post('/checkin', { ,carQr})
+      http.post('/checkin', { userId, carQr})
       .then(() => this.props.navigation.navigate('Position'))
       .catch((err) => console.log(err))
 
