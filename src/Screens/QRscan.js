@@ -13,11 +13,13 @@ export default class QRReader extends React.Component {
     this.state = {
       hasPermission: null,
       scanned: false,
+      userId: null
     }
   }
 
    componentDidMount() {
       this.getPermission();
+      this.getToken();
     }
 
   async getPermission() {
@@ -47,7 +49,7 @@ export default class QRReader extends React.Component {
       data = JSON.parse(data)
       // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
       let carQr = data.car_qr
-      http.post('/checkin', {carQr})
+      http.post('/checkin', { ,carQr})
       .then(() => this.props.navigation.navigate('Position'))
       .catch((err) => console.log(err))
 
