@@ -17,10 +17,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-class QRTabs extends React.Component {
+class AppHome extends React.Component {
   render() {
   return (
-    <Tab.Navigator initialRouteName="QRScan">
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen name="QRScan" component={QRReader} />
       <Tab.Screen name="Pairing" component={PairingScreen} />
     </Tab.Navigator>
@@ -61,14 +61,14 @@ class App extends React.Component {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
             <Stack.Screen name="CarForm" component={CarForm} options={{ title: 'Car' }}/>
-            <Stack.Screen name="QRTabs" component={QRTabs} />
+            <Stack.Screen name="Home" component={AppHome} />
             <Stack.Screen name="Pairing" component={PairingScreen} />
             <Stack.Screen name="Position" component={Position} />
             <Stack.Screen name="EndTrip" component={EndTripScreen} />
           </>
         ) : (
           <>
-            <Stack.Screen name="QRTabs" component={QRTabs} />
+            <Stack.Screen name="Home" component={AppHome} />
             <Stack.Screen name="Pairing" component={PairingScreen} />
             <Stack.Screen name="Position" component={Position} />
             <Stack.Screen name="EndTrip" component={EndTripScreen} />

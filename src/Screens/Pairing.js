@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import { http } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-community/async-storage';
+import io from 'socket.io-client';
 
 
 export default class PairingScreen extends React.Component {
@@ -30,7 +31,7 @@ export default class PairingScreen extends React.Component {
  async getPassCount() {
     try {
     const carId = await this.getCarId();
-    const response = await http.get('/cartrips/' + carId);
+    const response = await http.get('/pooltrips/' + carId);
     console.log("Riders Checked in:" , response.data.slugs);
     return response.data.slugs
     } catch (error) {

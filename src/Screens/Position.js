@@ -55,7 +55,7 @@ setupWebsocket = () => {
 
    this.socket.on("my_response", (r) => {
      console.log(this.socket.connected);
-      console.log(r.data);
+     console.log(r.data);
    });
 
 

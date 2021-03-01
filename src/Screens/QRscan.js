@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import io from 'socket.io-client';
 import { http } from './constants/hitchBackendapi';
 
 const { width } = Dimensions.get('window')
@@ -17,9 +18,33 @@ export default class QRReader extends React.Component {
     }
   }
 
+  setupWebsocket = () => {
+    this.socket = io("https://hitchin-server.herokuapp.com/");
+
+     this.socket.on("my_response", (r) => {
+       console.log(this.socket.connected);
+       console.log(r.data);
+     });
+
+
+     this.socket.on("event", (e) => {
+       console.log(e.data);
+       this.setState({dataFromServer: e.data});
+       this.props.navigation.navigate('EndTrip');
+     });
+
+  }
+
    componentDidMount() {
       this.getPermission();
       this.getToken();
+      this.setupWebsocket();
+    }
+
+    sendMessage =  () => {
+
+    this.socket.emit("event", "hi");
+
     }
 
   async getPermission() {
@@ -50,6 +75,7 @@ export default class QRReader extends React.Component {
       data = JSON.parse(data)
       // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
       let carQr = data.car_qr
+      this.sendMessage(userId);
       http.post('/checkin', { userId, carQr})
       .then(() => this.props.navigation.navigate('Position'))
       .catch((err) => console.log(err))
