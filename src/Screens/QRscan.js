@@ -19,7 +19,7 @@ export default class QRReader extends React.Component {
   }
 
   setupWebsocket = () => {
-    this.socket = io("https://hitchin-server.herokuapp.com/");
+    this.socket = io("wss://hitchin-server.herokuapp.com/");
 
      this.socket.on("my_response", (r) => {
        console.log(this.socket.connected);
@@ -33,6 +33,9 @@ export default class QRReader extends React.Component {
        this.props.navigation.navigate('EndTrip');
      });
 
+
+
+
   }
 
    componentDidMount() {
@@ -44,6 +47,7 @@ export default class QRReader extends React.Component {
     sendMessage =  () => {
 
     this.socket.emit("event", "hi");
+
 
     }
 
