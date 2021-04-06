@@ -1,5 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+<<<<<<< HEAD
+=======
+import {Picker} from '@react-native-community/picker';
+>>>>>>> master
 import axios from 'axios';
 import { styles } from './styles/styles'
 

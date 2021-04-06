@@ -2,9 +2,21 @@
   "expo": {
     "name": "HitchIn",
     "slug": "hitch",
+<<<<<<< HEAD
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/Screens/assets/icon.png",
+=======
+    "privacy": "public",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/Screens/assets/car.png",
+>>>>>>> master
     "splash": {
       "image": "./src/Screens/assets/splash.png",
       "resizeMode": "contain",
@@ -17,6 +29,7 @@
       "**/*"
     ],
     "ios": {
+<<<<<<< HEAD
       "supportsTablet": true,
       "bundleIdentifier": "com.watthell234.hitch"
     },
@@ -29,6 +42,9 @@
     },
     "web": {
       "favicon": ".src/Screens/assets/favicon.png"
+=======
+      "supportsTablet": true
+>>>>>>> master
     },
     "description": "Casual Carpooling for the community",
     "githubUrl": "https://github.com/watthell234/HitchIn"

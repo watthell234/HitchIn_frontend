@@ -2,12 +2,19 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 *.jks
+<<<<<<< HEAD
 *.p8
+=======
+>>>>>>> master
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
 web-build/
+<<<<<<< HEAD
 
 # macOS
 .DS_Store
+=======
+web-report/
+>>>>>>> master

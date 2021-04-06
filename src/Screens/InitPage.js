@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import { StyleSheet,
   Text,
   View,
@@ -10,6 +11,10 @@ import { StyleSheet,
   TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import io from 'socket.io-client';
+=======
+import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import axios from 'axios';
+>>>>>>> master
 
 
 
@@ -26,13 +31,17 @@ export default class InitScreen extends React.Component {
 
 tearDownWebsocket = () => {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   }
 
   componentWillUnmount() {
     this.tearDownWebsocket();
   }
 
+<<<<<<< HEAD
   setupWebsocket = () => {
     this.socket = io("wss://hitchin-server.herokuapp.com/");
 
@@ -77,6 +86,9 @@ componentDidMount() {
   this.socket = io("https://hitchin-server.herokuapp.com/");
   this.socket.emit("leave", {username: 'Julius', pool_id: 2});
 
+=======
+componentDidMount() {
+>>>>>>> master
 
   }
 
@@ -85,6 +97,7 @@ componentDidMount() {
             <View style={styles.container}>
             <Text style={styles.title}
                   category='h1'>{'\n'}HitchIn</Text>
+<<<<<<< HEAD
                   <Text style={styles.title}
                         category='h2'>{this.state.dataFromServer}</Text>
                         <TouchableOpacity
@@ -97,6 +110,8 @@ componentDidMount() {
                         onPress={() => {this.exitPool()}}>
                         <Text style={{color: "#FFFFFF"}}>Exit</Text>
                     </TouchableOpacity>
+=======
+>>>>>>> master
                       <Image style={styles.image}
                           source={require('./assets/car.png')}></Image>
                           <TouchableOpacity
