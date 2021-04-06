@@ -65,6 +65,12 @@ setupWebsocket = () => {
      this.props.navigation.navigate('EndTrip');
    });
 
+   this.socket.on("roomjoin", (e) => {
+     console.log(e.data);
+     //TODO: add something to asyncstorage
+
+   });
+
 }
 
 componentDidMount() {

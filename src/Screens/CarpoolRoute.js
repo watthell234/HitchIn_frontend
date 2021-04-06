@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import {Picker} from '@react-native-community/picker';
 import axios from 'axios';
 import { styles } from './styles/styles'
 
