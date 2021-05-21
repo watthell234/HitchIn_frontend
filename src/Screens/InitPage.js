@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import io from 'socket.io-client';
 // import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';

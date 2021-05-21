@@ -28,7 +28,7 @@
       "package": "com.watthell234.hitch"
     },
     "web": {
-      "favicon": ".src/Screens/assets/favicon.png"
+      "favicon": "./src/Screens/assets/favicon.png"
     },
     "description": "Casual Carpooling for the community",
     "githubUrl": "https://github.com/watthell234/HitchIn"
