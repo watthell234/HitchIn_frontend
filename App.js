@@ -15,7 +15,7 @@ import EndTripScreen from './src/Screens/EndTrip';
 import AsyncStorage from '@react-native-community/async-storage';
 import io from 'socket.io-client';
 
-export const socket = io("wss://hitchin-server.herokuapp.com/");
+// export const socket = io("wss://hitchin-server.herokuapp.com/");
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -31,7 +31,7 @@ class AppHome extends React.Component {
   }
 }
 
-export class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -82,3 +82,5 @@ export class App extends React.Component {
     );
   }
 }
+
+export default {App};
