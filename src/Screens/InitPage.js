@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import io from 'socket.io-client';
-import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';
+// import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';
 
 
 export default class InitScreen extends React.Component {
@@ -15,7 +15,7 @@ export default class InitScreen extends React.Component {
 
     }
 
- 
+
 
 tearDownWebsocket = () => {
 
