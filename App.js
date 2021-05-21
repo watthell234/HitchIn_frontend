@@ -13,9 +13,12 @@ import QRReader from './src/Screens/QRscan';
 import CarForm from './src/Screens/CarForm';
 import EndTripScreen from './src/Screens/EndTrip';
 import AsyncStorage from '@react-native-community/async-storage';
+import io from 'socket.io-client';
 
+export const socket = io("wss://hitchin-server.herokuapp.com/");
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
 
 class AppHome extends React.Component {
   render() {
@@ -28,7 +31,7 @@ class AppHome extends React.Component {
   }
 }
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,8 +82,3 @@ class App extends React.Component {
     );
   }
 }
-
-
-
-
-export default App;

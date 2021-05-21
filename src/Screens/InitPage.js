@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-
+import io from 'socket.io-client';
+import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';
 
 
 export default class InitScreen extends React.Component {
@@ -9,11 +10,12 @@ export default class InitScreen extends React.Component {
       super(props);
       this.state = {
           dataFromServer: "null",
+          endData: "null"
       }
 
     }
 
-
+ 
 
 tearDownWebsocket = () => {
 
@@ -23,7 +25,42 @@ tearDownWebsocket = () => {
     this.tearDownWebsocket();
   }
 
+  setupWebsocket = () => {
+    this.socket = io("wss://hitchin-server.herokuapp.com/");
+    // this.socket = io("ws://127.0.0.1:5000/");
+
+
+     this.socket.on("roomjoin", (e) => {
+       console.log(e.data);
+       this.setState({dataFromServer: e.data});
+     });
+
+     this.socket.on("endtrip", (t) => {
+       this.props.navigation.navigate('EndTrip')
+       console.log(t.data);
+       this.setState({endData: t.data});
+     });
+
+
+  }
+
+
 componentDidMount() {
+
+  this.setupWebsocket();
+
+  }
+
+  sendMessage =  () => {
+  // this.socket.emit("event", "hi");
+  this.socket.emit("join", {username: "hi", pool_id: 'QUxnxoulKgPYigQIru'});
+
+  }
+
+  endTrip =  () => {
+  // this.socket.emit("event", "hi");
+  this.socket.emit("leave", {username: "hi", pool_id: 'QUxnxoulKgPYigQIru'});
+
 
   }
 
@@ -32,6 +69,22 @@ componentDidMount() {
             <View style={styles.container}>
             <Text style={styles.title}
                   category='h1'>{'\n'}HitchIn</Text>
+                  <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {this.sendMessage()}}>
+                      <Text style={{color: "#FFFFFF", fontSize:20}}>message</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {this.endTrip()}}>
+                      <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
+                  </TouchableOpacity>
+
+                  <Text style={styles.title}
+                        category='h3'>{'\n'}{this.state.dataFromServer}</Text>
+                        <Text style={styles.title}
+                              category='h3'>{'\n'}{this.state.endData}</Text>
                       <Image style={styles.image}
                           source={require('./assets/car.png')}></Image>
                           <TouchableOpacity

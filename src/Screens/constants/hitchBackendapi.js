@@ -6,6 +6,8 @@ const http = axios.create({
     baseURL: serverUrl
 });
 
+
+
 export function getAxios(token) {
   const serverUrl = 'https://hitchin-server.herokuapp.com';
   return axios.create({
