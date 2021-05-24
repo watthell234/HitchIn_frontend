@@ -44,9 +44,9 @@ export default class QRReader extends React.Component {
       this.setupWebsocket();
     }
 
-    sendMessage =  () => {
+    joinPoolEvent =  (userId, poolId) => {
 
-    this.socket.emit("event", "hi");
+      this.socket.emit("join", {username: userId, pool_id: poolId});
 
 
     }
@@ -79,7 +79,8 @@ export default class QRReader extends React.Component {
       data = JSON.parse(data)
       // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
       let carQr = data.car_qr
-      this.sendMessage(userId);
+      // TODO: test this message
+      this.joinPoolEvent(userId, carQr);
       http.post('/checkin', { userId, carQr})
       .then(() => this.props.navigation.navigate('Position'))
       .catch((err) => console.log(err))

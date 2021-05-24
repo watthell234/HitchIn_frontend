@@ -52,14 +52,14 @@ componentDidMount() {
   }
 
   sendMessage =  () => {
-  // this.socket.emit("event", "hi");
-  this.socket.emit("join", {username: "hi", pool_id: 'QUxnxoulKgPYigQIru'});
+    
+  this.socket.emit("join", {username: userId, pool_id: carQr});
 
   }
 
   endTrip =  () => {
-  // this.socket.emit("event", "hi");
-  this.socket.emit("leave", {username: "hi", pool_id: 'QUxnxoulKgPYigQIru'});
+
+  this.socket.emit("leave", {pool_id: carQr});
 
 
   }
