@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import io from 'socket.io-client';
-import styles from './styles/styles_initpage'
+import styles from './styles/styles_InitPage'
 // import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';
 
 
