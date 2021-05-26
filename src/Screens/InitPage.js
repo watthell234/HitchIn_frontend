@@ -96,7 +96,7 @@ componentDidMount() {
 
                   <TouchableOpacity
                   style={styles.signup_button}
-                  onPress={() => {this.props.navigation.navigate('SignUp')}}>
+                  onPress={() => {this.props.navigation.navigate('CreateProfile')}}>
                     <Text style={{color: "#FFFFFF", fontSize:20}}>
                     GET STARTED
                     </Text>

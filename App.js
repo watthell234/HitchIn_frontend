@@ -62,6 +62,7 @@ export default class App extends React.Component {
             <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
+            <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
             <Stack.Screen name="CarForm" component={CarForm} options={{ title: 'Car' }}/>
             <Stack.Screen name="Home" component={AppHome} />
             <Stack.Screen name="Pairing" component={PairingScreen} />
