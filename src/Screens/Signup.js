@@ -9,26 +9,43 @@ export default class SignUpScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            phoneNumber: null,
-            firstName: null,
-            lastName: null,
-            email: null,
-            password: null,
-            checked: true,
-        }
-        this.handleNameChange = this.handleNameChange.bind(this);
+          input: {},
+          errors: {}
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleNameChange(phoneNumber) {
-        this.setState({phoneNumber})
-    }
+    handleChange(event) {
+        let input = this.state.input;
+        input[event.target.name] = event.target.value;
 
-    handleCheckBox = () => {
         this.setState({
-            checked: !this.state.checked
-            }
-        )
+          input
+        });
     }
+
+    handleSubmit(event){
+
+      if(this.validate()){
+
+      }
+    }
+
+    validate() {
+      let input = this.state.input;
+      let errors = {};
+      let isValid = true;
+
+    }
+
+    // handleCheckBox = () => {
+    //     this.setState({
+    //         checked: !this.state.checked
+    //         }
+    //     )
+    // }
 
     async storeToken(user, token) {
       try {
@@ -39,7 +56,6 @@ export default class SignUpScreen extends React.Component {
         console.log("Something went wrong", error);
       }
     }
-
 
     onSignUp() {
         const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
@@ -55,49 +71,74 @@ export default class SignUpScreen extends React.Component {
 
     }
 
+    checkPassword(password) {
+      passwordCheck = this.state.password == password;
+      this.setState({
+        passwordCheck: passwordCheck
+      })
+    }
+
     render() {
         const {accountCreate} = this.state;
         return (
           <View style={styles.container}>
+              <Text style={styles.title}
+                category='h1'>Sign Up
+              </Text>
               <View>
-                  <Text style={styles.title}
-                        category='h1'>Sign Up</Text>
+
                   <TextInput
+                      name="phoneNumber"
                       style={styles.textInput}
-                      onChangeText={this.handleNameChange}
+                      onChangeText={this.handleChange}
                       placeholder="Mobile Phone Number"
-                      value={this.state.phoneNumber}
+                      value={this.state.input.phoneNumber}
                       onBlur={Keyboard.dismiss}
                   />
+
                   <TextInput
+                      name="firstName"
                       style={styles.textInput}
-                      onChangeText={(firstName) => this.setState({firstName})}
-                      value={this.state.firstName}
+                      onChangeText={this.handleChange}
+                      value={this.state.input.firstName}
                       placeholder="First Name"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
+                      name="lastName"
                       style={styles.textInput}
-                      onChangeText={(lastName) => this.setState({lastName})}
-                      value={this.state.lastName}
+                      onChangeText={this.handleChange}
+                      value={this.state.input.lastName}
                       placeholder="Last Name"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
+                      name="email"
                       style={styles.textInput}
-                      onChangeText={(email) => this.setState({email})}
-                      value={this.state.email}
+                      onChangeText={this.handleChange}
+                      value={this.state.input.email}
                       placeholder="Email"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
+                      name="password"
                       style={styles.textInput}
-                      onChangeText={(password) => this.setState({password})}
-                      value={this.state.password}
+                      onChangeText={this.handleChange}
+                      value={this.state.input.password}
                       placeholder="Password"
                       onBlur={Keyboard.dismiss}
                       secureTextEntry={true}
                   />
+                  <TextInput
+                      name="confirmPassword"
+                      style={styles.textInput}
+                      onChangeText={this.handleChange}
+                      value={this.state.input.confirmPassword}
+                      placeholder="Confirm Password"
+                      onBlur={Keyboard.dismiss}
+                      secureTextEntry={true}
+                  />
+                  {/*
                   <Checkbox.Item
                     disabled = {!this.state.checked}
                     status={'checked'}
@@ -105,18 +146,19 @@ export default class SignUpScreen extends React.Component {
                     color='black'
                     label='isDriver'
                     disabled = {!this.state.checked}
-                    labelStyle={styles.textInput}
+                    // labelStyle={styles.textInput}
                     status={'checked'}
                     onPress={this.handleCheckBox}
                     color='#404e5a'
                   />
+                  */}
+                  </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.onSignUp()}}>
+                      onPress={this.handleSubmit}>
                       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
                   </TouchableOpacity>
                   <Text> Account Creation: {accountCreate ? 'Successful' : 'Fail'}</Text>
-              </View>
           </View>
         );
 
