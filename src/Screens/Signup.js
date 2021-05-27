@@ -13,21 +13,22 @@ export default class SignUpScreen extends React.Component {
           errors: {}
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange(name, value) {
         let input = this.state.input;
-        input[event.target.name] = event.target.value;
+
+        input[name] = value;
 
         this.setState({
           input
-        });
+        })
+
     }
 
     handleSubmit(event){
-
       if(this.validate()){
 
       }
@@ -37,6 +38,11 @@ export default class SignUpScreen extends React.Component {
       let input = this.state.input;
       let errors = {};
       let isValid = true;
+
+      if (!input['phoneNumber']) {
+        isValid = false;
+        errors['phoneNumber'] = "Not a valid phone number."
+      }
 
     }
 
@@ -88,51 +94,47 @@ export default class SignUpScreen extends React.Component {
               <View>
 
                   <TextInput
-                      name="phoneNumber"
+                      keyboardType="phone-pad"
+                      maxLength={10}
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('phoneNumber', value)}
                       placeholder="Mobile Phone Number"
                       value={this.state.input.phoneNumber}
                       onBlur={Keyboard.dismiss}
                   />
 
                   <TextInput
-                      name="firstName"
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('firstName', value)}
                       value={this.state.input.firstName}
                       placeholder="First Name"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
-                      name="lastName"
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('lastName', value)}
                       value={this.state.input.lastName}
                       placeholder="Last Name"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
-                      name="email"
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('email', value)}
                       value={this.state.input.email}
                       placeholder="Email"
                       onBlur={Keyboard.dismiss}
                   />
                   <TextInput
-                      name="password"
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('password', value)}
                       value={this.state.input.password}
                       placeholder="Password"
                       onBlur={Keyboard.dismiss}
                       secureTextEntry={true}
                   />
                   <TextInput
-                      name="confirmPassword"
                       style={styles.textInput}
-                      onChangeText={this.handleChange}
+                      onChangeText={(value) => this.handleChange('confirmPassword', value)}
                       value={this.state.input.confirmPassword}
                       placeholder="Confirm Password"
                       onBlur={Keyboard.dismiss}
