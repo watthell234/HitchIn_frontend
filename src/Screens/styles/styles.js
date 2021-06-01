@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -6,19 +5,20 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#AAB7BD',
       alignItems: 'center',
+      justifyContent: 'space-evenly',
   },
   title: {
       marginBottom: 20,
       fontSize: 18,
       fontWeight: 'bold',
       fontSize: 32,
-      color: '#404e5a'
+      color: '#404e5a',
   },
   button: {
       alignItems: "center",
       backgroundColor: "#404e5a",
       padding: 10,
-      width: 250,
+      width: 300,
       borderRadius:8,
   },
   textInput: {
@@ -27,7 +27,9 @@ const styles = StyleSheet.create({
       borderColor: "#AAB7BD",
       color: "#000000",
       height: 64,
-      // padding: 24,
+      width: 250,
+      paddingLeft: 25,
+      borderRadius: 20,
   },
 });
 

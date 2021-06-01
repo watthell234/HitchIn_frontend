@@ -9,25 +9,85 @@ export default class SignUpScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            phoneNumber: null,
-            firstName: null,
-            lastName: null,
-            email: null,
-            password: null,
-            checked: true,
-        }
-        this.handleNameChange = this.handleNameChange.bind(this);
+          input: {},
+          errors: {},
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleNameChange(phoneNumber) {
-        this.setState({phoneNumber})
-    }
+    handleChange(name, value) {
+        let input = this.state.input;
 
-    handleCheckBox = () => {
+        input[name] = value;
+
         this.setState({
-            checked: !this.state.checked
-            }
-        )
+          input
+        });
+
+    }
+
+    handleSubmit(event){
+
+      if(this.validate()){
+        this.onSignUp();
+      }
+    }
+
+    validate() {
+      let input = this.state.input;
+      let errors = {};
+      let isValid = true;
+
+      //this checks if phone number only contains numbers
+      let phoneRegExp = /^[0-9]+$/;
+
+      //this chekcs if name only contains letters
+      let nameRegExp = /^[a-z]+$/i;
+
+      //this checks if password only contains letters and numbers
+      let passwordRegExp = /^[a-z0-9]+$/i;
+
+      //this checks if email is valid
+      let emailRegExp = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
+
+      if (!input['phoneNumber'] || !phoneRegExp.test(input['phoneNumber']) || input['phoneNumber'].length != 10) {
+        isValid = false;
+        console.log(input['phoneNumber'])
+        errors['phoneNumber'] = "Not a valid phone number."
+      }
+
+      if (!input['firstName'] || !nameRegExp.test(input['firstName'])){
+        isValid = false;
+        errors['firstName'] = "Invalid first name."
+      }
+
+      if (!input['lastName'] || !nameRegExp.test(input['lastName'])){
+        isValid = false;
+        errors['lastName'] = "Invalid last name."
+      }
+
+      if(!input['email'] || !emailRegExp.test(input['email'])){
+        isValid = false;
+        errors['email'] = "Invalid email."
+      }
+
+      if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 10){
+        isValid = false;
+        errors['password'] = "Password must be at least 10 characters, only contain letters and numbers."
+      }
+
+      if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
+        isValid = false;
+        errors['confirmPassword'] = "Please confirm your password.";
+      }
+
+      //warning: setState is asynchronous
+      this.setState({
+        errors
+      })
+
+      return isValid;
     }
 
     async storeToken(user, token) {
@@ -40,64 +100,111 @@ export default class SignUpScreen extends React.Component {
       }
     }
 
-
     onSignUp() {
-        const {accountCreate, phoneNumber, firstName, lastName, email, password, checked} = this.state;
-        console.log(checked);
-        if (!accountCreate) {
-            http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, checked})
-            .then((response) => this.storeToken(response.data.id, response.data.auth_token))
-            .then(() => this.setState({accountCreate: true}))
-            .then(() => checked ? this.props.navigation.navigate('CarForm') : this.props.navigation.navigate('CreateProfile'))
-            .catch((err) => console.log(err))
 
-        }
+        const {phoneNumber, firstName, lastName, email, password} = this.state.input;
 
+        http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
+        .then((response) => this.storeToken(response.data.id, response.data.auth_token))
+        .then(() => {this.props.navigation.navigate('CarpoolRoute')})
+        .catch((error) => {
+          if(error.response){
+            //401
+            console.log(error.response);
+            // console.log(error.response.data);
+            // console.log(error.response.status);
+            // console.log(error.response.headers);
+
+            //needs more work
+            let errors = this.state.errors;
+            errors['phoneNumber'] = "phone number already exists";
+            errors['email'] = "email already exists";
+            this.setState({
+              errors
+            })
+
+            this.props.navigation.navigate('SignUp');
+
+          } else if (error.request){
+            console.log(error.request);
+          } else {
+            console.log(error.message);
+          }
+        });
+
+      }
+
+
+    checkPassword(password) {
+      passwordCheck = this.state.password == password;
+      this.setState({
+        passwordCheck: passwordCheck
+      })
     }
 
     render() {
-        const {accountCreate} = this.state;
+        // const {accountCreate} = this.state;
         return (
           <View style={styles.container}>
+              <Text style={styles.title}
+                category='h1'>Sign Up
+              </Text>
               <View>
-                  <Text style={styles.title}
-                        category='h1'>Sign Up</Text>
+
                   <TextInput
+                      keyboardType="number-pad"
+                      maxLength={10}
                       style={styles.textInput}
-                      onChangeText={this.handleNameChange}
+                      onChangeText={(value) => this.handleChange('phoneNumber', value)}
                       placeholder="Mobile Phone Number"
-                      value={this.state.phoneNumber}
+                      value={this.state.input.phoneNumber}
                       onBlur={Keyboard.dismiss}
                   />
+                  <Text> {this.state.errors['phoneNumber']} </Text>
+
                   <TextInput
                       style={styles.textInput}
-                      onChangeText={(firstName) => this.setState({firstName})}
-                      value={this.state.firstName}
+                      onChangeText={(value) => this.handleChange('firstName', value)}
+                      value={this.state.input.firstName}
                       placeholder="First Name"
                       onBlur={Keyboard.dismiss}
                   />
+                  <Text> {this.state.errors['firstName']} </Text>
                   <TextInput
                       style={styles.textInput}
-                      onChangeText={(lastName) => this.setState({lastName})}
-                      value={this.state.lastName}
+                      onChangeText={(value) => this.handleChange('lastName', value)}
+                      value={this.state.input.lastName}
                       placeholder="Last Name"
                       onBlur={Keyboard.dismiss}
                   />
+                  <Text> {this.state.errors['lastName']} </Text>
                   <TextInput
                       style={styles.textInput}
-                      onChangeText={(email) => this.setState({email})}
-                      value={this.state.email}
+                      onChangeText={(value) => this.handleChange('email', value)}
+                      value={this.state.input.email}
                       placeholder="Email"
                       onBlur={Keyboard.dismiss}
                   />
+                  <Text> {this.state.errors['email']} </Text>
                   <TextInput
                       style={styles.textInput}
-                      onChangeText={(password) => this.setState({password})}
-                      value={this.state.password}
+                      onChangeText={(value) => this.handleChange('password', value)}
+                      value={this.state.input.password}
                       placeholder="Password"
                       onBlur={Keyboard.dismiss}
                       secureTextEntry={true}
                   />
+                  <Text> {this.state.errors['password']} </Text>
+                  <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) => this.handleChange('confirmPassword', value)}
+                      value={this.state.input.confirmPassword}
+                      placeholder="Confirm Password"
+                      onBlur={Keyboard.dismiss}
+                      secureTextEntry={true}
+                  />
+                  <Text> {this.state.errors['confirmPassword']} </Text>
+                  {/*
                   <Checkbox.Item
                     disabled = {!this.state.checked}
                     status={'checked'}
@@ -105,18 +212,19 @@ export default class SignUpScreen extends React.Component {
                     color='black'
                     label='isDriver'
                     disabled = {!this.state.checked}
-                    labelStyle={styles.textInput}
+                    // labelStyle={styles.textInput}
                     status={'checked'}
                     onPress={this.handleCheckBox}
                     color='#404e5a'
                   />
+                  */}
+                  </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.onSignUp()}}>
+                      onPress={this.handleSubmit}>
                       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
                   </TouchableOpacity>
-                  <Text> Account Creation: {accountCreate ? 'Successful' : 'Fail'}</Text>
-              </View>
+                  {/*<Text> Account Creation: {accountCreate ? 'Successful' : 'Fail'}</Text>*/}
           </View>
         );
 
