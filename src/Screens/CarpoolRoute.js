@@ -1,18 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import axios from 'axios';
+import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, Picker} from 'react-native';
 import { styles } from './styles/styles'
-
-const serverUrl = 'http://192.168.1.158:5000';
-const http = axios.create({
-    baseURL: serverUrl,
-});
+import { http, getAxios } from './constants/hitchBackendapi';
 
 export default class CarpoolRoute extends React.Component {
-        state = {
-            stop: 'Fort Lee Bus Station',
-        }
+
+    get_location_lists() {
+
+      let pickup_lists;
+      let dropoff_lists;
+
+      http.get('/routes')
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log("------------------------------------")
+        console.log(error)
+        console.log("------------------------------------")
+      })
+    }
+
     render() {
+        this.get_location_lists();
         return (
         <View style={styles.container}>
             <Text style={styles.title}
@@ -20,7 +30,6 @@ export default class CarpoolRoute extends React.Component {
                   <View style={styles.routeOrientation}>
                       <Text>Pickup</Text>
                       {/* TODO: change TextInputs to Pickers when I have a MacBook to add native component to iOS  */}
-                      <TextInput style={styles.textInput} placeholder="Fort Lee Bus Station"></TextInput>
                   </View>
                   <View style={styles.routeOrientation}>
                       <Text>Drop-off</Text>
