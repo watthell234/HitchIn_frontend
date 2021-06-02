@@ -8,31 +8,29 @@ export default class CarpoolRouteScreen extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        pickup_list: {},
-        dropoff_list: {}
+        selectedItems: {},
+        pickup_list: [],
+        dropoff_list: []
       };
-      this.get_location_lists();
     }
 
-    get_location_lists() {
+    onPickerSelect(itemName, itemValue) {
 
+      let selectedItems = this.state.selectedItems;
+      selectedItems[itemName] = itemValue;
+
+      this.setState({
+        selectedItems
+      });
+    }
+
+
+    componentDidMount = () => {
       http.get('/routes')
       .then((response) => {
-        this.setState({
-          pickup_list: response.data.pickup_list,
-          dropoff_list: response.data.dropoff_list
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      })
 
-    }
-
-    render() {
-
-        const pickup_list = Object.values(this.state.pickup_list);
-        const dropoff_list = Object.values(this.state.dropoff_list);
+        const pickup_list = response.data.pickup_list;
+        const dropoff_list = response.data.dropoff_list;
 
         const pickup_picker_items = [];
         const dropoff_picker_items = [];
@@ -45,21 +43,39 @@ export default class CarpoolRouteScreen extends React.Component {
           dropoff_picker_items.push(<Picker.Item label={item} value={item}/>)
         })
 
+        this.setState({
+          pickup_list: pickup_picker_items,
+          dropoff_list: dropoff_picker_items
+        });
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
+    render() {
         return (
         <View style={styles.container}>
             <Text style={styles.title}
                   category='h1'>Port Authority {'\n'}Carpool Route</Text>
                   <View style={styles.routeOrientation}>
                       <Text>Pickup</Text>
-                      <Picker>
-                        {pickup_picker_items}
+                      <Picker
+                        selectedValue={this.state.selectedItems.pickup_location}
+                        style={{ height: 50, width: 150 }}
+                        onValueChange={(itemValue, itemIndex) => this.onPickerSelect('pickup_location', itemValue)}>
+                        {this.state.pickup_list}
                       </Picker>
                       {/* TODO: change TextInputs to Pickers when I have a MacBook to add native component to iOS  */}
                   </View>
                   <View style={styles.routeOrientation}>
                       <Text>Drop-off</Text>
-                      <Picker>
-                        {dropoff_picker_items}
+                      <Picker
+                        selectedValue={this.state.selectedItems.dropoff_location}
+                        style={{ height: 50, width: 150 }}
+                        onValueChange={(itemValue, itemIndex) => this.onPickerSelect('dropoff_location', itemValue)}>
+                        {this.state.dropoff_list}
                       </Picker>
                   </View>
                   <TouchableOpacity
