@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, Picker} from 'react-native';
 import { styles } from './styles/styles'
 import { http, getAxios } from './constants/hitchBackendapi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class CarpoolRouteScreen extends React.Component {
 
@@ -13,7 +14,6 @@ export default class CarpoolRouteScreen extends React.Component {
         dropoff_list: []
       };
 
-      this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onPickerSelect(itemName, itemValue) {
@@ -26,8 +26,20 @@ export default class CarpoolRouteScreen extends React.Component {
       });
     }
 
-    handleSubmit(event) {
-      this.props.navigation.navigate('RideOrDriveScreen');
+    handleSubmit() {
+      this.props.navigation.navigate('RideOrDrive');
+    }
+
+    async handleLogout() {
+      try {
+        await AsyncStorage.clear();
+      } catch(e) {
+        console.log(e);
+      }
+
+      console.log("logged out");
+
+      this.props.navigation.navigate('Init');
     }
 
 
@@ -42,11 +54,11 @@ export default class CarpoolRouteScreen extends React.Component {
         const dropoff_picker_items = [];
 
         pickup_list.map((item, index)=> {
-          pickup_picker_items.push(<Picker.Item label={item} value={item}/>)
+          pickup_picker_items.push(<Picker.Item key={index} label={item} value={item}/>)
         })
 
         dropoff_list.map((item, index)=> {
-          dropoff_picker_items.push(<Picker.Item label={item} value={item}/>)
+          dropoff_picker_items.push(<Picker.Item key={index} label={item} value={item}/>)
         })
 
         this.setState({
@@ -63,6 +75,11 @@ export default class CarpoolRouteScreen extends React.Component {
     render() {
         return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {this.handleLogout()}}>
+                <Text style={{color: "#FFFFFF"}}>Log Out</Text>
+            </TouchableOpacity>
             <Text style={styles.title}
                   category='h1'>Port Authority {'\n'}Carpool Route</Text>
                   <View style={styles.routeOrientation}>
@@ -86,7 +103,7 @@ export default class CarpoolRouteScreen extends React.Component {
                   </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.handleSubmit}}>
+                      onPress={() => {this.handleSubmit()}}>
                       <Text style={{color: "#FFFFFF"}}>Next</Text>
                   </TouchableOpacity>
       </View>
