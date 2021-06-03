@@ -4,9 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import InitScreen from './src/Screens/InitPage';
 import SignUpScreen from './src/Screens/Signup';
-import CarpoolRouteScreen from './src/Screens/CarpoolRoute';
-import LoginScreen from './src/Screens/LoginPage';
 import CreateProfileScreen from './src/Screens/CreateProfile';
+import CarpoolRouteScreen from './src/Screens/CarpoolRoute';
+import RideOrDriveScreen from './src/Screens/RideOrDrive';
+import LoginScreen from './src/Screens/LoginPage';
 import Position from './src/Screens/Position';
 import PairingScreen from './src/Screens/Pairing';
 import QRReader from './src/Screens/QRscan';
@@ -50,8 +51,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    //temporarily commented out
-    // this.getToken();
+
+    this.getToken();
   }
 
   render() {
@@ -65,6 +66,7 @@ export default class App extends React.Component {
             <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
             <Stack.Screen name="CarpoolRoute" component={CarpoolRouteScreen} />
+            <Stack.Screen name="RideOrDrive" component={RideOrDriveScreen} />
             <Stack.Screen name="CarForm" component={CarForm} options={{ title: 'Car' }}/>
             <Stack.Screen name="Home" component={AppHome} />
             <Stack.Screen name="Pairing" component={PairingScreen} />
