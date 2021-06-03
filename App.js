@@ -76,6 +76,8 @@ export default class App extends React.Component {
         ) : (
           <>
             <Stack.Screen name="Home" component={AppHome} />
+            <Stack.Screen name="CarpoolRoute" component={CarpoolRouteScreen} />
+            <Stack.Screen name="RideOrDrive" component={RideOrDriveScreen} />
             <Stack.Screen name="Pairing" component={PairingScreen} />
             <Stack.Screen name="Position" component={Position} />
             <Stack.Screen name="EndTrip" component={EndTripScreen} />
