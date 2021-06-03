@@ -23,12 +23,12 @@ const Stack = createStackNavigator();
 
 class AppHome extends React.Component {
   render() {
-  return (
-    // <Tab.Navigator initialRouteName="Home">
-    //   // <Tab.Screen name="QRScan" component={QRReader} />
-    //   // <Tab.Screen name="Pairing" component={PairingScreen} />
-    // </Tab.Navigator>
-    );
+  // return (
+  //   <Tab.Navigator initialRouteName="Home">
+  //     // <Tab.Screen name="QRScan" component={QRReader} />
+  //     // <Tab.Screen name="Pairing" component={PairingScreen} />
+  //   </Tab.Navigator>
+  //   );
   }
 }
 
