@@ -86,7 +86,7 @@ export default class CarpoolRouteScreen extends React.Component {
                   </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.handleSubmit}>
+                      onPress={() => {this.handleSubmit}}>
                       <Text style={{color: "#FFFFFF"}}>Next</Text>
                   </TouchableOpacity>
       </View>
