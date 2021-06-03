@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import { http, getAxios } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
 import { styles } from './styles/styles';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class SignUpScreen extends React.Component {
     constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default class CarForm extends React.Component {
