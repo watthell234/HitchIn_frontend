@@ -12,6 +12,8 @@ export default class CarpoolRouteScreen extends React.Component {
         pickup_list: [],
         dropoff_list: []
       };
+
+      this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onPickerSelect(itemName, itemValue) {
@@ -22,6 +24,10 @@ export default class CarpoolRouteScreen extends React.Component {
       this.setState({
         selectedItems
       });
+    }
+
+    handleSubmit(event) {
+      this.props.navigation.navigate('RideOrDriveScreen');
     }
 
 
@@ -80,7 +86,7 @@ export default class CarpoolRouteScreen extends React.Component {
                   </View>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => {this.props.navigation.navigate('SignUp')}}>
+                      onPress={() => {this.handleSubmit}>
                       <Text style={{color: "#FFFFFF"}}>Next</Text>
                   </TouchableOpacity>
       </View>
