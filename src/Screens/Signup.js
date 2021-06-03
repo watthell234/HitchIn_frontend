@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import { http, getAxios } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
 import { styles } from './styles/styles';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class SignUpScreen extends React.Component {
     constructor(props) {
@@ -35,6 +35,7 @@ export default class SignUpScreen extends React.Component {
     }
 
     validate() {
+
       let input = this.state.input;
       let errors = {};
       let isValid = true;
@@ -53,7 +54,6 @@ export default class SignUpScreen extends React.Component {
 
       if (!input['phoneNumber'] || !phoneRegExp.test(input['phoneNumber']) || input['phoneNumber'].length != 10) {
         isValid = false;
-        console.log(input['phoneNumber'])
         errors['phoneNumber'] = "Not a valid phone number."
       }
 
@@ -111,9 +111,6 @@ export default class SignUpScreen extends React.Component {
           if(error.response){
             //401
             console.log(error.response);
-            // console.log(error.response.data);
-            // console.log(error.response.status);
-            // console.log(error.response.headers);
 
             //needs more work
             let errors = this.state.errors;
@@ -204,27 +201,13 @@ export default class SignUpScreen extends React.Component {
                       secureTextEntry={true}
                   />
                   <Text> {this.state.errors['confirmPassword']} </Text>
-                  {/*
-                  <Checkbox.Item
-                    disabled = {!this.state.checked}
-                    status={'checked'}
-                    onPress={() => this.setState({checked: !checked})}
-                    color='black'
-                    label='isDriver'
-                    disabled = {!this.state.checked}
-                    // labelStyle={styles.textInput}
-                    status={'checked'}
-                    onPress={this.handleCheckBox}
-                    color='#404e5a'
-                  />
-                  */}
+
                   </View>
                   <TouchableOpacity
                       style={styles.button}
                       onPress={this.handleSubmit}>
                       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
                   </TouchableOpacity>
-                  {/*<Text> Account Creation: {accountCreate ? 'Successful' : 'Fail'}</Text>*/}
           </View>
         );
 
