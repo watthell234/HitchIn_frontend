@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
   signup_button: {
     alignItems: "center",
     backgroundColor: "#404e5a",
-    padding: 5,
-    width: 250,
-    borderRadius:50
+    padding: 10,
+    width: 300,
+    borderRadius:8,
   },
 
   hitchin_logo: {
