@@ -19,9 +19,10 @@ export default class LoginScreen extends React.Component {
         this.setState({phoneNumber})
     }
 
-    async storeToken(user) {
+    async storeToken(user, token) {
       try {
-        await AsyncStorage.setItem("loggedUser", JSON.stringify(user));
+        await AsyncStorage.setItem("userId", JSON.stringify(user));
+        await AsyncStorage.setItem("authToken", JSON.stringify(token));
       } catch (error) {
         console.log("Something went wrong", error);
       }
@@ -31,9 +32,13 @@ export default class LoginScreen extends React.Component {
         const {Login, phoneNumber, password} = this.state;
         if (!Login) {
             http.post('/login', {phoneNumber, password})
-            .then((response) => this.storeToken(response.data.id))
+            .then((response) => {
+              console.log(response.data.id)
+              console.log(response.data.auth_token)
+              this.storeToken(response.data.id, response.data.auth_token)
+            })
             .then(() => this.setState({Login: true}))
-            .then(() => this.props.navigation.navigate('QRTabs'))
+            .then(() => this.props.navigation.navigate('CarpoolRoute'))
             .catch((err) => console.log(err))
 
         }
