@@ -39,7 +39,7 @@ export default class CarpoolRouteScreen extends React.Component {
 
       console.log("logged out");
 
-      this.props.navigation.navigate('Init');
+      this.props.navigation.navigate('Root', { screen: 'Init' });
     }
 
 

@@ -11,7 +11,7 @@ export default class RideOrDriveScreen extends React.Component {
     if(action == 'ride') {
 
     }else if(action == 'drive') {
-
+      this.props.navigation.navigate('CarInfo')
     }
   }
 
@@ -20,12 +20,12 @@ export default class RideOrDriveScreen extends React.Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={this.handleSubmit('ride')}>
+          onPress={() => this.handleSubmit('ride')}>
           <Text style={{color: "#FFFFFF", fontSize:20}}>Ride</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={this.handleSubmit('drive')}>
+          onPress={() => this.handleSubmit('drive')}>
           <Text style={{color: "#FFFFFF", fontSize:20}}>Drive</Text>
         </TouchableOpacity>
       </View>

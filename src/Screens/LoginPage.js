@@ -38,7 +38,7 @@ export default class LoginScreen extends React.Component {
               this.storeToken(response.data.id, response.data.auth_token)
             })
             .then(() => this.setState({Login: true}))
-            .then(() => this.props.navigation.navigate('CarpoolRoute'))
+            .then(() => this.props.navigation.navigate('LoggedIn', { screen: 'CarpoolRoute' }))
             .catch((err) => console.log(err))
 
         }
@@ -67,7 +67,7 @@ export default class LoginScreen extends React.Component {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {this.onLogin()}}>
+                    onPress={() => this.onLogin()}>
                     <Text style={{color: "#FFFFFF"}}>Login</Text>
                 </TouchableOpacity>
                 <Text> Login: {Login ? 'Successful' : 'Fail'}</Text>
