@@ -16,6 +16,7 @@ import PairingScreen from './src/Screens/Pairing';
 import QRReader from './src/Screens/QRscan';
 import CarForm from './src/Screens/CarForm';
 import EndTripScreen from './src/Screens/EndTrip';
+// import GoogleCreate from './src/Screens/google-auth'
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -62,6 +63,7 @@ export default class App extends React.Component {
         <Stack.Navigator>
         { this.state.userToken == null ? (
           <>
+
             <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
