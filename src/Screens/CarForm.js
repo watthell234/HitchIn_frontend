@@ -5,7 +5,7 @@ import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default class CarForm extends React.Component {
+export default class CarFormScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
