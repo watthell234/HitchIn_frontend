@@ -29,19 +29,16 @@ export default class LoginScreen extends React.Component {
     }
 
     onLogin() {
-        const {Login, phoneNumber, password} = this.state;
-        if (!Login) {
-            http.post('/login', {phoneNumber, password})
-            .then((response) => {
-              console.log(response.data.id)
-              console.log(response.data.auth_token)
-              this.storeToken(response.data.id, response.data.auth_token)
-            })
-            .then(() => this.setState({Login: true}))
-            .then(() => this.props.navigation.navigate('LoggedIn', { screen: 'CarpoolRoute' }))
-            .catch((err) => console.log(err))
+        const {phoneNumber, password} = this.state;
+        http.post('/login', {phoneNumber, password})
+        .then((response) => {
+          console.log(response.data.id)
+          console.log(response.data.auth_token)
+          this.storeToken(response.data.id, response.data.auth_token)
+        })
+        .then(() => this.props.navigation.navigate('LoggedIn'))
+        .catch((err) => console.log(err))
 
-        }
     }
     render() {
         const {Login} = this.state;
@@ -70,7 +67,6 @@ export default class LoginScreen extends React.Component {
                     onPress={() => this.onLogin()}>
                     <Text style={{color: "#FFFFFF"}}>Login</Text>
                 </TouchableOpacity>
-                <Text> Login: {Login ? 'Successful' : 'Fail'}</Text>
             </View>
         </View>
         );

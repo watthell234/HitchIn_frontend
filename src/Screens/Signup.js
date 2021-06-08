@@ -106,7 +106,7 @@ export default class SignUpScreen extends React.Component {
 
         http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
         .then((response) => this.storeToken(response.data.id, response.data.auth_token))
-        .then(() => {this.props.navigation.navigate('CarpoolRoute')})
+        .then(() => {this.props.navigation.navigate('LoggedIn')})
         .catch((error) => {
           if(error.response){
             //401
