@@ -51,7 +51,7 @@ export default function CreateProfileScreen() {
             }}>
 
             <Text
-              style={[styles.button_text, {color: "#e01d1d"}]}>Google
+              style={[styles.button_text, {color: "#e01d1d"}]}> Connect with Google
             </Text>
           </TouchableOpacity>
 
