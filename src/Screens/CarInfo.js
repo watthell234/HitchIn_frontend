@@ -43,19 +43,11 @@ export default class CarInfoScreen extends React.Component {
       console.log("Something went wrong", error)
     }
 
-    console.log(userID);
-    console.log(token);
-    console.log(car_maker);
-    console.log(car_color);
-    console.log(car_year);
-    console.log(car_plate);
-    console.log(ezpass_tag);
-
     if(userID && token){
       http_jwt(token).post('/car', {userID, car_maker, car_color, car_year, car_plate, ezpass_tag})
       .then((response) => {
         this.storeCarID(response.data.id);
-        console.log("car create complete");
+
       })
       .catch((error) => {
         console.log("Could not post '/car'", error)
