@@ -20,9 +20,20 @@ export default function CreateProfileScreen() {
   React.useEffect(() => {
     if (response?.type === 'success') {
       const { authentication } = response;
+      const  accessToken  = authentication?.accessToken
       console.log(authentication);
+      console.log(accessToken);
+      const  data  = fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,phoneNumbers,clientData,photos,birthdays', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+      }).then(response => response.json()).then(data => console.log(data));
       }
-  }, [response]);
+  }
+  , [response]);
 
 
     return (
@@ -38,6 +49,7 @@ export default function CreateProfileScreen() {
           <Text style={{color: "#FFFFFF"}}>Next</Text>
           </TouchableOpacity>
           */}
+
 
           <TouchableOpacity style={styles.button}>
             <Text
