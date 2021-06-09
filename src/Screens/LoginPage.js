@@ -9,14 +9,18 @@ export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            phoneNumber: null,
-            password: null
+            input: {},
         }
-        this.handleNameChange = this.handleNameChange.bind(this);
     }
 
-    handleNameChange(phoneNumber) {
-        this.setState({phoneNumber})
+    handleTextChange(name, value) {
+      let input = this.state.input;
+
+      input[name] = value;
+
+      this.setState({
+        input
+      });
     }
 
     async storeToken(user, token) {
@@ -28,8 +32,8 @@ export default class LoginScreen extends React.Component {
       }
     }
 
-    onLogin() {
-        const {phoneNumber, password} = this.state;
+    handleSubmit() {
+        const {phoneNumber, password} = this.state.input;
         http.post('/login', {phoneNumber, password})
         .then((response) => {
           console.log(response.data.id)
@@ -37,7 +41,9 @@ export default class LoginScreen extends React.Component {
           this.storeToken(response.data.id, response.data.auth_token)
         })
         .then(() => this.props.navigation.navigate('LoggedIn'))
-        .catch((err) => console.log(err))
+        .catch((error) => {
+          console.log(error)
+        })
 
     }
     render() {
@@ -49,14 +55,14 @@ export default class LoginScreen extends React.Component {
                       category='h1'>Welcome back!</Text>
                 <TextInput
                     style={styles.textInput}
-                    onChangeText={this.handleNameChange}
+                    onChangeText={(value) => this.handleTextChange('phoneNumber', value)}
                     placeholder="Mobile Phone Number"
                     value={this.state.phoneNumber}
                     onBlur={Keyboard.dismiss}
                 />
                 <TextInput
                     style={styles.textInput}
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(value) => this.handleTextChange('password', value)}
                     value={this.state.password}
                     placeholder="Password"
                     onBlur={Keyboard.dismiss}
@@ -64,7 +70,7 @@ export default class LoginScreen extends React.Component {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => this.onLogin()}>
+                    onPress={() => this.handleSubmit()}>
                     <Text style={{color: "#FFFFFF"}}>Login</Text>
                 </TouchableOpacity>
             </View>
