@@ -4,7 +4,7 @@ import { styles } from './styles/styles'
 import { http, getAxios } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import LogOut from '../Buttons/LogOut.js'
+import LogOut from '../Buttons/LogOut.js';
 
 export default class CarpoolRouteScreen extends React.Component {
 
