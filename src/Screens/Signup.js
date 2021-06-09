@@ -92,7 +92,7 @@ export default class SignUpScreen extends React.Component {
 
     async storeToken(user, token) {
       try {
-        await AsyncStorage.setItem("userId", JSON.stringify(user));
+        await AsyncStorage.setItem("userID", JSON.stringify(user));
         await AsyncStorage.setItem("authToken", JSON.stringify(token));
 
       } catch (error) {
@@ -119,8 +119,6 @@ export default class SignUpScreen extends React.Component {
             this.setState({
               errors
             })
-
-            this.props.navigation.navigate('SignUp');
 
           } else if (error.request){
             console.log(error.request);

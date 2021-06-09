@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import { styles } from './styles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { http_jwt } from './constants/hitchBackendapi';
 
 export default class CarInfoScreen extends React.Component {
   constructor(props) {
@@ -19,9 +21,51 @@ export default class CarInfoScreen extends React.Component {
     });
   }
 
-  handleSubmit() {
+  async storeCarID(carID) {
+    try{
+      await AsyncStorage.setItem("CarID", JSON.stringify(carID));
+    }catch(error) {
+      console.log("something went wrong", error)
+    }
+  }
+
+  async handleSubmit() {
+    const {car_maker, car_color, car_year, car_plate, ezpass_tag} = this.state.input;
+    let userID;
+    let token;
+    try {
+      userID = await AsyncStorage.getItem("userID");
+      token = await AsyncStorage.getItem("authToken");
+
+      userID = JSON.parse(userID);
+      token = JSON.parse(token);
+    }catch(error){
+      console.log("Something went wrong", error)
+    }
+
+    console.log(userID);
+    console.log(token);
+    console.log(car_maker);
+    console.log(car_color);
+    console.log(car_year);
+    console.log(car_plate);
+    console.log(ezpass_tag);
+
+    if(userID && token){
+      http_jwt(token).post('/car', {userID, car_maker, car_color, car_year, car_plate, ezpass_tag})
+      .then((response) => {
+        this.storeCarID(response.data.id);
+        console.log("car create complete");
+      })
+      .catch((error) => {
+        console.log("Could not post '/car'", error)
+      })
+    }
+
+
 
   }
+
 
   render() {
     return (
@@ -45,15 +89,22 @@ export default class CarInfoScreen extends React.Component {
             />
             <TextInput
                 style={styles.textInput}
+                onChangeText={(value) => this.handleTextChange("car_year", value)}
+                placeholder="Car Year"
+                value={this.state.input.car_year}
+                onBlur={Keyboard.dismiss}
+            />
+            <TextInput
+                style={styles.textInput}
                 onChangeText={(value) => this.handleTextChange("car_plate", value)}
-                placeholder="Car Plate"
+                placeholder="License Plate"
                 value={this.state.input.car_plate}
                 onBlur={Keyboard.dismiss}
             />
             <TextInput
                 style={styles.textInput}
                 onChangeText={(value) => this.handleTextChange("ezpass_tag", value)}
-                placeholder="EZpass Tag"
+                placeholder="EZ-pass Tag"
                 value={this.state.input.ezpass_tag}
                 onBlur={Keyboard.dismiss}
             />
