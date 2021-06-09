@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import { styles } from './styles/styles';
 
+import LogOut from '../Buttons/LogOut.js';
+
 export default class RideOrDriveScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ export default class RideOrDriveScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <LogOut navigation={this.props.navigation}/>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.handleSubmit('ride')}>

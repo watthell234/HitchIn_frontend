@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { http_jwt } from './constants/hitchBackendapi';
+import LogOut from '../Buttons/LogOut.js';
 
 export default class CarInfoScreen extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ export default class CarInfoScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <LogOut navigation={this.props.navigation}/>
         <View>
             <Text style={styles.title}
                   category='h1'>Car Info</Text>
