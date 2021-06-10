@@ -28,7 +28,7 @@ export default class CarForm extends React.Component {
 
     componentDidMount() {
       this.getToken();
-      fetch('https://gist.githubusercontent.com/shcyiza/71c64a33f3880e58980003c4c794db38/raw/febb04707f6ccc9ae3a445e147c5754e30f743fe/car_brands.json')
+      fetch('https://gist.githubusercontent.com/watthell234/a33bdd1ffe937975e4643cec5eec1859/raw/febb04707f6ccc9ae3a445e147c5754e30f743fe/car_brands.json')
       .then(response => response.json()).then(data => this.setState({majorCarBrands: data}));
     }
 
