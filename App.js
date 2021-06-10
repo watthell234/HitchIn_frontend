@@ -14,7 +14,7 @@ import RideOrDriveScreen from './src/Screens/RideOrDrive';
 import LoginScreen from './src/Screens/LoginPage';
 import Position from './src/Screens/Position';
 import PairingScreen from './src/Screens/Pairing';
-import QRReader from './src/Screens/QRscan';
+import QRReaderScreen from './src/Screens/QRreader';
 import CarFormScreen from './src/Screens/CarForm';
 import EndTripScreen from './src/Screens/EndTrip';
 import CarInfoScreen from './src/Screens/CarInfo';
@@ -33,7 +33,7 @@ const LoggedInStack = createStackNavigator({
   CarpoolRoute: CarpoolRouteScreen,
   RideOrDrive: RideOrDriveScreen,
   CarInfo: CarInfoScreen,
-  CarForm: CarFormScreen,
+  QRReader: QRReaderScreen,
   Pairing: PairingScreen,
   Position: Position,
   EndTrip: EndTripScreen
