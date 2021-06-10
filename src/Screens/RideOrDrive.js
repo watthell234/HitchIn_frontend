@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import { styles } from './styles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LogOut from '../Buttons/LogOut.js';
 
@@ -9,11 +10,19 @@ export default class RideOrDriveScreen extends React.Component {
     super(props);
   };
 
-  handleSubmit(action) {
+  async handleSubmit(action) {
     if(action == 'ride') {
 
     }else if(action == 'drive') {
-      this.props.navigation.navigate('CarInfo')
+
+      let carID = await AsyncStorage.getItem("carID");
+
+      console.log(carID);
+      if(carID) {
+        this.props.navigation.navigate('QRReader');
+      }else {
+        this.props.navigation.navigate('CarInfo');
+      }
     }
   }
 
