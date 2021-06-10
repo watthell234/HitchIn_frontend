@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
 
 
-export default class QRReader extends React.Component {
+export default class QRReaderScreen extends React.Component {
   constructor(props) {
     super (props);
     this.state = {
@@ -29,6 +29,7 @@ export default class QRReader extends React.Component {
 
      this.socket.on("event", (e) => {
        console.log(e.data);
+
        this.setState({dataFromServer: e.data});
        this.props.navigation.navigate('EndTrip');
      });
@@ -40,8 +41,8 @@ export default class QRReader extends React.Component {
 
    componentDidMount() {
       this.getPermission();
-      this.getToken();
-      this.setupWebsocket();
+      // this.getToken();
+      // this.setupWebsocket();
     }
 
     joinPoolEvent =  (userId, poolId) => {
