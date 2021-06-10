@@ -10,6 +10,7 @@ export default class LoginScreen extends React.Component {
         super(props);
         this.state = {
             input: {},
+            errors: {},
         }
     }
 
@@ -42,7 +43,21 @@ export default class LoginScreen extends React.Component {
         })
         .then(() => this.props.navigation.navigate('LoggedIn'))
         .catch((error) => {
-          console.log(error)
+          if(error.response){
+
+            //401
+            console.log(error.response);
+
+            let errors = this.state.errors;
+            errors['phoneNumber'] = 'phone number does not exist. Make sure to sign up first.';
+            this.setState({
+              errors
+            })
+          } else if(errors.request){
+            console.log(error.request);
+          } else {
+            console.log(error.message);
+          }
         })
 
     }
@@ -60,6 +75,7 @@ export default class LoginScreen extends React.Component {
                     value={this.state.phoneNumber}
                     onBlur={Keyboard.dismiss}
                 />
+                <Text> {this.state.errors['phoneNumber']} </Text>
                 <TextInput
                     style={styles.textInput}
                     onChangeText={(value) => this.handleTextChange('password', value)}
