@@ -30,7 +30,7 @@ export default function CreateProfileScreen() {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
         },
-      }).then(response => response.json()).then(data => console.log(data));
+      }).then(response => response.json()).then(data => console.log(data.emailAddresses[0].value));
       }
   }
   , [response]);
