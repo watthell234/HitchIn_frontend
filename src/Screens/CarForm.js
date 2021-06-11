@@ -3,7 +3,6 @@ import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-
 import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SearchableDropdown from 'react-native-searchable-dropdown';
 
 
 export default class CarForm extends React.Component {
@@ -71,37 +70,7 @@ export default class CarForm extends React.Component {
           <View style={styles.container}>
               <View>
                   <Text style={styles.title}
-                        category='h1'>Car Info</Text>
-                  <SearchableDropdown
-                  onTextChange={(text) => text}
-                  onItemSelect={(item) => alert(JSON.stringify(item))}
-                  // containerStyle={{ padding: 5 }}
-                  textInputStyle={{
-                    padding: 12,
-                    borderWidth: 1,
-                    borderColor: '#ccc',
-                    backgroundColor: '#FAF7F6',
-                    }}
-                  itemStyle={{
-                      padding: 10,
-                      marginTop: 2,
-                      backgroundColor: '#FAF9F8',
-                      borderColor: '#bbb',
-                      borderWidth: 1,
-                    }}
-                  itemTextStyle={{
-                    color: '#222',
-                    }}
-                  itemsContainerStyle={{
-                    maxHeight: '40%',
-                    }}
-                  items={this.state.majorCarBrands}
-                  defaultIndex={2}
-                  placeholder="Toyota"
-                  resetValue={false}
-                  underlineColorAndroid="transparent"
-                  />
-
+                      category='h1'>Car Info</Text>
                   <TextInput
                       style={styles.textInput}
                       onChangeText={this.handleMakeChange}
