@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
 import { styles } from './styles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LogOut from '../Buttons/LogOut.js';
 
@@ -9,11 +10,28 @@ export default class RideOrDriveScreen extends React.Component {
     super(props);
   };
 
-  handleSubmit(action) {
+  async handleSubmit(action) {
     if(action == 'ride') {
 
+      this.props.navigation.navigate('QRReader', {'action': action});
+
     }else if(action == 'drive') {
-      this.props.navigation.navigate('CarInfo')
+
+      let userID = await AsyncStorage.getItem("userID");
+      let carID = await AsyncStorage.getItem("carID");
+      //THIS NEEDS TO CHECK WITH THE SERVER, NOT WITH ASYNCSTORAGE.
+      //YOU DO NOT WANT THE USER TO REGISTER HIS/HER CAR AGAIN JUST BECAUSE HE/SHE
+      //LOGGED OUT AND BACK IN.
+      //Or not. This needs some thinking through.
+      // Whenever you log back in, we need to list all
+      // the cars associated with the logged in user.
+      // Give the user an option if they want to register a new/additional car.
+
+      if(carID) {
+        this.props.navigation.navigate('QRReader', {'action': action, 'carID': carID, 'userID': userID});
+      }else {
+        this.props.navigation.navigate('CarInfo');
+      }
     }
   }
 
