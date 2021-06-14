@@ -24,7 +24,7 @@ export default class CarInfoScreen extends React.Component {
 
   async storeCarID(carID) {
     try{
-      await AsyncStorage.setItem("CarID", JSON.stringify(carID));
+      await AsyncStorage.setItem("carID", carID);
     }catch(error) {
       console.log("something went wrong", error)
     }
@@ -34,6 +34,8 @@ export default class CarInfoScreen extends React.Component {
     const {car_maker, car_color, car_year, car_plate, ezpass_tag} = this.state.input;
     let userID;
     let token;
+    let carID;
+
     try {
       userID = await AsyncStorage.getItem("userID");
       token = await AsyncStorage.getItem("authToken");
@@ -45,16 +47,25 @@ export default class CarInfoScreen extends React.Component {
     }
 
     if(userID && token){
-      http_jwt(token).post('/car', {userID, car_maker, car_color, car_year, car_plate, ezpass_tag})
+      http_jwt(token).post('/create_car', {userID, car_maker, car_color, car_year, car_plate, ezpass_tag})
       .then((response) => {
-        this.storeCarID(response.data.id);
-
+        carID = response.data.car_id;
+        this.storeCarID(carID);
+        console.log("qr_id: " + response.data.qr_id);
+        this.props.navigation.navigate('QRReader', {'action': 'drive', 'userID': userID, 'carID': carID});
       })
       .catch((error) => {
         console.log("Could not post '/car'", error)
       })
     }
 
+  }
+
+  //Needs to be implemented later
+  validate() {
+    let input = this.state.input;
+    let errors = {};
+    let isValid = true;
 
 
   }
@@ -65,8 +76,7 @@ export default class CarInfoScreen extends React.Component {
       <View style={styles.container}>
         <LogOut navigation={this.props.navigation}/>
         <View>
-            <Text style={styles.title}
-                  category='h1'>Car Info</Text>
+            <Text style={styles.title} category='h1'>Car Info</Text>
             <TextInput
                 style={styles.textInput}
                 onChangeText={(value) => this.handleTextChange("car_maker", value)}

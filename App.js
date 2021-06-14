@@ -38,6 +38,10 @@ const LoggedInStack = createStackNavigator({
   Position: Position,
   EndTrip: EndTripScreen
 });
+//Later down the road we will have to
+//Move all the trip related screens to here.
+// const TripStack = createStackNavigator({
+// })
 
 class AuthLoadingScreen extends React.Component {
   componentDidMount() {

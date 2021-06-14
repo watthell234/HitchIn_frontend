@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, View, Button, Image, TouchableOpacity } f
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import io from 'socket.io-client';
 import { http } from './constants/hitchBackendapi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
@@ -18,48 +19,61 @@ export default class QRReaderScreen extends React.Component {
     }
   }
 
-  setupWebsocket = () => {
-    this.socket = io("wss://hitchin-server.herokuapp.com/");
+  async setup_pool_socket(socket) {
 
-     this.socket.on("my_response", (r) => {
-       console.log(this.socket.connected);
-       console.log(r.data);
-     });
+    let userID = this.props.navigation.getParam('userID');
+    let carID = this.props.navigation.getParam('carID');
 
+    console.log(userID);
+    console.log(carID);
 
-     this.socket.on("event", (e) => {
-       console.log(e.data);
+    // You automatically create a room named <sid> when you connect,
+    // and you automatically join the room.
+    // *SO THE DRIVER DOES NOT HAVE TO SCAN.
+    socket.on('room_ID', (response) => {
+      console.log("room ID: " + response.sid);
+    });
 
-       this.setState({dataFromServer: e.data});
-       this.props.navigation.navigate('EndTrip');
-     });
+    socket.emit('register_trip', {carID: carID, userID: userID});
 
+    socket.on('trip_updated', (trip_list) => {
+      console.log(trip_list);
+    })
 
-
+    socket.on('disconnect');
 
   }
 
-   componentDidMount() {
+  componentDidMount() {
+
+    let action = this.props.navigation.getParam('action');
+
+    let socket = io("wss://hitchin-server.herokuapp.com/");
+
+    if(action == 'drive'){
+      //set up a pool socket room if you're a driver,
+      this.setup_pool_socket(socket);
+
+    }else if(action == 'ride'){
+      //join one if you're a rider.
       this.getPermission();
-      // this.getToken();
-      // this.setupWebsocket();
-    }
 
-    joinPoolEvent =  (userId, poolId) => {
-
-      this.socket.emit("join", {username: userId, pool_id: poolId});
 
 
     }
+    // this.getToken();
+  }
 
   async getPermission() {
     try {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-      this.setState({hasPermission: status === 'granted'});
-      } catch (error) {
+      this.setState({
+        hasPermission: status == 'granted'
+      });
+    } catch (error) {
       console.log("Something went wrong", error);
-        }
     }
+  }
 
     async getToken(user, token) {
       try {
@@ -87,6 +101,12 @@ export default class QRReaderScreen extends React.Component {
       .catch((err) => console.log(err))
 
     };
+
+    joinPoolEvent =  (userId, poolId) => {
+
+      this.socket.emit("join", {username: userId, pool_id: poolId});
+
+    }
 
 
 
