@@ -4,6 +4,8 @@ import { styles } from './styles/styles'
 import { http, getAxios } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import LogOut from '../Buttons/LogOut.js';
+
 export default class CarpoolRouteScreen extends React.Component {
 
     constructor(props){
@@ -29,19 +31,6 @@ export default class CarpoolRouteScreen extends React.Component {
     handleSubmit() {
       this.props.navigation.navigate('RideOrDrive');
     }
-
-    async handleLogout() {
-      try {
-        await AsyncStorage.clear();
-      } catch(e) {
-        console.log(e);
-      }
-
-      console.log("logged out");
-
-      this.props.navigation.navigate('Init');
-    }
-
 
     componentDidMount = () => {
       http.get('/routes')
@@ -75,11 +64,7 @@ export default class CarpoolRouteScreen extends React.Component {
     render() {
         return (
         <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => {this.handleLogout()}}>
-                <Text style={{color: "#FFFFFF"}}>Log Out</Text>
-            </TouchableOpacity>
+            <LogOut navigation={this.props.navigation}/>
             <Text style={styles.title}
                   category='h1'>Port Authority {'\n'}Carpool Route</Text>
                   <View style={styles.routeOrientation}>

@@ -92,7 +92,7 @@ export default class SignUpScreen extends React.Component {
 
     async storeToken(user, token) {
       try {
-        await AsyncStorage.setItem("userId", JSON.stringify(user));
+        await AsyncStorage.setItem("userID", JSON.stringify(user));
         await AsyncStorage.setItem("authToken", JSON.stringify(token));
 
       } catch (error) {
@@ -106,7 +106,7 @@ export default class SignUpScreen extends React.Component {
 
         http.post('/sign-up', {phoneNumber, firstName, lastName, email, password})
         .then((response) => this.storeToken(response.data.id, response.data.auth_token))
-        .then(() => {this.props.navigation.navigate('CarpoolRoute')})
+        .then(() => {this.props.navigation.navigate('LoggedIn')})
         .catch((error) => {
           if(error.response){
             //401
@@ -119,8 +119,6 @@ export default class SignUpScreen extends React.Component {
             this.setState({
               errors
             })
-
-            this.props.navigation.navigate('SignUp');
 
           } else if (error.request){
             console.log(error.request);

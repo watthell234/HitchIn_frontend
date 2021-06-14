@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ActivityIndicator, StatusBar, StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import { createAppContainer, NavigationContainer, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 // import io from 'socket.io-client';
 import InitScreen from './src/Screens/InitPage';
 import SignUpScreen from './src/Screens/Signup';
@@ -14,47 +15,42 @@ import LoginScreen from './src/Screens/LoginPage';
 import Position from './src/Screens/Position';
 import PairingScreen from './src/Screens/Pairing';
 import QRReader from './src/Screens/QRscan';
-import CarForm from './src/Screens/CarForm';
+import CarFormScreen from './src/Screens/CarForm';
 import EndTripScreen from './src/Screens/EndTrip';
-// import GoogleCreate from './src/Screens/google-auth'
+import CarInfoScreen from './src/Screens/CarInfo';
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+// const Tab = createBottomTabNavigator();
+// const Stack = createStackNavigator();
 
+const RootStack = createStackNavigator({
+  Init: InitScreen,
+  Login: LoginScreen,
+  CreateProfile: CreateProfileScreen,
+  SignUp: SignUpScreen
+});
 
-class AppHome extends React.Component {
-  render() {
-  // return (
-  //   <Tab.Navigator initialRouteName="Home">
-  //     // <Tab.Screen name="QRScan" component={QRReader} />
-  //     // <Tab.Screen name="Pairing" component={PairingScreen} />
-  //   </Tab.Navigator>
-  //   );
-  }
-}
+const LoggedInStack = createStackNavigator({
+  CarpoolRoute: CarpoolRouteScreen,
+  RideOrDrive: RideOrDriveScreen,
+  CarInfo: CarInfoScreen,
+  CarForm: CarFormScreen,
+  Pairing: PairingScreen,
+  Position: Position,
+  EndTrip: EndTripScreen
+});
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userToken: null
-    }
-  }
-
-  async getToken(token) {
-    try {
-      let token = await AsyncStorage.getItem("authToken");
-      let userToken = JSON.parse(token);
-      console.log(userToken);
-      this.setState({userToken: userToken})
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-
+class AuthLoadingScreen extends React.Component {
   componentDidMount() {
+    this._bootstrapAsync();
+  }
 
-    this.getToken();
+  async _bootstrapAsync() {
+    try {
+      let userToken = await AsyncStorage.getItem("authToken");
+      this.props.navigation.navigate(userToken ? 'LoggedIn' : 'Root')
+    } catch (error) {
+      console.log("Could not retrieve token", error);
+    }
   }
 
   render() {
@@ -87,5 +83,23 @@ export default class App extends React.Component {
         </Stack.Navigator>
       </NavigationContainer>
     );
+      <View>
+        <ActivityIndicator />
+        <StatusBar barStyle='default' />
+      </View>
+    )
   }
 }
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      Root: RootStack,
+      LoggedIn: LoggedInStack,
+    },
+    {
+      initialRouteName: 'AuthLoading',
+    }
+  )
+);

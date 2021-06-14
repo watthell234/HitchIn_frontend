@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 
 
-export default class CarForm extends React.Component {
+export default class CarFormScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
