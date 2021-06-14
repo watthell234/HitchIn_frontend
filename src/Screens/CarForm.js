@@ -90,16 +90,10 @@ export default class CarForm extends React.Component {
                         },
                       }}
                         placeholder={placeholder}
-                        onValueChange={(value) => console.log(majorCarBrands)}
+                        onValueChange={(carMake) => this.setState({carMake})}
                         items={this.state.majorCarBrands}
                   />
-                  <TextInput
-                      style={styles.textInput}
-                      onChangeText={this.handleMakeChange}
-                      placeholder="Car Make"
-                      value={this.state.carMake}
-                      onBlur={Keyboard.dismiss}
-                  />
+                  
                   <TextInput
                       style={styles.textInput}
                       onChangeText={(carColor) => this.setState({carColor})}
