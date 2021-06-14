@@ -33,6 +33,7 @@ const LoggedInStack = createStackNavigator({
   CarpoolRoute: CarpoolRouteScreen,
   RideOrDrive: RideOrDriveScreen,
   CarInfo: CarInfoScreen,
+  CarForm: CarFormScreen,
   QRReader: QRReaderScreen,
   Pairing: PairingScreen,
   Position: Position,
