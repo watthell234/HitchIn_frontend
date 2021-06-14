@@ -5493,7 +5493,7 @@ expo-barcode-scanner@~9.1.0:
   dependencies:
     lodash "^4.6.0"
 
-expo-cli@^4.5.0:
+expo-cli@4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/expo-cli/-/expo-cli-4.5.2.tgz#9af1a3c1db80cdfec3bf21969963feb2709f2fc1"
   integrity sha512-r6SeIMk2ZP1/rSKGcXquiQp/A7MGAmJvG0otmJhlO5ypdYXfAJ1fhEJIqt7ufSngc5RRJ0cjnKZ1WBSyJlJTNA==
