@@ -93,7 +93,7 @@ export default class CarForm extends React.Component {
                         onValueChange={(carMake) => this.setState({carMake})}
                         items={this.state.majorCarBrands}
                   />
-                  
+
                   <TextInput
                       style={styles.textInput}
                       onChangeText={(carColor) => this.setState({carColor})}
@@ -146,6 +146,7 @@ inputIOS: {
     color: 'black',
     paddingRight: 30,
     // textColor: 'gray',
+    backgroundColor: 'white',
     textDecorationColor: 'white'
   },
 });
