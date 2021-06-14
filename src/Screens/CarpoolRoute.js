@@ -90,7 +90,6 @@ export default class CarpoolRouteScreen extends React.Component {
                         onValueChange={(itemValue, itemIndex) => this.onPickerSelect('pickup_location', itemValue)}>
                         {this.state.pickup_list}
                       </Picker>
-                      {/* TODO: change TextInputs to Pickers when I have a MacBook to add native component to iOS  */}
                   </View>
                   <View style={styles.routeOrientation}>
                       <Text>Drop-off</Text>

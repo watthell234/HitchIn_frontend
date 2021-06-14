@@ -64,9 +64,10 @@ export default class App extends React.Component {
         { this.state.userToken == null ? (
           <>
             <Stack.Screen name="CarForm" component={CarForm} options={{ title: 'Car' }}/>
+            <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
             <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
+
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
             <Stack.Screen name="CarpoolRoute" component={CarpoolRouteScreen} />
             <Stack.Screen name="RideOrDrive" component={RideOrDriveScreen} />

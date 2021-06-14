@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, Button, TextInput, Keyboard, TouchableOpacity} from 'react-native';
+import { Text, View, Button, TextInput, Keyboard, TouchableOpacity, StyleSheet} from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNPickerSelect from 'react-native-picker-select';
 
 
 export default class CarForm extends React.Component {
@@ -16,7 +17,8 @@ export default class CarForm extends React.Component {
             licensePlate: null,
             ezpassTag: null,
             token: null,
-            majorCarBrands: []
+            majorCarBrands: require('./constants/car_makers'),
+
         }
         this.handleMakeChange = this.handleMakeChange.bind(this);
     }
@@ -25,10 +27,13 @@ export default class CarForm extends React.Component {
         this.setState({carMake})
     }
 
+
+
     componentDidMount() {
       this.getToken();
-      fetch('https://gist.githubusercontent.com/watthell234/a33bdd1ffe937975e4643cec5eec1859/raw/febb04707f6ccc9ae3a445e147c5754e30f743fe/car_brands.json')
-      .then(response => response.json()).then(data => this.setState({majorCarBrands: data}));
+      // let majorCarBrands = [];
+      // fetch('https://raw.githubusercontent.com/watthell234/car_makers/main/car_makers')
+      // .then(response => response.json()).then(data => this.setState({majorCarBrands: data}));
     }
 
     async getToken(user, token) {
@@ -65,12 +70,29 @@ export default class CarForm extends React.Component {
         }
     }
     render() {
-        const {carCreate} = this.state;
+        const {carCreate, majorCarBrands} = this.state;
+        const placeholder = {
+                              label: 'Select Car Brand',
+                              value: null,
+                              color: 'gray',
+                            };
         return (
           <View style={styles.container}>
               <View>
                   <Text style={styles.title}
                       category='h1'>Car Info</Text>
+                  <RNPickerSelect
+                        style={{
+                          ...pickerSelectStyles,
+                          iconContainer: {
+                          top: 10,
+                          right: 12,
+                        },
+                      }}
+                        placeholder={placeholder}
+                        onValueChange={(value) => console.log(majorCarBrands)}
+                        items={this.state.majorCarBrands}
+                  />
                   <TextInput
                       style={styles.textInput}
                       onChangeText={this.handleMakeChange}
@@ -118,3 +140,18 @@ export default class CarForm extends React.Component {
 
     }
 }
+
+const pickerSelectStyles = StyleSheet.create({
+inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30,
+    // textColor: 'gray',
+    textDecorationColor: 'white'
+  },
+});
