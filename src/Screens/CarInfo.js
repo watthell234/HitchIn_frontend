@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { http_jwt } from './constants/hitchBackendapi';
+import {majorCarBrands} from './constants/car_makers';
+import RNPickerSelect from 'react-native-picker-select';
 import LogOut from '../Buttons/LogOut.js';
 
 export default class CarInfoScreen extends React.Component {
@@ -72,17 +74,34 @@ export default class CarInfoScreen extends React.Component {
 
 
   render() {
+    const placeholder = {
+                          label: 'Select Car Brand',
+                          value: null,
+                          color: 'gray',
+                        };
     return (
       <View style={styles.container}>
         <LogOut navigation={this.props.navigation}/>
         <View>
             <Text style={styles.title} category='h1'>Car Info</Text>
-            <TextInput
+            {/*}<TextInput
                 style={styles.textInput}
                 onChangeText={(value) => this.handleTextChange("car_maker", value)}
                 placeholder="Car Maker"
                 value={this.state.input.car_maker}
                 onBlur={Keyboard.dismiss}
+            />*/}
+            <RNPickerSelect
+                  style={{
+                    ...pickerSelectStyles,
+                    iconContainer: {
+                    top: 10,
+                    right: 12,
+                  },
+                }}
+                  placeholder={placeholder}
+                  onValueChange={(value) => this.handleTextChange("car_maker", value)}
+                  items={majorCarBrands}
             />
             <TextInput
                 style={styles.textInput}
@@ -122,3 +141,19 @@ export default class CarInfoScreen extends React.Component {
     )
   }
 }
+
+const pickerSelectStyles = StyleSheet.create({
+inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30,
+    // textColor: 'gray',
+    backgroundColor: 'white',
+    textDecorationColor: 'white'
+  },
+});
