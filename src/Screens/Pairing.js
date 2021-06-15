@@ -17,6 +17,47 @@ export default class PairingScreen extends React.Component {
   //   this.getCarId();
   // }
 
+  componentDidMount() {
+
+    let socket = io("wss://hitchin-server.herokuapp.com/");
+
+    this.setup_pool(socket);
+
+  }
+
+  async setup_pool(socket) {
+
+    let userID;
+    let carID;
+    try{
+
+      userID = await AsyncStorage.getItem("userID");
+      carID = await AsyncStorage.getItem("carID");
+
+    }catch(error){
+      console.log("something went wrong", error)
+    }
+
+    console.log(carID);
+    console.log(userID);
+
+    // You automatically create a room named <sid> when you connect,
+    // and you automatically join the room.
+    // *SO THE DRIVER DOES NOT HAVE TO SCAN.
+    socket.on('room_ID', (response) => {
+      console.log("room ID: " + response.sid);
+    });
+
+    socket.emit('register_trip', {carID: carID, userID: userID});
+
+    socket.on('trip_updated', (trip_list) => {
+      console.log(trip_list);
+    })
+
+    socket.on('disconnect');
+
+  }
+
   async getCarId() {
     try {
       let carData = await AsyncStorage.getItem("carId");
@@ -39,28 +80,32 @@ export default class PairingScreen extends React.Component {
     }
 }
 
-  async onPress() {
-    try {
-      let passengerCount = await this.getPassCount();
-      console.log(passengerCount);
-      if (3 >= 0) {
-        this.props.navigation.navigate('Position');
-      }
-      else { Alert.alert("Insufficient Passengers",
-      "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ],      { cancelable: false }
-    );
-  }
+async onPress() {
+  try {
+    let passengerCount = await this.getPassCount();
+    console.log(passengerCount);
+    if (3 >= 0) {
+      this.props.navigation.navigate('Position');
+    }
+    else { Alert.alert("Insufficient Passengers",
+    "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ],      { cancelable: false }
+  );
+}
 } catch (error) {
   console.log('Something went wrong'+ error)
 }
+}
+
+goHome(){
+  this.props.navigation.navigate('LoggedIn');
 }
 
     render() {
@@ -72,6 +117,11 @@ export default class PairingScreen extends React.Component {
                     style={styles.button}
                     onPress={() => {this.onPress()}}>
                     <Text style={{color: "#FFFFFF", fontSize:20}}>Start Trip</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {this.goHome()}}>
+                    <Text style={{color: "#FFFFFF", fontSize:20}}>Home</Text>
                 </TouchableOpacity>
         </View>
     )

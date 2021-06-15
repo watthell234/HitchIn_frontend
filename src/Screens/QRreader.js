@@ -19,49 +19,10 @@ export default class QRReaderScreen extends React.Component {
     }
   }
 
-  async setup_pool_socket(socket) {
-
-    let userID = this.props.navigation.getParam('userID');
-    let carID = this.props.navigation.getParam('carID');
-
-    console.log(userID);
-    console.log(carID);
-
-    // You automatically create a room named <sid> when you connect,
-    // and you automatically join the room.
-    // *SO THE DRIVER DOES NOT HAVE TO SCAN.
-    socket.on('room_ID', (response) => {
-      console.log("room ID: " + response.sid);
-    });
-
-    socket.emit('register_trip', {carID: carID, userID: userID});
-
-    socket.on('trip_updated', (trip_list) => {
-      console.log(trip_list);
-    })
-
-    socket.on('disconnect');
-
-  }
-
   componentDidMount() {
 
-    let action = this.props.navigation.getParam('action');
+    this.getPermission();
 
-    let socket = io("wss://hitchin-server.herokuapp.com/");
-
-    if(action == 'drive'){
-      //set up a pool socket room if you're a driver,
-      this.setup_pool_socket(socket);
-
-    }else if(action == 'ride'){
-      //join one if you're a rider.
-      this.getPermission();
-
-
-
-    }
-    // this.getToken();
   }
 
   async getPermission() {
