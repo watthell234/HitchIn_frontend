@@ -4,6 +4,7 @@ import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
+import {majorCarBrands} from './constants/car_makers';
 
 
 export default class CarFormScreen extends React.Component {
@@ -17,7 +18,6 @@ export default class CarFormScreen extends React.Component {
             licensePlate: null,
             ezpassTag: null,
             token: null,
-            majorCarBrands: require('./constants/car_makers'),
 
         }
         this.handleMakeChange = this.handleMakeChange.bind(this);
@@ -70,7 +70,7 @@ export default class CarFormScreen extends React.Component {
         }
     }
     render() {
-        const {carCreate, majorCarBrands} = this.state;
+        const {carCreate} = this.state;
         const placeholder = {
                               label: 'Select Car Brand',
                               value: null,
@@ -91,7 +91,7 @@ export default class CarFormScreen extends React.Component {
                       }}
                         placeholder={placeholder}
                         onValueChange={(carMake) => this.setState({carMake})}
-                        items={this.state.majorCarBrands}
+                        items={majorCarBrands}
                   />
 
                   <TextInput

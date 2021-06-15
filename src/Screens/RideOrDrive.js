@@ -30,7 +30,7 @@ export default class RideOrDriveScreen extends React.Component {
       if(carID) {
         this.props.navigation.navigate('QRReader', {'action': action, 'carID': carID, 'userID': userID});
       }else {
-        this.props.navigation.navigate('CarInfo');
+        this.props.navigation.navigate('CarForm');
       }
     }
   }

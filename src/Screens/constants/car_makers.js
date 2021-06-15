@@ -1,5 +1,5 @@
-[
-{label: 'Abarth',value: 'abarth'},
+export const majorCarBrands = [
+{label: 'Abarth', value: 'abarth'},
 {label: 'Alfa Romeo', value: 'alfa romeo'},
 {label: 'Aston Martin', value: 'aston martin'},
 {label: 'Audi', value: 'audi'},
