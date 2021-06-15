@@ -9,7 +9,7 @@ const http = axios.create({
     baseURL: serverUrl,
 });
 
-export default function CreateProfileScreen() {
+export default function CreateProfileScreen({navigation: {navigate}}) {
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '375582128350-5t6kr6tuuaai9cabijrsm521gqoe1dv2.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
@@ -69,7 +69,7 @@ export default function CreateProfileScreen() {
 
           <TouchableOpacity style={styles.button}>
             <Text
-              onPress={() => {this.props.navigation.navigate('SignUp')}}
+              onPress={() => navigate('SignUp')}
               style={[styles.button_text]}> Create New Account
             </Text>
           </TouchableOpacity>
