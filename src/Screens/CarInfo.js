@@ -102,6 +102,7 @@ export default class CarInfoScreen extends React.Component {
                   placeholder={placeholder}
                   onValueChange={(value) => this.handleTextChange("car_maker", value)}
                   items={majorCarBrands}
+                  useNativeAndroidPickerStyle={false}
             />
             <TextInput
                 style={styles.textInput}
@@ -156,4 +157,15 @@ inputIOS: {
     backgroundColor: 'white',
     textDecorationColor: 'white'
   },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'white',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+    backgroundColor: 'white'
+  }
 });
