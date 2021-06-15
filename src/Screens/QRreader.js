@@ -20,9 +20,18 @@ export default class QRReaderScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.join_pool();
 
+  }
+
+  join_pool(){
     this.getPermission();
 
+    let socket = io("wss://hitchin-server.herokuapp.com/");
+
+    socket.on('trip_updated', (trip_list) => {
+      console.log(trip_list);
+    })
   }
 
   async getPermission() {

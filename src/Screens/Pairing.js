@@ -19,13 +19,11 @@ export default class PairingScreen extends React.Component {
 
   componentDidMount() {
 
-    let socket = io("wss://hitchin-server.herokuapp.com/");
-
-    this.setup_pool(socket);
+    this.setup_pool();
 
   }
 
-  async setup_pool(socket) {
+  async setup_pool() {
 
     let userID;
     let carID;
@@ -41,6 +39,8 @@ export default class PairingScreen extends React.Component {
     console.log(carID);
     console.log(userID);
 
+    let socket = io("wss://hitchin-server.herokuapp.com/");
+
     // You automatically create a room named <sid> when you connect,
     // and you automatically join the room.
     // *SO THE DRIVER DOES NOT HAVE TO SCAN.
@@ -50,9 +50,9 @@ export default class PairingScreen extends React.Component {
 
     socket.emit('register_trip', {carID: carID, userID: userID});
 
-    socket.on('trip_updated', (trip_list) => {
-      console.log(trip_list);
-    })
+    // socket.on('trip_updated', (trip_list) => {
+    //   console.log(trip_list);
+    // })
 
     socket.on('disconnect');
 
