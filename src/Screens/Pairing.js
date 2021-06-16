@@ -27,10 +27,14 @@ export default class PairingScreen extends React.Component {
 
     let userID;
     let carID;
+    let pickup;
+    let dropoff;
     try{
 
       userID = await AsyncStorage.getItem("userID");
       carID = await AsyncStorage.getItem("carID");
+      pickup = await AsyncStorage.getItem("pickup");
+      dropoff = await AsyncStorage.getItem("dropoff");
 
     }catch(error){
       console.log("something went wrong", error)
@@ -38,6 +42,8 @@ export default class PairingScreen extends React.Component {
 
     console.log(carID);
     console.log(userID);
+    console.log(pickup);
+    console.log(dropoff);
 
     let socket = io("wss://hitchin-server.herokuapp.com/");
 
@@ -48,7 +54,7 @@ export default class PairingScreen extends React.Component {
       console.log("room ID: " + response.sid);
     });
 
-    socket.emit('register_trip', {carID: carID, userID: userID});
+    socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff});
 
     // socket.on('trip_updated', (trip_list) => {
     //   console.log(trip_list);
