@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, Picker} from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { styles } from './styles/styles'
 import { http, getAxios } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,7 +11,37 @@ export default function CarListScreen({navigation}) {
 
   const [selectedCar, setSelectedCar] = useState(null);
   const [carList, setCarList] = useState([]);
-
+  const placeholder = {
+                        label: 'Select Car',
+                        value: null,
+                        color: 'gray',
+                      };
+  const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: 'white',
+      borderRadius: 4,
+      color: 'black',
+      paddingRight: 30,
+      // textColor: 'gray',
+      backgroundColor: 'white',
+      textDecorationColor: 'white'
+    },
+    inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      borderColor: 'white',
+      borderRadius: 8,
+      color: 'black',
+      paddingRight: 30, // to ensure the text is never behind the icon
+      backgroundColor: 'white'
+    }
+  });
     React.useEffect(() => {
       getCarList();
     },[]);
@@ -26,7 +57,7 @@ export default function CarListScreen({navigation}) {
         const car_picker_items = [];
 
         car_list.map((item, index)=> {
-          car_picker_items.push(<Picker.Item key={index} label={item.license_plate} value={item.car_id}/>)
+          car_picker_items.push({label: item.license_plate, value: item.car_id})
         })
 
         setCarList(car_picker_items);
@@ -46,6 +77,7 @@ export default function CarListScreen({navigation}) {
     }
 
     function handleSubmit() {
+      console.log(selectedCar);
       storeCarID(selectedCar);
       navigation.navigate('Trip');
     }
@@ -61,12 +93,19 @@ export default function CarListScreen({navigation}) {
       category='h1'>Car List</Text>
       <View style={styles.routeOrientation}>
       <Text>Pickup</Text>
-      <Picker
-      selectedValue={selectedCar}
-      style={{ height: 50, width: 150 }}
-      onValueChange={(itemValue, itemIndex) => onPickerSelect(itemValue)}>
-      {carList}
-      </Picker>
+      <RNPickerSelect
+            style={{
+              ...pickerSelectStyles,
+              iconContainer: {
+              top: 10,
+              right: 12,
+            },
+          }}
+            placeholder={placeholder}
+            onValueChange={(itemValue) => onPickerSelect(itemValue)}
+            items={carList}
+            useNativeAndroidPickerStyle={false}
+      />
       </View>
       <TouchableOpacity
       style={styles.button}
