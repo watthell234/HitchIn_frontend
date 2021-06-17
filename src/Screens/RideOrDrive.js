@@ -13,12 +13,12 @@ export default class RideOrDriveScreen extends React.Component {
   async handleSubmit(action) {
     if(action == 'ride') {
 
-      this.props.navigation.navigate('QRReader', {'action': action});
+      this.props.navigation.navigate('QRReader');
 
     }else if(action == 'drive') {
 
-      let userID = await AsyncStorage.getItem("userID");
       let carID = await AsyncStorage.getItem("carID");
+
       //THIS NEEDS TO CHECK WITH THE SERVER, NOT WITH ASYNCSTORAGE.
       //YOU DO NOT WANT THE USER TO REGISTER HIS/HER CAR AGAIN JUST BECAUSE HE/SHE
       //LOGGED OUT AND BACK IN.
@@ -28,7 +28,7 @@ export default class RideOrDriveScreen extends React.Component {
       // Give the user an option if they want to register a new/additional car.
 
       if(carID) {
-        this.props.navigation.navigate('QRReader', {'action': action, 'carID': carID, 'userID': userID});
+        this.props.navigation.navigate('Trip');
       }else {
         this.props.navigation.navigate('CarInfo');
       }

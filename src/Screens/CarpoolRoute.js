@@ -28,7 +28,19 @@ export default class CarpoolRouteScreen extends React.Component {
       });
     }
 
+    async storeLocations() {
+      try{
+        let pickup = this.state.selectedItems.pickup_location;
+        let dropoff = this.state.selectedItems.dropoff_location;
+        await AsyncStorage.setItem("pickup", pickup);
+        await AsyncStorage.setItem("dropoff", dropoff);
+      }catch(error) {
+        console.log("Couldn't store locations", error)
+      }
+    }
+
     handleSubmit() {
+      this.storeLocations();
       this.props.navigation.navigate('RideOrDrive');
     }
 
