@@ -4,6 +4,7 @@ import { http } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 
+let socket;
 
 export default class PairingScreen extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class PairingScreen extends React.Component {
     console.log(pickup);
     console.log(dropoff);
 
-    let socket = io("wss://hitchin-server.herokuapp.com/");
+    socket = io("wss://hitchin-server.herokuapp.com/");
 
     // You automatically create a room named <sid> when you connect,
     // and you automatically join the room.
@@ -59,8 +60,6 @@ export default class PairingScreen extends React.Component {
     // socket.on('trip_updated', (trip_list) => {
     //   console.log(trip_list);
     // })
-
-    socket.on('disconnect');
 
   }
 
@@ -111,6 +110,7 @@ async onPress() {
 }
 
 goHome(){
+  socket.disconnect();
   this.props.navigation.navigate('LoggedIn');
 }
 
