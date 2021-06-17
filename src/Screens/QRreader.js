@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
 
+let socket;
+
 
 export default class QRReaderScreen extends React.Component {
   constructor(props) {
@@ -15,7 +17,8 @@ export default class QRReaderScreen extends React.Component {
     this.state = {
       hasPermission: null,
       scanned: false,
-      userId: null
+      userId: null,
+      car_list: []
     }
   }
 
@@ -27,14 +30,16 @@ export default class QRReaderScreen extends React.Component {
   join_pool(){
 
     this.getPermission();
+    console.log('qr_scan');
 
-    let socket = io("wss://hitchin-server.herokuapp.com/");
+    socket = io("wss://hitchin-server.herokuapp.com/");
 
-    socket.on('trip_updated', (trip_list) => {
-      console.log("TRIP LIST:");
-      console.log(trip_list);
+    socket.on('car_updated', (data) => {
+      console.log("CAR LIST:");
+      console.log(data.car_list);
       console.log("------------------");
     })
+
   }
 
   async getPermission() {
@@ -47,39 +52,25 @@ export default class QRReaderScreen extends React.Component {
       console.log("Something went wrong", error);
     }
   }
+  handleBarCodeScanned = ({ type, data }) => {
+    let userId = this.state.userId
+    console.log(data)
+    data = JSON.parse(data)
+    // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
+    let carQr = data.car_qr
+    // TODO: test this message
+    this.joinPoolEvent(userId, carQr);
+    http.post('/checkin', { userId, carQr})
+    .then(() => this.props.navigation.navigate('Position'))
+    .catch((err) => console.log(err))
 
-    async getToken(user, token) {
-      try {
-        let getUserId = await AsyncStorage.getItem("userId");
-        let userId = JSON.parse(getUserId);
-        let getToken = await AsyncStorage.getItem("token");
-        let token = JSON.parse(getToken);
-        console.log(userId);
-        this.setState({userId: userId});
-      } catch (error) {
-        console.log("Something went wrong", error);
-      }
-    }
+  };
 
-    handleBarCodeScanned = ({ type, data }) => {
-      let userId = this.state.userId
-      console.log(data)
-      data = JSON.parse(data)
-      // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
-      let carQr = data.car_qr
-      // TODO: test this message
-      this.joinPoolEvent(userId, carQr);
-      http.post('/checkin', { userId, carQr})
-      .then(() => this.props.navigation.navigate('Position'))
-      .catch((err) => console.log(err))
-
-    };
-
-    joinPoolEvent =  (userId, poolId) => {
-
-      this.socket.emit("join", {username: userId, pool_id: poolId});
-
-    }
+    // joinPoolEvent =  (userId, poolId) => {
+    //
+    //   socket.emit("join", {username: userId, pool_id: poolId});
+    //
+    // }
 
 
 
@@ -107,11 +98,13 @@ export default class QRReaderScreen extends React.Component {
           style={styles.qr}
           source={require('./assets/qr-scanner.png')}
         />
+        <Text
+          onPress={() => {
+            socket.disconnect();
+            this.props.navigation.pop();
+          }}
+          style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>
-
-      {scanned && <Button title={'Tap to Scan Again'}
-      onPress={() => this.setState({scanned: false})} />}
-        <Text>QR</Text>
       </View>
   );
 }
