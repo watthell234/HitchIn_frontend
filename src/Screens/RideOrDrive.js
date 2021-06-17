@@ -27,11 +27,8 @@ export default class RideOrDriveScreen extends React.Component {
       // the cars associated with the logged in user.
       // Give the user an option if they want to register a new/additional car.
 
-      if(carID) {
-        this.props.navigation.navigate('Trip');
-      }else {
-        this.props.navigation.navigate('CarInfo');
-      }
+
+      this.props.navigation.navigate('CarList');
     }
   }
 

@@ -7,16 +7,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import io from 'socket.io-client';
 import InitScreen from './src/Screens/InitPage';
-import SignUpScreen from './src/Screens/Signup';
+import LoginScreen from './src/Screens/LoginPage';
 import CreateProfileScreen from './src/Screens/CreateProfile';
+import SignUpScreen from './src/Screens/Signup';
+
 import CarpoolRouteScreen from './src/Screens/CarpoolRoute';
 import RideOrDriveScreen from './src/Screens/RideOrDrive';
-import LoginScreen from './src/Screens/LoginPage';
-import Position from './src/Screens/Position';
-import PairingScreen from './src/Screens/Pairing';
-import QRReaderScreen from './src/Screens/QRreader';
-import EndTripScreen from './src/Screens/EndTrip';
+import CarListScreen from './src/Screens/CarList';
 import CarInfoScreen from './src/Screens/CarInfo';
+import QRReaderScreen from './src/Screens/QRreader';
+
+import PairingScreen from './src/Screens/Pairing';
+import Position from './src/Screens/Position';
+import EndTripScreen from './src/Screens/EndTrip';
 
 // const Tab = createBottomTabNavigator();
 // const Stack = createStackNavigator();
@@ -31,6 +34,7 @@ const RootStack = createStackNavigator({
 const LoggedInStack = createStackNavigator({
   CarpoolRoute: CarpoolRouteScreen,
   RideOrDrive: RideOrDriveScreen,
+  CarList: CarListScreen,
   CarInfo: CarInfoScreen,
   QRReader: QRReaderScreen,
 });
