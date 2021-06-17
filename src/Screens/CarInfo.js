@@ -84,13 +84,6 @@ export default class CarInfoScreen extends React.Component {
         <LogOut navigation={this.props.navigation}/>
         <View>
             <Text style={styles.title} category='h1'>Car Info</Text>
-            {/*}<TextInput
-                style={styles.textInput}
-                onChangeText={(value) => this.handleTextChange("car_maker", value)}
-                placeholder="Car Maker"
-                value={this.state.input.car_maker}
-                onBlur={Keyboard.dismiss}
-            />*/}
             <RNPickerSelect
                   style={{
                     ...pickerSelectStyles,
