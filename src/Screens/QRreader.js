@@ -9,6 +9,8 @@ const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
 
 let socket;
+let pickup;
+let dropoff;
 
 
 export default class QRReaderScreen extends React.Component {
@@ -28,8 +30,8 @@ export default class QRReaderScreen extends React.Component {
 
   async join_pool(){
 
-    let pickup = await AsyncStorage.getItem("pickup");
-    let dropoff = await AsyncStorage.getItem("dropoff");
+    pickup = await AsyncStorage.getItem("pickup");
+    dropoff = await AsyncStorage.getItem("dropoff");
 
     this.getPermission();
     console.log('qr_scan');
@@ -42,14 +44,19 @@ export default class QRReaderScreen extends React.Component {
 
     socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
 
-    socket.on('car_list' + pickup.replace(" ", "_"), (response) => {
-      console.log(response.car_list);
+    socket.on('car_list' + pickup.replace(" ", "_"), (data) => {
+      this.setState({
+        car_list: data.car_list
+      })
     })
 
     socket.on('updated_car_list' + pickup.replace(" ", "_"), (data) => {
-      console.log("CAR LIST:");
-      console.log(data.car_list);
-      console.log("------------------");
+      // console.log("CAR LIST:");
+      // console.log(data.car_list);
+      // console.log("------------------");
+      this.setState({
+        car_list: data.car_list
+      })
     })
 
   }
@@ -88,6 +95,7 @@ export default class QRReaderScreen extends React.Component {
 
   render() {
    const { hasPermission, scanned } = this.state;
+   let car_list = this.state.car_list;
 
    if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -95,6 +103,15 @@ export default class QRReaderScreen extends React.Component {
     if (hasPermission === false) {
       return <Text>No access to camera</Text>;
     }
+
+    let list_str = "Cars waiting at " + pickup + ":\n";
+    let car_info = "";
+    car_list.forEach((value, index) => {
+      console.log(value);
+      let temp_index = index + 1;
+      car_info = "Car " + temp_index + ": " + value.car_id + ", " + value.car_maker + ", " + value.license_plate;
+      list_str = list_str + car_info + "\n";
+    })
 
     return (
       <View style={{
@@ -105,7 +122,7 @@ export default class QRReaderScreen extends React.Component {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
         style={[StyleSheet.absoluteFillObject, styles.container]}>
-        <Text style={styles.description}>HitchIn</Text>
+        <Text style={styles.description}>{list_str}</Text>
         <Image
           style={styles.qr}
           source={require('./assets/qr-scanner.png')}
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
       height: qrSize,
     },
     description: {
-      fontSize: width * 0.09,
+      fontSize: width * 0.05,
       marginTop: '10%',
       textAlign: 'center',
       width: '70%',
