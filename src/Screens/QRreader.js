@@ -24,17 +24,30 @@ export default class QRReaderScreen extends React.Component {
 
   componentDidMount() {
     this.join_pool();
-
   }
 
-  join_pool(){
+  async join_pool(){
+
+    let pickup = await AsyncStorage.getItem("pickup");
+    let dropoff = await AsyncStorage.getItem("dropoff");
 
     this.getPermission();
     console.log('qr_scan');
 
     socket = io("wss://hitchin-server.herokuapp.com/");
 
-    socket.on('car_updated', (data) => {
+    socket.on('room_ID', (response) => {
+      console.log("room ID: " + response.sid);
+    });
+
+    socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
+
+    pickup = pickup.replace(" ", "_");
+    socket.on('car_list' + pickup, (response) => {
+      console.log(response.car_list);
+    })
+
+    socket.on('updated_car_list' + pickup, (data) => {
       console.log("CAR LIST:");
       console.log(data.car_list);
       console.log("------------------");
@@ -53,16 +66,16 @@ export default class QRReaderScreen extends React.Component {
     }
   }
   handleBarCodeScanned = ({ type, data }) => {
-    let userId = this.state.userId
-    console.log(data)
-    data = JSON.parse(data)
-    // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
-    let carQr = data.car_qr
-    // TODO: test this message
-    this.joinPoolEvent(userId, carQr);
-    http.post('/checkin', { userId, carQr})
-    .then(() => this.props.navigation.navigate('Position'))
-    .catch((err) => console.log(err))
+    // let userId = this.state.userId
+    // console.log(data)
+    // data = JSON.parse(data)
+    // // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
+    // let carQr = data.car_qr
+    // // TODO: test this message
+    // this.joinPoolEvent(userId, carQr);
+    // http.post('/checkin', { userId, carQr})
+    // .then(() => this.props.navigation.navigate('Position'))
+    // .catch((err) => console.log(err))
 
   };
 
