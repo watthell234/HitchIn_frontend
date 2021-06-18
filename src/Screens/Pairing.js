@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 
 let socket;
+let pickup;
+let dropoff;
+let tripID;
 
 export default class PairingScreen extends React.Component {
   constructor(props) {
@@ -28,8 +31,7 @@ export default class PairingScreen extends React.Component {
 
     let userID;
     let carID;
-    let pickup;
-    let dropoff;
+
     try{
 
       userID = await AsyncStorage.getItem("userID");
@@ -40,11 +42,6 @@ export default class PairingScreen extends React.Component {
     }catch(error){
       console.log("something went wrong", error)
     }
-
-    console.log(carID);
-    console.log(userID);
-    console.log(pickup);
-    console.log(dropoff);
 
     socket = io("wss://hitchin-server.herokuapp.com/");
 
@@ -57,9 +54,10 @@ export default class PairingScreen extends React.Component {
 
     socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff});
 
-    // socket.on('trip_updated', (trip_list) => {
-    //   console.log(trip_list);
-    // })
+    socket.on('trip_id', (response) => {
+      tripID = response.trip_id;
+      console.log(tripID);
+    })
 
   }
 
@@ -110,6 +108,9 @@ async onPress() {
 }
 
 goHome(){
+  console.log(tripID);
+  console.log(pickup);
+  socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
   socket.disconnect();
   this.props.navigation.navigate('LoggedIn');
 }
