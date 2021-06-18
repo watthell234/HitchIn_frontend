@@ -4,16 +4,10 @@ import axios from 'axios';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 
-<<<<<<< HEAD
-export default function CreateProfileScreen({ navigation: { navigate } }) {
-=======
-const serverUrl = 'http://192.168.1.158:5000';
-const http = axios.create({
-    baseURL: serverUrl,
-});
+
 
 export default function CreateProfileScreen({navigation: {navigate}}) {
->>>>>>> master
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '375582128350-5t6kr6tuuaai9cabijrsm521gqoe1dv2.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',

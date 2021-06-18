@@ -62,43 +62,13 @@ class AuthLoadingScreen extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <NavigationContainer>
-        <Stack.Navigator>
-        { this.state.userToken == null ? (
-          <>
-            <Stack.Screen name="CreateProfile" component={CreateProfileScreen} />
-            <Stack.Screen name="Init" component={InitScreen} options={{ title: 'Welcome' }} />
-            <Stack.Screen name="Login" component={LoginScreen} />
 
-            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
-            <Stack.Screen name="CarpoolRoute" component={CarpoolRouteScreen} />
-            <Stack.Screen name="RideOrDrive" component={RideOrDriveScreen} />
-            <Stack.Screen name="CarForm" component={CarForm} options={{ title: 'Car' }}/>
-            <Stack.Screen name="Home" component={AppHome} />
-            <Stack.Screen name="Pairing" component={PairingScreen} />
-            <Stack.Screen name="Position" component={Position} />
-            <Stack.Screen name="EndTrip" component={EndTripScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="CarpoolRoute" component={CarpoolRouteScreen} />
-            <Stack.Screen name="RideOrDrive" component={RideOrDriveScreen} />
-            <Stack.Screen name="Pairing" component={PairingScreen} />
-            <Stack.Screen name="Position" component={Position} />
-            <Stack.Screen name="EndTrip" component={EndTripScreen} />
-          </>
-        ) }
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-=======
       <View>
         <ActivityIndicator />
         <StatusBar barStyle='default' />
       </View>
     )
->>>>>>> master
+
   }
 }
 
