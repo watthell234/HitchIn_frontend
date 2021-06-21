@@ -74,7 +74,7 @@ export default class SignUpScreen extends React.Component {
 
       if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 10){
         isValid = false;
-        errors['password'] = "Password must be at least 10 characters, \n only contain letters and numbers."
+        errors['password'] = "Password must be: \n • At least 10 characters \n • Only contain letters and numbers"
       }
 
       if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
