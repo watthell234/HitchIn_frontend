@@ -9,6 +9,8 @@ const { width } = Dimensions.get('window')
 const qrSize = width * 0.7
 
 let socket;
+let pickup;
+let dropoff;
 
 
 export default class QRReaderScreen extends React.Component {
@@ -24,20 +26,36 @@ export default class QRReaderScreen extends React.Component {
 
   componentDidMount() {
     this.join_pool();
-
   }
 
-  join_pool(){
+  async join_pool(){
+
+    pickup = await AsyncStorage.getItem("pickup");
+    dropoff = await AsyncStorage.getItem("dropoff");
 
     this.getPermission();
-    console.log('qr_scan');
 
     socket = io("wss://hitchin-server.herokuapp.com/");
 
-    socket.on('car_updated', (data) => {
-      console.log("CAR LIST:");
-      console.log(data.car_list);
-      console.log("------------------");
+    socket.on('room_ID', (response) => {
+      // console.log("room ID: " + response.sid);
+    });
+
+    socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
+
+    socket.on('car_list' + pickup.replace(" ", "_"), (data) => {
+      this.setState({
+        car_list: data.car_list
+      })
+    })
+
+    socket.on('updated_car_list' + pickup.replace(" ", "_"), (data) => {
+      // console.log("CAR LIST:");
+      // console.log(data.car_list);
+      // console.log("------------------");
+      this.setState({
+        car_list: data.car_list
+      })
     })
 
   }
@@ -52,17 +70,36 @@ export default class QRReaderScreen extends React.Component {
       console.log("Something went wrong", error);
     }
   }
-  handleBarCodeScanned = ({ type, data }) => {
-    let userId = this.state.userId
-    console.log(data)
-    data = JSON.parse(data)
-    // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
-    let carQr = data.car_qr
-    // TODO: test this message
-    this.joinPoolEvent(userId, carQr);
-    http.post('/checkin', { userId, carQr})
-    .then(() => this.props.navigation.navigate('Position'))
-    .catch((err) => console.log(err))
+  handleBarCodeScanned = async ({ type, data }) => {
+
+    let userID;
+
+    try{
+      userID = await AsyncStorage.getItem("userID");
+    }catch(error){
+      console.log("Could not log userID from AsyncStorage");
+    }
+
+    console.log(userID);
+    console.log(data);
+    socket.emit('join_trip', {qr_string: data, userID: userID});
+
+    socket.on('join_trip_response', (response) => {
+      console.log(response.success);
+      if(response.success == 1) {
+        this.props.navigation.navigate('Position');
+      }
+    })
+    // let userId = this.state.userId
+    // console.log(data)
+    // data = JSON.parse(data)
+    // // alert(`Bar code with type ${type} and Car QR: ${data.car_qr} has been scanned!`);
+    // let carQr = data.car_qr
+    // // TODO: test this message
+    // this.joinPoolEvent(userId, carQr);
+    // http.post('/checkin', { userId, carQr})
+    // .then(() => this.props.navigation.navigate('Position'))
+    // .catch((err) => console.log(err))
 
   };
 
@@ -76,6 +113,7 @@ export default class QRReaderScreen extends React.Component {
 
   render() {
    const { hasPermission, scanned } = this.state;
+   let car_list = this.state.car_list;
 
    if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -83,6 +121,15 @@ export default class QRReaderScreen extends React.Component {
     if (hasPermission === false) {
       return <Text>No access to camera</Text>;
     }
+
+    let list_str = "Cars waiting at " + pickup + ":\n";
+    let car_info = "";
+    car_list.forEach((value, index) => {
+      // console.log(value);
+      let temp_index = index + 1;
+      car_info = "Car " + temp_index + ": " + value.car_maker + ", " + value.license_plate;
+      list_str = list_str + car_info + "\n";
+    })
 
     return (
       <View style={{
@@ -93,7 +140,7 @@ export default class QRReaderScreen extends React.Component {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
         style={[StyleSheet.absoluteFillObject, styles.container]}>
-        <Text style={styles.description}>HitchIn</Text>
+        <Text style={styles.description}>{list_str}</Text>
         <Image
           style={styles.qr}
           source={require('./assets/qr-scanner.png')}
@@ -101,7 +148,7 @@ export default class QRReaderScreen extends React.Component {
         <Text
           onPress={() => {
             socket.disconnect();
-            this.props.navigation.pop();
+            this.props.navigation.navigate('LoggedIn');
           }}
           style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>
@@ -123,7 +170,7 @@ const styles = StyleSheet.create({
       height: qrSize,
     },
     description: {
-      fontSize: width * 0.09,
+      fontSize: width * 0.05,
       marginTop: '10%',
       textAlign: 'center',
       width: '70%',

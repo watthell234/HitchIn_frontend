@@ -36,14 +36,17 @@ const LoggedInStack = createStackNavigator({
   RideOrDrive: RideOrDriveScreen,
   CarList: CarListScreen,
   CarInfo: CarInfoScreen,
-  QRReader: QRReaderScreen,
 });
 // Later down the road we will have to
 // Move all the trip related screens to here.
-const TripStack = createStackNavigator({
+const DriverTripStack = createStackNavigator({
   Pairing: PairingScreen,
-  Position: Position,
   EndTrip: EndTripScreen
+})
+
+const RiderTripStack = createStackNavigator({
+  QRReader: QRReaderScreen,
+  Position: Position
 })
 
 class AuthLoadingScreen extends React.Component {
@@ -76,7 +79,8 @@ export default createAppContainer(
       AuthLoading: AuthLoadingScreen,
       Root: RootStack,
       LoggedIn: LoggedInStack,
-      Trip: TripStack,
+      DriverTrip: DriverTripStack,
+      RiderTrip: RiderTripStack,
     },
     {
       initialRouteName: 'AuthLoading',

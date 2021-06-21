@@ -77,9 +77,9 @@ export default function CarListScreen({navigation}) {
     }
 
     function handleSubmit() {
-      console.log(selectedCar);
+      // console.log(selectedCar);
       storeCarID(selectedCar);
-      navigation.navigate('Trip');
+      navigation.navigate('DriverTrip');
     }
 
     function handleAddCar(){

@@ -13,7 +13,7 @@ export default class RideOrDriveScreen extends React.Component {
   async handleSubmit(action) {
     if(action == 'ride') {
 
-      this.props.navigation.navigate('QRReader');
+      this.props.navigation.navigate('RiderTrip');
 
     }else if(action == 'drive') {
 

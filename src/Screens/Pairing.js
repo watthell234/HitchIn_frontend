@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 
 let socket;
+let pickup;
+let dropoff;
+let tripID;
 
 export default class PairingScreen extends React.Component {
   constructor(props) {
@@ -28,8 +31,7 @@ export default class PairingScreen extends React.Component {
 
     let userID;
     let carID;
-    let pickup;
-    let dropoff;
+
     try{
 
       userID = await AsyncStorage.getItem("userID");
@@ -41,25 +43,19 @@ export default class PairingScreen extends React.Component {
       console.log("something went wrong", error)
     }
 
-    console.log(carID);
-    console.log(userID);
-    console.log(pickup);
-    console.log(dropoff);
-
     socket = io("wss://hitchin-server.herokuapp.com/");
 
     // You automatically create a room named <sid> when you connect,
     // and you automatically join the room.
     // *SO THE DRIVER DOES NOT HAVE TO SCAN.
     socket.on('room_ID', (response) => {
-      console.log("room ID: " + response.sid);
+      // console.log("room ID: " + response.sid);
+      socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff, session_id: response.sid});
     });
 
-    socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff});
-
-    // socket.on('trip_updated', (trip_list) => {
-    //   console.log(trip_list);
-    // })
+    socket.on('trip_id', (response) => {
+      tripID = response.trip_id;
+    })
 
   }
 
@@ -86,30 +82,33 @@ export default class PairingScreen extends React.Component {
 }
 
 async onPress() {
-  try {
-    let passengerCount = await this.getPassCount();
-    console.log(passengerCount);
-    if (3 >= 0) {
-      this.props.navigation.navigate('Position');
-    }
-    else { Alert.alert("Insufficient Passengers",
-    "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") }
-    ],      { cancelable: false }
-  );
-}
-} catch (error) {
-  console.log('Something went wrong'+ error)
-}
+  //   try {
+  //     let passengerCount = await this.getPassCount();
+  //     console.log(passengerCount);
+  //     if (3 >= 0) {
+  //       this.props.navigation.navigate('Position');
+  //     }
+  //     else { Alert.alert("Insufficient Passengers",
+  //     "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel"
+  //       },
+  //       { text: "OK", onPress: () => console.log("OK Pressed") }
+  //     ],      { cancelable: false }
+  //   );
+  // }
+  // } catch (error) {
+  //   console.log('Something went wrong'+ error)
+  // }
 }
 
 goHome(){
+  // console.log("tripID: " + tripID);
+  // console.log(pickup);
+  socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
   socket.disconnect();
   this.props.navigation.navigate('LoggedIn');
 }

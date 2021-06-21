@@ -37,8 +37,8 @@ export default class LoginScreen extends React.Component {
         const {phoneNumber, password} = this.state.input;
         http.post('/login', {phoneNumber, password})
         .then((response) => {
-          console.log(response.data.id)
-          console.log(response.data.auth_token)
+          // console.log(response.data.id)
+          // console.log(response.data.auth_token)
           this.storeToken(response.data.id, response.data.auth_token)
         })
         .then(() => this.props.navigation.navigate('LoggedIn'))

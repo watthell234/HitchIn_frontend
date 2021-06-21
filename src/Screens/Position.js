@@ -74,48 +74,48 @@ setupWebsocket = () => {
 }
 
 componentDidMount() {
-  this.setupWebsocket();
-
-  const { coordinate } = this.state;
-
-  this.watchID = navigator.geolocation.watchPosition(
-    position => {
-      const { routeCoordinates, distanceTravelled } = this.state;
-      const { latitude, longitude } = position.coords;
-
-      const newCoordinate = {
-        latitude,
-        longitude
-      };
-
-      if (Platform.OS === "android") {
-        if (this.marker) {
-          this.marker._component.animateMarkerToCoordinate(
-            newCoordinate,
-            0
-          );
-        }
-      } else {
-        coordinate.timing(newCoordinate).start();
-      }
-
-      this.setState({
-        latitude,
-        longitude,
-        routeCoordinates: routeCoordinates.concat([newCoordinate]),
-        distanceTravelled:
-          distanceTravelled + this.calcDistance(newCoordinate),
-        prevLatLng: newCoordinate
-      });
-    },
-    error => console.log(error),
-    {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 1000,
-      distanceFilter: 10
-    }
-  );
+  // this.setupWebsocket();
+  //
+  // const { coordinate } = this.state;
+  //
+  // this.watchID = navigator.geolocation.watchPosition(
+  //   position => {
+  //     const { routeCoordinates, distanceTravelled } = this.state;
+  //     const { latitude, longitude } = position.coords;
+  //
+  //     const newCoordinate = {
+  //       latitude,
+  //       longitude
+  //     };
+  //
+  //     if (Platform.OS === "android") {
+  //       if (this.marker) {
+  //         this.marker._component.animateMarkerToCoordinate(
+  //           newCoordinate,
+  //           0
+  //         );
+  //       }
+  //     } else {
+  //       coordinate.timing(newCoordinate).start();
+  //     }
+  //
+  //     this.setState({
+  //       latitude,
+  //       longitude,
+  //       routeCoordinates: routeCoordinates.concat([newCoordinate]),
+  //       distanceTravelled:
+  //         distanceTravelled + this.calcDistance(newCoordinate),
+  //       prevLatLng: newCoordinate
+  //     });
+  //   },
+  //   error => console.log(error),
+  //   {
+  //     enableHighAccuracy: true,
+  //     timeout: 20000,
+  //     maximumAge: 1000,
+  //     distanceFilter: 10
+  //   }
+  // );
 }
 
   componentWillUnmount() {
