@@ -54,7 +54,7 @@ export default class CarInfoScreen extends React.Component {
         carID = response.data.car_id;
         this.storeCarID(carID);
         console.log("qr_id: " + response.data.qr_id);
-        this.props.navigation.navigate('Trip');
+        this.props.navigation.navigate('DriverTrip');
       })
       .catch((error) => {
         console.log("Could not post '/car'", error)
