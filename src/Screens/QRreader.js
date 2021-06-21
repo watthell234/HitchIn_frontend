@@ -34,12 +34,11 @@ export default class QRReaderScreen extends React.Component {
     dropoff = await AsyncStorage.getItem("dropoff");
 
     this.getPermission();
-    console.log('qr_scan');
 
     socket = io("wss://hitchin-server.herokuapp.com/");
 
     socket.on('room_ID', (response) => {
-      console.log("room ID: " + response.sid);
+      // console.log("room ID: " + response.sid);
     });
 
     socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
@@ -71,7 +70,26 @@ export default class QRReaderScreen extends React.Component {
       console.log("Something went wrong", error);
     }
   }
-  handleBarCodeScanned = ({ type, data }) => {
+  handleBarCodeScanned = async ({ type, data }) => {
+
+    let userID;
+
+    try{
+      userID = await AsyncStorage.getItem("userID");
+    }catch(error){
+      console.log("Could not log userID from AsyncStorage");
+    }
+
+    console.log(userID);
+    console.log(data);
+    socket.emit('join_trip', {qr_string: data, userID: userID});
+
+    socket.on('join_trip_response', (response) => {
+      console.log(response.success);
+      if(response.success == 1) {
+        this.props.navigation.navigate('Position');
+      }
+    })
     // let userId = this.state.userId
     // console.log(data)
     // data = JSON.parse(data)
@@ -107,9 +125,9 @@ export default class QRReaderScreen extends React.Component {
     let list_str = "Cars waiting at " + pickup + ":\n";
     let car_info = "";
     car_list.forEach((value, index) => {
-      console.log(value);
+      // console.log(value);
       let temp_index = index + 1;
-      car_info = "Car " + temp_index + ": " + value.car_id + ", " + value.car_maker + ", " + value.license_plate;
+      car_info = "Car " + temp_index + ": " + value.car_maker + ", " + value.license_plate;
       list_str = list_str + car_info + "\n";
     })
 
@@ -130,7 +148,7 @@ export default class QRReaderScreen extends React.Component {
         <Text
           onPress={() => {
             socket.disconnect();
-            this.props.navigation.pop();
+            this.props.navigation.navigate('LoggedIn');
           }}
           style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>

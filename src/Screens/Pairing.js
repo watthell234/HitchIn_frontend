@@ -49,14 +49,12 @@ export default class PairingScreen extends React.Component {
     // and you automatically join the room.
     // *SO THE DRIVER DOES NOT HAVE TO SCAN.
     socket.on('room_ID', (response) => {
-      console.log("room ID: " + response.sid);
+      // console.log("room ID: " + response.sid);
+      socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff, session_id: response.sid});
     });
-
-    socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff});
 
     socket.on('trip_id', (response) => {
       tripID = response.trip_id;
-      console.log(tripID);
     })
 
   }
@@ -84,32 +82,32 @@ export default class PairingScreen extends React.Component {
 }
 
 async onPress() {
-  try {
-    let passengerCount = await this.getPassCount();
-    console.log(passengerCount);
-    if (3 >= 0) {
-      this.props.navigation.navigate('Position');
-    }
-    else { Alert.alert("Insufficient Passengers",
-    "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") }
-    ],      { cancelable: false }
-  );
-}
-} catch (error) {
-  console.log('Something went wrong'+ error)
-}
+  //   try {
+  //     let passengerCount = await this.getPassCount();
+  //     console.log(passengerCount);
+  //     if (3 >= 0) {
+  //       this.props.navigation.navigate('Position');
+  //     }
+  //     else { Alert.alert("Insufficient Passengers",
+  //     "You have " + passengerCount.toString() + " passenger(s) you need 3 to carpool",
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => console.log("Cancel Pressed"),
+  //         style: "cancel"
+  //       },
+  //       { text: "OK", onPress: () => console.log("OK Pressed") }
+  //     ],      { cancelable: false }
+  //   );
+  // }
+  // } catch (error) {
+  //   console.log('Something went wrong'+ error)
+  // }
 }
 
 goHome(){
-  console.log(tripID);
-  console.log(pickup);
+  // console.log("tripID: " + tripID);
+  // console.log(pickup);
   socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
   socket.disconnect();
   this.props.navigation.navigate('LoggedIn');
