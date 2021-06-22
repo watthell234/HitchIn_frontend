@@ -162,8 +162,7 @@ export default class SignUpScreen extends React.Component {
                 category='h1'>Sign Up
               </Text>
               <View>
-
-                { this.state.input.phoneNumber ? null : ( <TextInput
+                <TextInput
                       keyboardType="number-pad"
                       maxLength={10}
                       style={styles.textInput}
@@ -171,33 +170,32 @@ export default class SignUpScreen extends React.Component {
                       placeholder="Mobile Phone Number"
                       value={this.state.input.phoneNumber}
                       onBlur={Keyboard.dismiss}
-                  /> )}
+                  />
                   <Text> {this.state.errors['phoneNumber']} </Text>
-
-                  {this.state.input.firstName ? null : (<TextInput
+                  <TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('firstName', value)}
                       value={this.state.input.firstName}
                       placeholder="First Name"
                       onBlur={Keyboard.dismiss}
-                  /> )}
+                  />
                   <Text> {this.state.errors['firstName']} </Text>
-                  {this.state.input.lastName ? null : (<TextInput
+                  <TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('lastName', value)}
                       value={this.state.input.lastName}
                       placeholder="Last Name"
                       onBlur={Keyboard.dismiss}
-                  /> )}
+                  />
                   <Text> {this.state.errors['lastName']} </Text>
 
-                  {this.state.input.email ? null : ( <TextInput
+                  <TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('email', value)}
                       value={this.state.input.email}
                       placeholder="Email"
                       onBlur={Keyboard.dismiss}
-                  /> )}
+                  />
                   <Text> {this.state.errors['email']} </Text>
                   <TextInput
                       style={styles.textInput}
