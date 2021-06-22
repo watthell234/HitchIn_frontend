@@ -17,7 +17,20 @@ export default class SignUpScreen extends React.Component {
     }
 
     componentDidMount() {
-      console.log(this.props.navigation.state.params.email);
+
+      if (this.props.navigation.state.params) {
+        let input = this.state.input;
+        let params = this.props.navigation.state.params
+        input['email'] = params.email;
+        input['firstName'] = params.firstName;
+        input['lastName'] = params.lastName;
+
+        this.setState({ input });
+        console.log(this.props.navigation.state.params.email);
+        console.log(this.props.navigation.state.params.firstName);
+        console.log(this.props.navigation.state.params.lastName);
+      }
+
     }
 
     handleChange(name, value) {
@@ -150,7 +163,7 @@ export default class SignUpScreen extends React.Component {
               </Text>
               <View>
 
-                  <TextInput
+                { this.state.input.phoneNumber ? null : ( <TextInput
                       keyboardType="number-pad"
                       maxLength={10}
                       style={styles.textInput}
@@ -158,32 +171,33 @@ export default class SignUpScreen extends React.Component {
                       placeholder="Mobile Phone Number"
                       value={this.state.input.phoneNumber}
                       onBlur={Keyboard.dismiss}
-                  />
+                  /> )}
                   <Text> {this.state.errors['phoneNumber']} </Text>
 
-                  <TextInput
+                  {this.state.input.firstName ? null : (<TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('firstName', value)}
                       value={this.state.input.firstName}
                       placeholder="First Name"
                       onBlur={Keyboard.dismiss}
-                  />
+                  /> )}
                   <Text> {this.state.errors['firstName']} </Text>
-                  <TextInput
+                  {this.state.input.lastName ? null : (<TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('lastName', value)}
                       value={this.state.input.lastName}
                       placeholder="Last Name"
                       onBlur={Keyboard.dismiss}
-                  />
+                  /> )}
                   <Text> {this.state.errors['lastName']} </Text>
-                  <TextInput
+
+                  {this.state.input.email ? null : ( <TextInput
                       style={styles.textInput}
                       onChangeText={(value) => this.handleChange('email', value)}
                       value={this.state.input.email}
                       placeholder="Email"
                       onBlur={Keyboard.dismiss}
-                  />
+                  /> )}
                   <Text> {this.state.errors['email']} </Text>
                   <TextInput
                       style={styles.textInput}

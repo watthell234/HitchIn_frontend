@@ -30,7 +30,9 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
         },
       }).then(response => response.json())
       .then(data => navigate('SignUp',
-      {email: data.emailAddresses[0].value}));
+      { email: data.emailAddresses[0].value,
+        firstName: data.names[0].givenName,
+        lastName: data.names[0].familyName}));
       }
   }
   , [gresponse]);
