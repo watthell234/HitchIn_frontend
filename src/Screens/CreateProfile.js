@@ -4,13 +4,11 @@ import axios from 'axios';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 
-const serverUrl = 'http://192.168.1.158:5000';
-const http = axios.create({
-    baseURL: serverUrl,
-});
+
 
 export default function CreateProfileScreen({navigation: {navigate}}) {
-  const [request, response, promptAsync] = Google.useAuthRequest({
+
+  const [grequest, gresponse, gpromptAsync] = Google.useAuthRequest({
     expoClientId: '375582128350-5t6kr6tuuaai9cabijrsm521gqoe1dv2.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
     androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
@@ -18,8 +16,8 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
   });
 
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { authentication } = response;
+    if (gresponse?.type === 'success') {
+      const { authentication } = gresponse;
       const  accessToken  = authentication?.accessToken
       console.log(authentication);
       console.log(accessToken);
@@ -30,10 +28,14 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
         },
-      }).then(response => response.json()).then(data => console.log(data));
+      }).then(response => response.json())
+      .then(data => navigate('SignUp',
+      { email: data.emailAddresses[0].value,
+        firstName: data.names[0].givenName,
+        lastName: data.names[0].familyName}));
       }
   }
-  , [response]);
+  , [gresponse]);
 
 
     return (
@@ -59,7 +61,7 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
 
           <TouchableOpacity style={styles.button}
           onPress={ () => {
-            promptAsync();
+            gpromptAsync();
             }}>
 
             <Text
