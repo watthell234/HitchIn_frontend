@@ -16,6 +16,10 @@ export default class SignUpScreen extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+      console.log(this.props.navigation.state.params.email);
+    }
+
     handleChange(name, value) {
         let input = this.state.input;
 
