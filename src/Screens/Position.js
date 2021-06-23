@@ -17,11 +17,14 @@ import MapView, {
 } from "react-native-maps";
 import haversine from "haversine";
 import io from 'socket.io-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
+
+let socket;
 
 export default class Position extends Component {
   constructor(props) {
@@ -44,37 +47,43 @@ export default class Position extends Component {
   }
 
 
-sendMessage =  () => {
+  async handle_end_trip() {
+    let userID = await AsyncStorage.getItem('userID');
+    socket.emit('leave', {userID: userID});
+    this.props.navigation.pop();
+  }
 
-this.socket.emit("event", "hi");
+  setupWebsocket = () => {
+    this.socket = io("https://hitchin-server.herokuapp.com/");
 
-}
-
-setupWebsocket = () => {
-  this.socket = io("https://hitchin-server.herokuapp.com/");
-
-   this.socket.on("my_response", (r) => {
-     console.log(this.socket.connected);
-     console.log(r.data);
-   });
+     this.socket.on("my_response", (r) => {
+       console.log(this.socket.connected);
+       console.log(r.data);
+     });
 
 
-   this.socket.on("event", (e) => {
-     console.log(e.data);
-     this.setState({dataFromServer: e.data});
-     this.props.navigation.navigate('EndTrip');
-   });
+     this.socket.on("event", (e) => {
+       console.log(e.data);
+       this.setState({dataFromServer: e.data});
+       this.props.navigation.navigate('EndTrip');
+     });
 
-   this.socket.on("roomjoin", (e) => {
-     console.log(e.data);
-     //TODO: add something to asyncstorage
+     this.socket.on("roomjoin", (e) => {
+       console.log(e.data);
+       //TODO: add something to asyncstorage
 
-   });
+     });
 
-}
+  }
 
 componentDidMount() {
   // this.setupWebsocket();
+
+  socket = this.props.navigation.getParam('socket', null);
+
+  // socket.on('connect', () => {
+  //   console.log(socket.connected);
+  // });
   //
   // const { coordinate } = this.state;
   //
@@ -175,7 +184,7 @@ componentDidMount() {
             />
         <TouchableOpacity
             style={styles.button}
-            onPress={() => {this.sendMessage()}}>
+            onPress={() => {this.handle_end_trip()}}>
             <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
         </TouchableOpacity>
       </View>
