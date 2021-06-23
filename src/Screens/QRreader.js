@@ -43,13 +43,13 @@ export default class QRReaderScreen extends React.Component {
 
     socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
 
-    socket.on('car_list' + pickup.replace(" ", "_"), (data) => {
+    socket.on('car_list_' + pickup.replace(" ", "_"), (data) => {
       this.setState({
         car_list: data.car_list
       })
     })
 
-    socket.on('updated_car_list' + pickup.replace(" ", "_"), (data) => {
+    socket.on('updated_car_list_' + pickup.replace(" ", "_"), (data) => {
       // console.log("CAR LIST:");
       // console.log(data.car_list);
       // console.log("------------------");
@@ -72,6 +72,7 @@ export default class QRReaderScreen extends React.Component {
   }
   handleBarCodeScanned = async ({ type, data }) => {
 
+    // HOW TO PREVENT FROM SCANNING MULTIPLE TIMES?
     let userID;
 
     try{
@@ -84,10 +85,14 @@ export default class QRReaderScreen extends React.Component {
     console.log(data);
     socket.emit('join_trip', {qr_string: data, userID: userID});
 
-    socket.on('join_trip_response', (response) => {
-      console.log(response.success);
+    socket.on('join_trip_response_' + userID, (response) => {
       if(response.success == 1) {
+        this.setState({
+          scanned: true
+        })
         this.props.navigation.navigate('Position');
+      }else{
+
       }
     })
     // let userId = this.state.userId
@@ -149,6 +154,7 @@ export default class QRReaderScreen extends React.Component {
           onPress={() => {
             socket.disconnect();
             this.props.navigation.navigate('LoggedIn');
+            {/* DELETE PASSENGERS */}
           }}
           style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>
