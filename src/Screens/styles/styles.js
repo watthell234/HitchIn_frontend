@@ -3,13 +3,25 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
  container: {
       flex: 1,
-      backgroundColor: '#AAB7BD',
+      backgroundColor: 'white',
       alignItems: 'center',
       justifyContent: 'space-evenly',
+  },
+  profileContainer: {
+      flex: 1,
+      backgroundColor: '#AAB7BD',
+      alignItems: 'center',
   },
   title: {
       marginBottom: 20,
       fontSize: 18,
+      fontWeight: 'bold',
+      fontSize: 32,
+      color: '#404e5a',
+  },
+  secondaryTitle: {
+      marginBottom: 20,
+      fontSize: 14,
       fontWeight: 'bold',
       fontSize: 32,
       color: '#404e5a',
