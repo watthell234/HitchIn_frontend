@@ -57,11 +57,18 @@ export default class PairingScreen extends React.Component {
       tripID = response.trip_id;
     })
 
-    socket.on('passenger_update_'+ carID, (response) => {
-      console.log("passenger has joined: " + response.success);
+    socket.on('passenger_update', (response) => {
+
       let passenger_count = this.state.passengerCount;
+
+      if(response.action == 'add') {
+        passenger_count += 1;
+      }else{
+        passenger_count -= 1;
+      }
+
       this.setState({
-        passengerCount: passenger_count + 1
+        passengerCount: passenger_count
       })
     })
 
