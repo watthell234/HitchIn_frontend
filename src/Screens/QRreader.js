@@ -12,6 +12,11 @@ let socket;
 let pickup;
 let dropoff;
 
+function delay(time) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(() => resolve(), time);
+  });
+}
 
 export default class QRReaderScreen extends React.Component {
   constructor(props) {
@@ -72,7 +77,10 @@ export default class QRReaderScreen extends React.Component {
   }
   handleBarCodeScanned = async ({ type, data }) => {
 
-    // HOW TO PREVENT FROM SCANNING MULTIPLE TIMES?
+    await delay(500);
+    if (this.state.scanned) return;
+
+    // HOW TO PREVENT FROM SCANNING MULTIPLE TIMES????
     let userID;
 
     try{
@@ -81,8 +89,8 @@ export default class QRReaderScreen extends React.Component {
       console.log("Could not log userID from AsyncStorage");
     }
 
-    console.log(userID);
-    console.log(data);
+    // console.log(userID);
+    // console.log(data);
     socket.emit('join_trip', {qr_string: data, userID: userID});
 
     socket.on('join_trip_response_' + userID, (response) => {
@@ -90,11 +98,12 @@ export default class QRReaderScreen extends React.Component {
         this.setState({
           scanned: true
         })
-        this.props.navigation.navigate('Position');
+        this.props.navigation.push('Position', {socket: socket});
       }else{
 
       }
     })
+
     // let userId = this.state.userId
     // console.log(data)
     // data = JSON.parse(data)
@@ -117,10 +126,11 @@ export default class QRReaderScreen extends React.Component {
 
 
   render() {
-   const { hasPermission, scanned } = this.state;
-   let car_list = this.state.car_list;
 
-   if (hasPermission === null) {
+    const { hasPermission, scanned } = this.state;
+    let car_list = this.state.car_list;
+
+    if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     }
     if (hasPermission === false) {
