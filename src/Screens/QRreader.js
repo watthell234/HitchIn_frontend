@@ -12,6 +12,11 @@ let socket;
 let pickup;
 let dropoff;
 
+function delay(time) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(() => resolve(), time);
+  });
+}
 
 export default class QRReaderScreen extends React.Component {
   constructor(props) {
@@ -43,13 +48,13 @@ export default class QRReaderScreen extends React.Component {
 
     socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
 
-    socket.on('car_list' + pickup.replace(" ", "_"), (data) => {
+    socket.on('car_list_' + pickup.replace(" ", "_"), (data) => {
       this.setState({
         car_list: data.car_list
       })
     })
 
-    socket.on('updated_car_list' + pickup.replace(" ", "_"), (data) => {
+    socket.on('updated_car_list_' + pickup.replace(" ", "_"), (data) => {
       // console.log("CAR LIST:");
       // console.log(data.car_list);
       // console.log("------------------");
@@ -72,6 +77,10 @@ export default class QRReaderScreen extends React.Component {
   }
   handleBarCodeScanned = async ({ type, data }) => {
 
+    await delay(500);
+    if (this.state.scanned) return;
+
+    // HOW TO PREVENT FROM SCANNING MULTIPLE TIMES????
     let userID;
 
     try{
@@ -80,16 +89,21 @@ export default class QRReaderScreen extends React.Component {
       console.log("Could not log userID from AsyncStorage");
     }
 
-    console.log(userID);
-    console.log(data);
+    // console.log(userID);
+    // console.log(data);
     socket.emit('join_trip', {qr_string: data, userID: userID});
 
-    socket.on('join_trip_response', (response) => {
-      console.log(response.success);
+    socket.on('join_trip_response_' + userID, (response) => {
       if(response.success == 1) {
-        this.props.navigation.navigate('Position');
+        this.setState({
+          scanned: true
+        })
+        this.props.navigation.push('Position', {socket: socket});
+      }else{
+
       }
     })
+
     // let userId = this.state.userId
     // console.log(data)
     // data = JSON.parse(data)
@@ -112,10 +126,11 @@ export default class QRReaderScreen extends React.Component {
 
 
   render() {
-   const { hasPermission, scanned } = this.state;
-   let car_list = this.state.car_list;
 
-   if (hasPermission === null) {
+    const { hasPermission, scanned } = this.state;
+    let car_list = this.state.car_list;
+
+    if (hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     }
     if (hasPermission === false) {
@@ -149,6 +164,7 @@ export default class QRReaderScreen extends React.Component {
           onPress={() => {
             socket.disconnect();
             this.props.navigation.navigate('LoggedIn');
+            {/* DELETE PASSENGERS */}
           }}
           style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>

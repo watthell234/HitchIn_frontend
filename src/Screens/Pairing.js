@@ -13,7 +13,7 @@ export default class PairingScreen extends React.Component {
   constructor(props) {
       super (props);
       this.state = {
-        passengerCount: null,
+        passengerCount: 1,
       }
   }
 
@@ -53,8 +53,23 @@ export default class PairingScreen extends React.Component {
       socket.emit('register_trip', {carID: carID, userID: userID, pickup: pickup, dropoff: dropoff, session_id: response.sid});
     });
 
-    socket.on('trip_id', (response) => {
+    socket.on('trip_id_' + carID, (response) => {
       tripID = response.trip_id;
+    })
+
+    socket.on('passenger_update', (response) => {
+
+      let passenger_count = this.state.passengerCount;
+
+      if(response.action == 'add') {
+        passenger_count += 1;
+      }else{
+        passenger_count -= 1;
+      }
+
+      this.setState({
+        passengerCount: passenger_count
+      })
     })
 
   }
@@ -117,7 +132,7 @@ goHome(){
         return (
             <View style={styles.container}>
               <Text>HitchIn</Text>
-                <Text>Carpool Ready?</Text>
+                <Text>Carpool Ready? {this.state.passengerCount} (including driver)</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {this.onPress()}}>

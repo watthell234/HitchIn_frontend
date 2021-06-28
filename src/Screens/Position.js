@@ -7,7 +7,8 @@ import {
   Platform,
   PermissionsAndroid,
   Image,
-  FlatList
+  FlatList,
+  Dimensions
 } from "react-native";
 import MapView, {
   Marker,
@@ -15,119 +16,157 @@ import MapView, {
   Polyline,
   PROVIDER_GOOGLE
 } from "react-native-maps";
+import { NavigationActions } from 'react-navigation';
 import haversine from "haversine";
 import io from 'socket.io-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
 
-const LATITUDE_DELTA = 0.009;
-const LONGITUDE_DELTA = 0.009;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
+const screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE = 40.8509;
+const LONGITUDE = -73.97014;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+let socket;
+let userID;
 
 export default class Position extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      routeCoordinates: [],
-      distanceTravelled: 0,
-      prevLatLng: {},
-      coordinate: new AnimatedRegion({
+      polyline_coordinates: [],
+      marker: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      },
+      map_region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
-        latitudeDelta: 0,
-        longitudeDelta: 0,
-        dataFromServer: "null",
-      })
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      },
+      // routeCoordinates: [],
+      // distanceTravelled: 0,
+      // prevLatLng: {},
+      // marker:[],
+      // coordinate: new AnimatedRegion({
+      //   latitude: LATITUDE,
+      //   longitude: LONGITUDE,
+      //   latitudeDelta: LATITUDE_DELTA,
+      //   longitudeDelta: LONGITUDE_DELTA,
+      //   dataFromServer: "null",
+      // })
     };
+    //
+    // this.show_location = this.show_location.bind(this);
+    // this.error_handler = this.error_handler.bind(this);
+
   }
 
+  componentDidMount() {
 
-sendMessage =  () => {
-
-this.socket.emit("event", "hi");
-
-}
-
-setupWebsocket = () => {
-  this.socket = io("https://hitchin-server.herokuapp.com/");
-
-   this.socket.on("my_response", (r) => {
-     console.log(this.socket.connected);
-     console.log(r.data);
-   });
-
-
-   this.socket.on("event", (e) => {
-     console.log(e.data);
-     this.setState({dataFromServer: e.data});
-     this.props.navigation.navigate('EndTrip');
-   });
-
-   this.socket.on("roomjoin", (e) => {
-     console.log(e.data);
-     //TODO: add something to asyncstorage
-
-   });
-
-}
-
-componentDidMount() {
-  // this.setupWebsocket();
-  //
-  // const { coordinate } = this.state;
-  //
-  // this.watchID = navigator.geolocation.watchPosition(
-  //   position => {
-  //     const { routeCoordinates, distanceTravelled } = this.state;
-  //     const { latitude, longitude } = position.coords;
-  //
-  //     const newCoordinate = {
-  //       latitude,
-  //       longitude
-  //     };
-  //
-  //     if (Platform.OS === "android") {
-  //       if (this.marker) {
-  //         this.marker._component.animateMarkerToCoordinate(
-  //           newCoordinate,
-  //           0
-  //         );
-  //       }
-  //     } else {
-  //       coordinate.timing(newCoordinate).start();
-  //     }
-  //
-  //     this.setState({
-  //       latitude,
-  //       longitude,
-  //       routeCoordinates: routeCoordinates.concat([newCoordinate]),
-  //       distanceTravelled:
-  //         distanceTravelled + this.calcDistance(newCoordinate),
-  //       prevLatLng: newCoordinate
-  //     });
-  //   },
-  //   error => console.log(error),
-  //   {
-  //     enableHighAccuracy: true,
-  //     timeout: 20000,
-  //     maximumAge: 1000,
-  //     distanceFilter: 10
-  //   }
-  // );
-}
+    // this.setupWebsocket();
+    this.getPermission();
+  }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
+    // navigator.geolocation.clearWatch(this.watchID);
   }
 
-  getMapRegion = () => ({
-    latitude: this.state.latitude,
-    longitude: this.state.longitude,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA
-  });
+  async getPermission() {
+    let { status } = await Location.requestPermissionsAsync();
+    if(status === 'granted') {
+      this.getLocation();
+    }else{
+      console.log('Permission access was denied');
+    }
+  }
+
+  show_location(position) {
+
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    //
+    // console.log("-------------------");
+    // console.log(latitude);
+    // console.log(longitude);
+    // console.log("-------------------");
+
+    // if (Platform.OS === "android") {
+    //   if (this.marker) {
+    //     this.marker._component.animateMarkerToCoordinate(
+    //       newCoordinate,
+    //       0
+    //     );
+    //   }
+    // } else {
+    //   coordinate.timing(newCoordinate).start();
+    // }
+    let polyline_coordinates = this.state.polyline_coordinates.concat({latitude: latitude, longitude: longitude});
+
+    console.log(polyline_coordinates);
+
+    this.setState({
+      map_region: {
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      },
+      marker: {
+        latitude: latitude,
+        longitude: longitude
+      },
+      polyline_coordinates
+    })
+  }
+
+  error_handler(err) {
+    if(err.code == 1) {
+      alert("Error: Access is denied!");
+    } else if( err.code == 2) {
+      alert("Error: Position is unavailable!");
+    }
+  }
+
+  async getLocation() {
+
+    let options = {
+      accuracy: Location.Accuracy.High,
+      timeInterval: 2000,
+      distanceInterval: 1
+    };
+
+    this.watchID = await Location.watchPositionAsync(options,
+      (position) => this.show_location(position));
+
+}
+  async handle_end_trip() {
+    // socket.emit('leave', {userID: userID});
+    // socket.disconnect();
+    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
+    await this.watchID.remove();
+    this.props.navigation.navigate('LoggedIn');
+  }
+
+  async setupWebsocket(){
+    userID = await AsyncStorage.getItem('userID');
+
+    socket = this.props.navigation.getParam('socket', null);
+
+    socket.on('trip_deleted', ()=> {
+      socket.disconnect();
+      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
+    })
+  }
+
+  _handleMapRegionChange(map_region){
+    this.setState({ map_region });
+  }
 
   calcDistance = newLatLng => {
     const { prevLatLng } = this.state;
@@ -143,19 +182,14 @@ componentDidMount() {
           showUserLocation
           followUserLocation
           loadingEnabled
-
-          region={this.getMapRegion()} >
-          <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
-          <Marker.Animated
-            ref={marker => {
-              this.marker = marker;
-            }}
-            coordinate={this.state.coordinate}>
-            <Image
-              source={require("./assets/car.png")}
-              style={{ height: 35, width: 35 }}
-            />
-          </Marker.Animated>
+          minZoomLevel={15}
+          zoomControlEnabled={true}
+          region={this.state.map_region}
+          onRegionChange={(map_region) => this._handleMapRegionChange(map_region)}>
+          <Polyline coordinates={this.state.polyline_coordinates} strokeWidth={5} />
+          <Marker
+            coordinate={this.state.marker}
+          />
         </MapView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
@@ -175,7 +209,7 @@ componentDidMount() {
             />
         <TouchableOpacity
             style={styles.button}
-            onPress={() => {this.sendMessage()}}>
+            onPress={() => {this.handle_end_trip()}}>
             <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
         </TouchableOpacity>
       </View>
