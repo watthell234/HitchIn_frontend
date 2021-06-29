@@ -33,7 +33,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let socket;
 let userID;
 
-export default class Position extends Component {
+export default class RiderPositionScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +49,8 @@ export default class Position extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      travel_distance: 0,
+      prevLatLng: {}
       // routeCoordinates: [],
       // distanceTravelled: 0,
       // prevLatLng: {},
@@ -61,9 +63,6 @@ export default class Position extends Component {
       //   dataFromServer: "null",
       // })
     };
-    //
-    // this.show_location = this.show_location.bind(this);
-    // this.error_handler = this.error_handler.bind(this);
 
   }
 
@@ -84,6 +83,19 @@ export default class Position extends Component {
     }else{
       console.log('Permission access was denied');
     }
+  }
+
+  async getLocation() {
+
+    let options = {
+      accuracy: Location.Accuracy.High,
+      timeInterval: 2000,
+      distanceInterval: 1
+    };
+
+    this.watchID = await Location.watchPositionAsync(options,
+      (position) => this.show_location(position));
+
   }
 
   show_location(position) {
@@ -107,8 +119,7 @@ export default class Position extends Component {
     //   coordinate.timing(newCoordinate).start();
     // }
     let polyline_coordinates = this.state.polyline_coordinates.concat({latitude: latitude, longitude: longitude});
-
-    console.log(polyline_coordinates);
+    let travel_distance = this.state.travel_distance + this.calculate_distance({latitude, longitude});
 
     this.setState({
       map_region: {
@@ -121,7 +132,9 @@ export default class Position extends Component {
         latitude: latitude,
         longitude: longitude
       },
-      polyline_coordinates
+      polyline_coordinates,
+      travel_distance,
+      prevLatLng:{latitude, longitude}
     })
   }
 
@@ -133,18 +146,6 @@ export default class Position extends Component {
     }
   }
 
-  async getLocation() {
-
-    let options = {
-      accuracy: Location.Accuracy.High,
-      timeInterval: 2000,
-      distanceInterval: 1
-    };
-
-    this.watchID = await Location.watchPositionAsync(options,
-      (position) => this.show_location(position));
-
-}
   async handle_end_trip() {
     // socket.emit('leave', {userID: userID});
     // socket.disconnect();
@@ -168,9 +169,10 @@ export default class Position extends Component {
     this.setState({ map_region });
   }
 
-  calcDistance = newLatLng => {
+  calculate_distance(newLatLng){
     const { prevLatLng } = this.state;
-    return haversine(prevLatLng, newLatLng) || 0;
+    distance = haversine(prevLatLng, newLatLng, {unit: 'mile'}) || 0;
+    return distance;
   };
 
   render() {
@@ -194,7 +196,7 @@ export default class Position extends Component {
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
             <Text style={styles.bottomBarContent}>
-              {parseFloat(this.state.distanceTravelled).toFixed(2)} km
+              {parseFloat(this.state.travel_distance).toFixed(2)} mile
             </Text>
           </TouchableOpacity>
         </View>

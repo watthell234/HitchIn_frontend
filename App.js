@@ -18,7 +18,7 @@ import CarInfoScreen from './src/Screens/CarInfo';
 import QRReaderScreen from './src/Screens/QRreader';
 
 import PairingScreen from './src/Screens/Pairing';
-import Position from './src/Screens/Position';
+import RiderPositionScreen from './src/Screens/RiderPosition';
 import EndTripScreen from './src/Screens/EndTrip';
 
 // const Tab = createBottomTabNavigator();
@@ -46,7 +46,7 @@ const DriverTripStack = createStackNavigator({
 
 const RiderTripStack = createStackNavigator({
   QRReader: QRReaderScreen,
-  Position: Position
+  RiderPosition: RiderPositionScreen
 })
 
 class AuthLoadingScreen extends React.Component {
