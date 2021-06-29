@@ -11,6 +11,7 @@ const qrSize = width * 0.7
 let socket;
 let pickup;
 let dropoff;
+let userID;
 
 function delay(time) {
   return new Promise(function(resolve, reject) {
@@ -24,7 +25,6 @@ export default class QRReaderScreen extends React.Component {
     this.state = {
       hasPermission: null,
       scanned: false,
-      userId: null,
       car_list: []
     }
   }
@@ -35,8 +35,14 @@ export default class QRReaderScreen extends React.Component {
 
   async join_pool(){
 
-    pickup = await AsyncStorage.getItem("pickup");
-    dropoff = await AsyncStorage.getItem("dropoff");
+
+    try{
+      userID = await AsyncStorage.getItem("userID");
+      pickup = await AsyncStorage.getItem("pickup");
+      dropoff = await AsyncStorage.getItem("dropoff");
+    }catch(error){
+      console.log("could not retrieve information fron asyncstorage.", error);
+    }
 
     this.getPermission();
 
@@ -80,15 +86,6 @@ export default class QRReaderScreen extends React.Component {
     await delay(500);
     if (this.state.scanned) return;
 
-    // HOW TO PREVENT FROM SCANNING MULTIPLE TIMES????
-    let userID;
-
-    try{
-      userID = await AsyncStorage.getItem("userID");
-    }catch(error){
-      console.log("Could not log userID from AsyncStorage");
-    }
-
     // console.log(userID);
     // console.log(data);
     socket.emit('join_trip', {qr_string: data, userID: userID});
@@ -98,7 +95,7 @@ export default class QRReaderScreen extends React.Component {
         this.setState({
           scanned: true
         })
-        this.props.navigation.push('Position', {socket: socket});
+        this.props.navigation.navigate('RiderPosition', {socket: socket, userID: userID});
       }else{
 
       }
@@ -164,7 +161,6 @@ export default class QRReaderScreen extends React.Component {
           onPress={() => {
             socket.disconnect();
             this.props.navigation.navigate('LoggedIn');
-            {/* DELETE PASSENGERS */}
           }}
           style={styles.cancel}> Cancel </Text>
       </BarCodeScanner>

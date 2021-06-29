@@ -33,14 +33,13 @@ export default class PairingScreen extends React.Component {
     let carID;
 
     try{
-
       userID = await AsyncStorage.getItem("userID");
       carID = await AsyncStorage.getItem("carID");
       pickup = await AsyncStorage.getItem("pickup");
       dropoff = await AsyncStorage.getItem("dropoff");
 
     }catch(error){
-      console.log("something went wrong", error)
+      console.log("could not retrieve information fron asyncstorage.", error);
     }
 
     socket = io("wss://hitchin-server.herokuapp.com/");
@@ -55,6 +54,7 @@ export default class PairingScreen extends React.Component {
 
     socket.on('trip_id_' + carID, (response) => {
       tripID = response.trip_id;
+      console.log(tripID);
     })
 
     socket.on('passenger_update', (response) => {
@@ -96,7 +96,11 @@ export default class PairingScreen extends React.Component {
     }
 }
 
-async onPress() {
+async handle_start_trip() {
+
+  socket.emit('start_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
+  this.props.navigation.navigate('DriverPosition', {socket: socket, tripID: tripID, pickup: pickup, dropoff: dropoff});
+
   //   try {
   //     let passengerCount = await this.getPassCount();
   //     console.log(passengerCount);
@@ -135,7 +139,7 @@ goHome(){
                 <Text>Carpool Ready? {this.state.passengerCount} (including driver)</Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {this.onPress()}}>
+                    onPress={() => {this.handle_start_trip()}}>
                     <Text style={{color: "#FFFFFF", fontSize:20}}>Start Trip</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
