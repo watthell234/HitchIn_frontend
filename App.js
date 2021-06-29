@@ -15,11 +15,13 @@ import CarpoolRouteScreen from './src/Screens/CarpoolRoute';
 import RideOrDriveScreen from './src/Screens/RideOrDrive';
 import CarListScreen from './src/Screens/CarList';
 import CarInfoScreen from './src/Screens/CarInfo';
-import QRReaderScreen from './src/Screens/QRreader';
 
 import PairingScreen from './src/Screens/Pairing';
-import RiderPositionScreen from './src/Screens/RiderPosition';
+import DriverPositionScreen from './src/Screens/DriverPosition';
 import EndTripScreen from './src/Screens/EndTrip';
+
+import QRReaderScreen from './src/Screens/QRreader';
+import RiderPositionScreen from './src/Screens/RiderPosition';
 
 // const Tab = createBottomTabNavigator();
 // const Stack = createStackNavigator();
@@ -41,6 +43,7 @@ const LoggedInStack = createStackNavigator({
 // Move all the trip related screens to here.
 const DriverTripStack = createStackNavigator({
   Pairing: PairingScreen,
+  DriverPosition: DriverPositionScreen,
   EndTrip: EndTripScreen
 })
 
