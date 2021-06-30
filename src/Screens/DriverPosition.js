@@ -31,14 +31,15 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let socket;
-let userID;
+let tripID;
+let pickup;
+let dropoff;
 
-export default class RiderPositionScreen extends Component {
+export default class DriverPositionScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      trip_started: false,
       polyline_coordinates: [],
       marker: {
         latitude: LATITUDE,
@@ -73,8 +74,16 @@ export default class RiderPositionScreen extends Component {
     this.getPermission();
   }
 
-  componentWillUnmount() {
-    // navigator.geolocation.clearWatch(this.watchID);
+  async componentWillUnmount() {
+    await this.watchID.remove();
+  }
+
+  async setupWebsocket(){
+    tripID = this.props.navigation.getParam('tripID', null);
+    pickup = this.props.navigation.getParam('pickup', null);
+    dropoff = this.props.navigation.getParam('dropoff', null);
+    
+    socket = this.props.navigation.getParam('socket', null);
   }
 
   async getPermission() {
@@ -147,31 +156,14 @@ export default class RiderPositionScreen extends Component {
     }
   }
 
-  async handle_cancel_trip() {
+  async handle_end_trip() {
     await this.watchID.remove();
-    socket.emit('leave_trip', {userID: userID});
+    console.log(tripID);
+    console.log(pickup);
+    console.log(dropoff);
+    socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
     socket.disconnect();
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
-  }
-
-  handle_safety_toolkit(){
-
-  }
-
-  async setupWebsocket(){
-    userID = this.props.navigation.getParam('userID', null);
-    socket = this.props.navigation.getParam('socket', null);
-
-    socket.on('trip_deleted', ()=> {
-      socket.disconnect();
-      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
-    })
-
-    socket.on('start_trip', () => {
-      this.setState({
-        trip_started: true
-      })
-    })
+    this.props.navigation.navigate('LoggedIn');
   }
 
   _handleMapRegionChange(map_region){
@@ -180,7 +172,7 @@ export default class RiderPositionScreen extends Component {
 
   calculate_distance(newLatLng){
     const { prevLatLng } = this.state;
-    let distance = haversine(prevLatLng, newLatLng, {unit: 'mile'}) || 0;
+    distance = haversine(prevLatLng, newLatLng, {unit: 'mile'}) || 0;
     return distance;
   };
 
@@ -218,17 +210,11 @@ export default class RiderPositionScreen extends Component {
             ]}
             renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
             />
-          {this.state.trip_started ?
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {this.handle_end_trip()}}>
-              <Text style={{color: "#FFFFFF", fontSize:20}}>Safety Toolkit</Text>
-          </TouchableOpacity>
-        : <TouchableOpacity
-          style={styles.button}
-          onPress={() => {this.handle_cancel_trip()}}>
-          <Text style={{color: "#FFFFFF", fontSize:20}}>Cancel Trip</Text>
-      </TouchableOpacity>}
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => {this.handle_end_trip()}}>
+            <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
+        </TouchableOpacity>
       </View>
     );
   }
