@@ -1,12 +1,46 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import { http_jwt } from './constants/hitchBackendapi';
+import { http,  getAxios, http_jwt } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LogOut from '../Buttons/LogOut.js';
 
 export default class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: null,
+      lastName: null,
+      email: null,
+      phoneNumber: 0
+    }
+  }
+  componentDidMount() {
+    this.getUserInfo();
+    this.setState({
+    })
+    }
+
+  async getUserInfo() {
+      const userId = await AsyncStorage.getItem("userID");
+      const authToken = await AsyncStorage.getItem('authToken');
+      console.log(parseInt(userId.replace(/['"]+/g, '')));
+      http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
+      .then((response) => this.setState({
+                                          firstName: response.data.firstName,
+                                          lastName: response.data.lastName,
+                                          phoneNumber: response.data.phoneNumber,
+                                          email: response.data.email
+                                        }
+                                      )
+                        )
+                      }
+
     render() {
+      const {phoneNumber, firstName, lastName, email} = this.state
       return (
         <View style={styles.profileContainer}>
+        <LogOut navigation={this.props.navigation}/>
         <Text style={styles.title}
           category='h1'>Profile
         </Text>
@@ -19,13 +53,13 @@ export default class UserProfile extends React.Component {
         />
         <TextInput
           style={styles.title}
-          value='Julius Gonzalez'
+          value={firstName + " " +lastName}
         />
         <TextInput
-          value='+1 (646)285-1062'
+          value={phoneNumber}
         />
         <TextInput
-          value='Miles in Carpool: 10'
+          value= {email}
         />
         <TextInput
           value='Password'
