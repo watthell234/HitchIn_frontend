@@ -12,7 +12,7 @@ export default class UserProfile extends React.Component {
       firstName: null,
       lastName: null,
       email: null,
-      phoneNumber: 0
+      phoneNumber: null
     }
   }
   componentDidMount() {
