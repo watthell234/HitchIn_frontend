@@ -13,8 +13,8 @@ export default class CarpoolRouteScreen extends React.Component {
       super(props);
       this.state = {
         selectedItems: {},
-        pickup_list: [],
-        dropoff_list: []
+        pickup_list: null,
+        dropoff_list: null
       };
 
     }
@@ -76,6 +76,7 @@ export default class CarpoolRouteScreen extends React.Component {
 
     render() {
       const { pickup_list, dropoff_list } = this.state;
+      let selectedItems = this.state.selectedItems;
       const pickup_placeholder = {
                             label: 'Select Pick-up Location',
                             value: null,
@@ -92,6 +93,7 @@ export default class CarpoolRouteScreen extends React.Component {
             <Text style={styles.title}
                   category='h1'>Port Authority {'\n'}Carpool Route</Text>
                       <Text>Pickup</Text>
+                      {pickup_list ?
                       <RNPickerSelect
                             style={{
                               ...pickerSelectStyles,
@@ -105,8 +107,10 @@ export default class CarpoolRouteScreen extends React.Component {
                             items={pickup_list}
                             useNativeAndroidPickerStyle={false}
                       />
+                    : <Text> Loading pickup list... </Text>}
 
                       <Text>Drop-off</Text>
+                      {dropoff_list ?
                       <RNPickerSelect
                             style={{
                               ...pickerSelectStyles,
@@ -120,11 +124,14 @@ export default class CarpoolRouteScreen extends React.Component {
                             items={dropoff_list}
                             useNativeAndroidPickerStyle={false}
                       />
-                  <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => {this.handleSubmit()}}>
-                      <Text style={{color: "#FFFFFF"}}>Next</Text>
-                  </TouchableOpacity>
+                    : <Text> Loading dropoff list... </Text>}
+                    {selectedItems['pickup_location'] && selectedItems['dropoff_location'] ?
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {this.handleSubmit()}}>
+                        <Text style={{color: "#FFFFFF"}}>Next</Text>
+                    </TouchableOpacity>
+                    : <Text> Please, select both pickup and dropoff locations </Text>}
       </View>
               )
     }
