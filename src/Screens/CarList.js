@@ -10,7 +10,7 @@ import LogOut from '../Buttons/LogOut.js';
 export default function CarListScreen({navigation}) {
 
   const [selectedCar, setSelectedCar] = useState(null);
-  const [carList, setCarList] = useState([]);
+  const [carList, setCarList] = useState(null);
   const placeholder = {
                         label: 'Select Car',
                         value: null,
@@ -93,30 +93,37 @@ export default function CarListScreen({navigation}) {
       category='h1'>Car List</Text>
       <View style={styles.routeOrientation}>
       <Text>Pickup</Text>
-      <RNPickerSelect
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-              top: 10,
-              right: 12,
-            },
-          }}
-            placeholder={placeholder}
-            onValueChange={(itemValue) => onPickerSelect(itemValue)}
-            items={carList}
-            useNativeAndroidPickerStyle={false}
-      />
+      {carList ?
+        <RNPickerSelect
+              style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                top: 10,
+                right: 12,
+              },
+            }}
+              placeholder={placeholder}
+              onValueChange={(itemValue) => onPickerSelect(itemValue)}
+              items={carList}
+              useNativeAndroidPickerStyle={false}
+        /> :
+        <Text> Waiting on your car list...</Text>
+      }
       </View>
       <TouchableOpacity
       style={styles.button}
       onPress={() => {handleAddCar()}}>
       <Text style={{color: "#FFFFFF"}}>Add Car</Text>
       </TouchableOpacity>
+      {selectedCar ?
       <TouchableOpacity
       style={styles.button}
       onPress={() => {handleSubmit()}}>
       <Text style={{color: "#FFFFFF"}}>Next</Text>
       </TouchableOpacity>
+      :
+      <Text> Please, select a car. </Text>
+      }
       </View>
     )
 }
