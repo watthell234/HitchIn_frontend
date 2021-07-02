@@ -57,12 +57,10 @@ export default class CarpoolRouteScreen extends React.Component {
 
         pickup_list.map((item) => {
           pickup_picker_items.push({label:item.location_name, value:item.location_name.toLowerCase()})
-          console.log(pickup_picker_items)
         })
 
         dropoff_list.map((item) => {
           dropoff_picker_items.push({label:item.location_name, value:item.location_name.toLowerCase()})
-          console.log(dropoff_picker_items)
         })
 
         this.setState({
@@ -74,7 +72,6 @@ export default class CarpoolRouteScreen extends React.Component {
       .catch((error) => {
         console.log(error)
       })
-      console.log(this.pickup_list)
     }
 
     render() {
