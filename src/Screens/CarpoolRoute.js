@@ -23,7 +23,6 @@ export default class CarpoolRouteScreen extends React.Component {
 
       let selectedItems = this.state.selectedItems;
       selectedItems[itemName] = itemValue;
-      console.log(selectedItems[itemName])
 
       this.setState({
         selectedItems
@@ -61,20 +60,10 @@ export default class CarpoolRouteScreen extends React.Component {
           console.log(pickup_picker_items)
         })
 
-
-
-        // pickup_list.map((item, index)=> {
-        //   pickup_picker_items.push(<Picker.Item key={index} label={item.location_name} value={item.location_name}/>)
-        // })
-
         dropoff_list.map((item) => {
           dropoff_picker_items.push({label:item.location_name, value:item.location_name.toLowerCase()})
           console.log(dropoff_picker_items)
         })
-
-        // dropoff_list.map((item, index)=> {
-        //   dropoff_picker_items.push(<Picker.Item key={index} label={item.location_name} value={item.location_name}/>)
-        // })
 
         this.setState({
           pickup_list: pickup_picker_items,
@@ -90,8 +79,13 @@ export default class CarpoolRouteScreen extends React.Component {
 
     render() {
       const { pickup_list, dropoff_list } = this.state;
-      const placeholder = {
-                            label: 'Pick-up',
+      const pickup_placeholder = {
+                            label: 'Select Pick-up Location',
+                            value: null,
+                            color: 'gray',
+                          };
+      const dropoff_placeholder = {
+                            label: 'Select Drop-Off Location',
                             value: null,
                             color: 'gray',
                           };
@@ -109,7 +103,7 @@ export default class CarpoolRouteScreen extends React.Component {
                               right: 12,
                             },
                           }}
-                            placeholder={placeholder}
+                            placeholder={pickup_placeholder}
                             onValueChange={(itemValue) => this.onPickerSelect("pickup_location", itemValue)}
                             items={pickup_list}
                             useNativeAndroidPickerStyle={false}
@@ -124,7 +118,7 @@ export default class CarpoolRouteScreen extends React.Component {
                               right: 12,
                             },
                           }}
-                            placeholder={placeholder}
+                            placeholder={dropoff_placeholder}
                             onValueChange={(value) => this.onPickerSelect("dropoff_location", value)}
                             items={dropoff_list}
                             useNativeAndroidPickerStyle={false}
