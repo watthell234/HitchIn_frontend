@@ -76,13 +76,15 @@ export default class DriverPositionScreen extends Component {
 
   async componentWillUnmount() {
     await this.watchID.remove();
+    socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
+    socket.disconnect();
   }
 
   async setupWebsocket(){
     tripID = this.props.navigation.getParam('tripID', null);
     pickup = this.props.navigation.getParam('pickup', null);
     dropoff = this.props.navigation.getParam('dropoff', null);
-    
+
     socket = this.props.navigation.getParam('socket', null);
   }
 
@@ -172,7 +174,7 @@ export default class DriverPositionScreen extends Component {
 
   calculate_distance(newLatLng){
     const { prevLatLng } = this.state;
-    distance = haversine(prevLatLng, newLatLng, {unit: 'mile'}) || 0;
+    let distance = haversine(prevLatLng, newLatLng, {unit: 'mile'}) || 0;
     return distance;
   };
 
