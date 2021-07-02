@@ -51,7 +51,8 @@ export default class RiderPositionScreen extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       travel_distance: 0,
-      prevLatLng: {}
+      prevLatLng: {},
+      passenger_list: []
       // routeCoordinates: [],
       // distanceTravelled: 0,
       // prevLatLng: {},
@@ -74,7 +75,41 @@ export default class RiderPositionScreen extends Component {
   }
 
   componentWillUnmount() {
-    // navigator.geolocation.clearWatch(this.watchID);
+
+  }
+
+  async setupWebsocket(){
+    let tripID;
+    try{
+      userID = this.props.navigation.getParam('userID', null);
+      socket = this.props.navigation.getParam('socket', null);
+      tripID = this.props.navigation.getParam('tripID', null);
+    }catch(error){
+      console.log("could not retrieve information fron asyncstorage.", error);
+    }
+
+    socket.emit('init_passenger_list', {tripID: tripID});
+
+    socket.on('passenger_list', (response) => {
+      console.log(response.passenger_list);
+    })
+
+    //Need to make sure this actually works. Gonna need 3 phones. damn.
+    socket.on('passenger_update', (response) => {
+      console.log(response.passenger_list);
+    })
+
+    socket.on('start_trip', () => {
+      this.setState({
+        trip_started: true
+      })
+    })
+
+    socket.on('trip_deleted', async () => {
+      await this.watchID.remove();
+      socket.disconnect();
+      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
+    })
   }
 
   async getPermission() {
@@ -158,22 +193,6 @@ export default class RiderPositionScreen extends Component {
 
   }
 
-  async setupWebsocket(){
-    userID = this.props.navigation.getParam('userID', null);
-    socket = this.props.navigation.getParam('socket', null);
-
-    socket.on('trip_deleted', ()=> {
-      socket.disconnect();
-      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
-    })
-
-    socket.on('start_trip', () => {
-      this.setState({
-        trip_started: true
-      })
-    })
-  }
-
   _handleMapRegionChange(map_region){
     this.setState({ map_region });
   }
@@ -185,6 +204,8 @@ export default class RiderPositionScreen extends Component {
   };
 
   render() {
+
+    let driver = this.props.navigation.getParam('driver', null);
     return (
       <View style={styles.container}>
         <MapView
@@ -211,7 +232,7 @@ export default class RiderPositionScreen extends Component {
         </View>
         <FlatList
             data={[
-              {key: 'Devin'},
+              {key: driver},
               {key: 'Dan'},
               {key: 'Dominic'},
               {key: 'Jackson'},
