@@ -33,6 +33,10 @@ export default class QRReaderScreen extends React.Component {
     this.join_pool();
   }
 
+  componentWillUnmount() {
+    socket.disconnect();
+  }
+
   async join_pool(){
 
 
@@ -95,7 +99,8 @@ export default class QRReaderScreen extends React.Component {
         this.setState({
           scanned: true
         })
-        this.props.navigation.navigate('RiderPosition', {socket: socket, userID: userID});
+
+        this.props.navigation.navigate('RiderPosition', {socket: socket, userID: userID, driver: response.driver_name, tripID: response.tripID});
       }else{
 
       }
