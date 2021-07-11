@@ -40,9 +40,9 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title} category='h1'>Create Profile</Text>
 
         <View style={styles.create_profile_container}>
+        <Text style={styles.title}>Create Profile</Text>
           <Text>With</Text>
           {/*
           <TouchableOpacity
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: "center",
-    backgroundColor: "#ACD1F2",
+    backgroundColor: "#D2E6EE",
     padding: 10,
     width: 250,
     borderRadius: 250,

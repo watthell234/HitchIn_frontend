@@ -27,10 +27,25 @@ import RiderPositionScreen from './src/Screens/RiderPosition';
 // const Stack = createStackNavigator();
 
 const RootStack = createStackNavigator({
-  Init: InitScreen,
+  Start: {
+        screen: InitScreen,
+        navigationOptions: {
+        headerShown: false}}
+        ,
   Login: LoginScreen,
-  CreateProfile: CreateProfileScreen,
-  SignUp: SignUpScreen
+  CreateProfile: {
+                screen: CreateProfileScreen,
+                navigationOptions: {
+                  title: "Sign Up"
+                }
+              },
+  SignUp: {
+          screen: SignUpScreen,
+          navigationOptions: {
+            title: "Sign Up"
+          }
+        }
+
 });
 
 const LoggedInStack = createStackNavigator({
