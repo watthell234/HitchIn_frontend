@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#AAB7BD",
+    backgroundColor: "white",
     alignItems: "center",
   },
 
@@ -120,10 +120,11 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ACD1F2",
     padding: 10,
     width: 250,
     borderRadius: 250,
+
   },
   routeOrientation: {
     flexDirection: "row",
