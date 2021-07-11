@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "HitchIn",
-    "slug": "hitch",
+    "scheme": "hitchin",
+    "slug": "hitchin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/Screens/assets/icon.png",
