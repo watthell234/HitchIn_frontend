@@ -80,16 +80,21 @@ export default class RiderPositionScreen extends Component {
 
   async setupWebsocket(){
     let tripID;
+    let driver;
     try{
       userID = this.props.navigation.getParam('userID', null);
       socket = this.props.navigation.getParam('socket', null);
       tripID = this.props.navigation.getParam('tripID', null);
+      driver = this.props.navigation.getParam('driver', null);
     }catch(error){
       console.log("could not retrieve information fron asyncstorage.", error);
     }
 
+    console.log(driver);
+
     socket.emit('init_passenger_list', {tripID: tripID});
 
+    //how are we getting the driver?
     socket.on('passenger_list', (response) => {
       console.log(response.passenger_list);
     })
@@ -108,7 +113,11 @@ export default class RiderPositionScreen extends Component {
     socket.on('trip_deleted', async () => {
       await this.watchID.remove();
       socket.disconnect();
-      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
+      if(trip_started){
+        this.props.navigation.navigate('EndTrip');
+      }else{
+        this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
+      }
     })
   }
 
@@ -185,6 +194,9 @@ export default class RiderPositionScreen extends Component {
   async handle_cancel_trip() {
     await this.watchID.remove();
     socket.emit('leave_trip', {userID: userID});
+    socket.on('passenger_update', (response) => {
+      console.log(response.passenger_list);
+    })
     socket.disconnect();
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
   }
@@ -242,7 +254,7 @@ export default class RiderPositionScreen extends Component {
           {this.state.trip_started ?
             <TouchableOpacity
               style={styles.button}
-              onPress={() => {this.handle_end_trip()}}>
+              onPress={() => {this.handle_safety_toolkit()}}>
               <Text style={{color: "#FFFFFF", fontSize:20}}>Safety Toolkit</Text>
           </TouchableOpacity>
         : <TouchableOpacity
