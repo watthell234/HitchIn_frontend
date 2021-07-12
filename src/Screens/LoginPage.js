@@ -44,12 +44,15 @@ export default class LoginScreen extends React.Component {
         .then(() => this.props.navigation.navigate('LoggedIn'))
         .catch((error) => {
           if(error.response){
+            let errors = {};
+            let status = error.response.status;
+            //403
+            if(status == 401) {
+              errors['password'] = 'Wrong password. Try again.';
+            }else if(status == 402) {
+              errors['phone_number'] = 'User does not exist. Make sure to sign up first.';
+            }
 
-            //401
-            console.log(error.response);
-
-            let errors = this.state.errors;
-            errors['phoneNumber'] = 'phone number does not exist. Make sure to sign up first.';
             this.setState({
               errors
             })
@@ -75,7 +78,7 @@ export default class LoginScreen extends React.Component {
                     value={this.state.phoneNumber}
                     onBlur={Keyboard.dismiss}
                 />
-                <Text> {this.state.errors['phoneNumber']} </Text>
+                <Text> {this.state.errors['phone_number']} </Text>
                 <TextInput
                     style={styles.textInput}
                     onChangeText={(value) => this.handleTextChange('password', value)}
@@ -84,6 +87,7 @@ export default class LoginScreen extends React.Component {
                     onBlur={Keyboard.dismiss}
                     secureTextEntry={true}
                 />
+                <Text> {this.state.errors['password']} </Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => this.handleSubmit()}>
