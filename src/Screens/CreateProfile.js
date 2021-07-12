@@ -53,19 +53,19 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
           */}
 
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.fbbutton}>
             <Text
-              style={[styles.button_text, {color: "#1d47e0"}]}> Connect with Facebook
+              style={[styles.button_text]}> Connect with Facebook
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button}
+          <TouchableOpacity style={styles.gbutton}
           onPress={ () => {
             gpromptAsync();
             }}>
 
             <Text
-              style={[styles.button_text, {color: "#e01d1d"}]}> Connect with Google
+              style={[styles.button_text]}> Connect with Google
             </Text>
           </TouchableOpacity>
 
@@ -115,15 +115,30 @@ const styles = StyleSheet.create({
 
   button_text: {
     fontSize: 17,
+    color:'white'
   },
 
   button: {
     alignItems: "center",
-    backgroundColor: "#D2E6EE",
+    backgroundColor: "#404E5A",
     padding: 10,
     width: 250,
     borderRadius:8,
 
+  },
+  fbbutton: {
+    alignItems: "center",
+    backgroundColor: "#4267B2",
+    padding: 10,
+    width: 250,
+    borderRadius:8,
+  },
+  gbutton: {
+    alignItems: "center",
+    backgroundColor: "#DB4437",
+    padding: 10,
+    width: 250,
+    borderRadius:8,
   },
   routeOrientation: {
     flexDirection: "row",
