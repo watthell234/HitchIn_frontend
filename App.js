@@ -22,11 +22,13 @@ import EndTripScreen from './src/Screens/EndTrip';
 
 import QRReaderScreen from './src/Screens/QRreader';
 import RiderPositionScreen from './src/Screens/RiderPosition';
+import UserProfile from './src/Screens/Profile'
 
 // const Tab = createBottomTabNavigator();
 // const Stack = createStackNavigator();
 
 const RootStack = createStackNavigator({
+  // Profile: UserProfile,
   Start: {
         screen: InitScreen,
         navigationOptions: {

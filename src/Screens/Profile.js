@@ -12,13 +12,18 @@ export default class UserProfile extends React.Component {
       firstName: null,
       lastName: null,
       email: null,
-      phoneNumber: null
+      phoneNumber: null,
+      TextInputDisableStatus: false
     }
   }
   componentDidMount() {
     this.getUserInfo();
     this.setState({
     })
+    }
+
+    onEditProfile = () => {
+      this.setState({TextInputDisableStatus: true})
     }
 
   async getUserInfo() {
@@ -54,16 +59,24 @@ export default class UserProfile extends React.Component {
         <TextInput
           style={styles.title}
           value={firstName + " " +lastName}
+          editable={this.state.TextInputDisableStatus}
         />
         <TextInput
           value={phoneNumber}
+          editable={this.state.TextInputDisableStatus}
         />
         <TextInput
           value= {email}
+          editable={this.state.TextInputDisableStatus}
         />
         <TextInput
           value='Password'
         />
+        <TouchableOpacity
+            style={styles.button}
+            onPress={this.onEditProfile}>
+            <Text style={{color: "#FFFFFF", fontSize:20}}>Update Profile</Text>
+        </TouchableOpacity>
         </View>
 
     );
