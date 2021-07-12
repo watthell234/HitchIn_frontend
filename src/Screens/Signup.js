@@ -156,10 +156,10 @@ export default class SignUpScreen extends React.Component {
         // const {accountCreate} = this.state;
         return (
           <View style={styles.container}>
-              <Text style={styles.title}
-                category='h1'>Sign Up
-              </Text>
-              <View>
+              <View style={styles.profileContainer}>
+                <Text style={styles.paragraph}>
+                Please provide your
+                </Text>
                 <TextInput
                       keyboardType="number-pad"
                       maxLength={10}
