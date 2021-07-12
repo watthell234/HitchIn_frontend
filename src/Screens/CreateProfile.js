@@ -107,9 +107,8 @@ const styles = StyleSheet.create({
 
   title: {
     marginBottom: 20,
-    fontSize: 18,
     fontWeight: "bold",
-    fontSize: 32,
+    fontSize: 24,
     color: "#404e5a"
 
   },
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D2E6EE",
     padding: 10,
     width: 250,
-    borderRadius: 250,
+    borderRadius:8,
 
   },
   routeOrientation: {
