@@ -194,9 +194,6 @@ export default class RiderPositionScreen extends Component {
   async handle_cancel_trip() {
     await this.watchID.remove();
     socket.emit('leave_trip', {userID: userID});
-    socket.on('passenger_update', (response) => {
-      console.log(response.passenger_list);
-    })
     socket.disconnect();
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
   }
