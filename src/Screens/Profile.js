@@ -64,22 +64,6 @@ export default class UserProfile extends React.Component {
         <TextInput
           value='Password'
         />
-        <Text
-          style={styles.secondaryTitle}
-          category='h2'>My Car
-        </Text>
-        <TextInput
-          value='Toyota'
-        />
-        <TextInput
-          value='Blue'
-        />
-        <TextInput
-          value='WCB-96X'
-        />
-        <TextInput
-          value='8273923767819'
-        />
         </View>
 
     );
