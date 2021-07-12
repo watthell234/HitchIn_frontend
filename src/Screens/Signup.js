@@ -160,7 +160,7 @@ export default class SignUpScreen extends React.Component {
           <View style={styles.container}>
               <View style={styles.profileContainer}>
                 <Text style={styles.paragraph}>
-                What is your contact information?
+                Please provide your
                 </Text>
                 <TextInput
                       keyboardType="number-pad"
