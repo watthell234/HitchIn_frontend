@@ -113,7 +113,7 @@ export default class RiderPositionScreen extends Component {
     socket.on('trip_deleted', async () => {
       await this.watchID.remove();
       socket.disconnect();
-      if(trip_started){
+      if(this.state.trip_started){
         this.props.navigation.navigate('EndTrip');
       }else{
         this.props.navigation.reset([NavigationActions.navigate({ routeName: 'QRReader'})], 0);
