@@ -165,7 +165,7 @@ export default class DriverPositionScreen extends Component {
     console.log(dropoff);
     socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
     socket.disconnect();
-    this.props.navigation.navigate('LoggedIn');
+    this.props.navigation.navigate('EndTrip');
   }
 
   _handleMapRegionChange(map_region){

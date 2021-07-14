@@ -125,23 +125,21 @@ export default class SignUpScreen extends React.Component {
         .then((response) => this.storeToken(response.data.id, response.data.auth_token))
         .then(() => {this.props.navigation.navigate('LoggedIn')})
         .catch((error) => {
-          if(error.response){
-            //401
-            console.log(error.response);
+          //401
+          let status = error.response.status;
+          let errors = {};
 
-            //needs more work
-            let errors = this.state.errors;
-            errors['phoneNumber'] = "phone number already exists";
+          console.log(error.response);
+          if(status == 401){
             errors['email'] = "email already exists";
-            this.setState({
-              errors
-            })
-
-          } else if (error.request){
-            console.log(error.request);
-          } else {
-            console.log(error.message);
+          }else if(status == 402){
+            errors['phoneNumber'] = "phone number already exists";
           }
+
+          this.setState({
+            errors
+          })
+
         });
 
       }
