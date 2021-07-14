@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import { http } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
+import {styles} from './styles/styles';
 
 let socket;
 let pickup;
@@ -169,19 +170,3 @@ export default class PairingScreen extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#AAB7BD',
-        alignItems: 'center',
-  },
-    button: {
-      alignItems: "center",
-      backgroundColor: "#404e5a",
-      padding: 10,
-      width: 250,
-    },
-
-     }
-)

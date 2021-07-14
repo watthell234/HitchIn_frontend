@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { styles } from './styles/styles';
 
 export default class EndTripScreen extends React.Component {
   constructor(props) {
@@ -27,19 +27,3 @@ export default class EndTripScreen extends React.Component {
     )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#AAB7BD',
-        alignItems: 'center',
-  },
-    button: {
-      alignItems: "center",
-      backgroundColor: "#404e5a",
-      padding: 10,
-      width: 250,
-    },
-
-     }
-)
