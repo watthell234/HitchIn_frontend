@@ -14,7 +14,7 @@ export default class PairingScreen extends React.Component {
   constructor(props) {
       super (props);
       this.state = {
-        driver_name: '',
+        driver: '',
         passengerCount: 1,
         passenger_list: []
       }
@@ -57,7 +57,7 @@ export default class PairingScreen extends React.Component {
     socket.on('trip_id_' + carID, (response) => {
       tripID = response.trip_id;
       this.setState({
-        driver_name: response.driver_name
+        driver: response.driver_name
       })
     })
 
@@ -107,7 +107,7 @@ export default class PairingScreen extends React.Component {
   async handle_start_trip() {
 
     socket.emit('start_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
-    this.props.navigation.navigate('DriverPosition', {socket: socket, tripID: tripID, pickup: pickup, dropoff: dropoff});
+    this.props.navigation.navigate('DriverPosition', {socket: socket, tripID: tripID, pickup: pickup, dropoff: dropoff, passenger_list: this.state.passenger_list, driver: this.state.driver});
 
     //   try {
     //     let passengerCount = await this.getPassCount();
@@ -145,7 +145,7 @@ export default class PairingScreen extends React.Component {
     let list_str = "Passenger list: " + '\n';
     let passenger_info = '';
 
-    list_str = 'Driver: ' + this.state.driver_name + '\n';
+    list_str = 'Driver: ' + this.state.driver + '\n';
     passenger_list.forEach((value, index) => {
       passenger_info = "Passenger: " + value.passenger_name;
       list_str = list_str + passenger_info + '\n';
