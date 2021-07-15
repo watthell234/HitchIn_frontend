@@ -44,15 +44,13 @@ export default class RiderPositionScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE
       },
-      map_region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
+      map_region: null,
       travel_distance: 0,
       prevLatLng: {},
-      passenger_list: []
+      passengers:{
+        driver: null,
+        passenger_list: null
+      }
       // routeCoordinates: [],
       // distanceTravelled: 0,
       // prevLatLng: {},
@@ -89,19 +87,27 @@ export default class RiderPositionScreen extends Component {
     }catch(error){
       console.log("could not retrieve information fron asyncstorage.", error);
     }
-
-    console.log(driver);
+    // console.log(driver);
 
     socket.emit('init_passenger_list', {tripID: tripID});
 
     //how are we getting the driver?
     socket.on('passenger_list', (response) => {
-      console.log(response.passenger_list);
+      this.setState({
+        passengers: {
+          driver: driver,
+          passenger_list: response.passenger_list
+        }
+      })
     })
 
-    //Need to make sure this actually works. Gonna need 3 phones. damn.
     socket.on('passenger_update', (response) => {
-      console.log(response.passenger_list);
+      // console.log(response.passenger_list);
+      this.setState({
+        passengers: {
+          passenger_list: response.passenger_list
+        }
+      })
     })
 
     socket.on('start_trip', () => {
@@ -213,11 +219,9 @@ export default class RiderPositionScreen extends Component {
   };
 
   render() {
-
-    let driver = this.props.navigation.getParam('driver', null);
     return (
       <View style={styles.container}>
-        <MapView
+        {this.state.map_region ? <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           showUserLocation
@@ -225,40 +229,42 @@ export default class RiderPositionScreen extends Component {
           loadingEnabled
           minZoomLevel={15}
           zoomControlEnabled={true}
-          region={this.state.map_region}
+          initialRegion={this.state.map_region}
           onRegionChange={(map_region) => this._handleMapRegionChange(map_region)}>
           <Polyline coordinates={this.state.polyline_coordinates} strokeWidth={5} />
           <Marker
             coordinate={this.state.marker}
           />
-        </MapView>
-        <View style={styles.buttonContainer}>
+        </MapView>: <Text> Loading Map... </Text>}
+        <View style={styles.distance_container}>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
             <Text style={styles.bottomBarContent}>
               {parseFloat(this.state.travel_distance).toFixed(2)} mile
             </Text>
           </TouchableOpacity>
         </View>
+        <Text style={styles.item}>Driver: {this.state.passengers.driver}</Text>
+        <View style={styles.list_container}>
         <FlatList
-            data={[
-              {key: driver},
-              {key: 'Dan'},
-              {key: 'Dominic'},
-              {key: 'Jackson'},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-            />
-          {this.state.trip_started ?
-            <TouchableOpacity
+            data={this.state.passengers.passenger_list}
+            renderItem={({item}) => <Text style={styles.item}>{item.passenger_name}</Text>}
+            keyExtractor={item => String(item.passenger_id)}
+          />
+          </View>
+          <View style={styles.button_container}>
+            {this.state.trip_started ?
+              <TouchableOpacity
               style={styles.button}
               onPress={() => {this.handle_safety_toolkit()}}>
               <Text style={{color: "#FFFFFF", fontSize:20}}>Safety Toolkit</Text>
-          </TouchableOpacity>
-        : <TouchableOpacity
-          style={styles.button}
-          onPress={() => {this.handle_cancel_trip()}}>
-          <Text style={{color: "#FFFFFF", fontSize:20}}>Cancel Trip</Text>
-      </TouchableOpacity>}
+              </TouchableOpacity>
+              : <TouchableOpacity
+              style={styles.button}
+              onPress={() => {this.handle_cancel_trip()}}>
+              <Text style={{color: "#FFFFFF", fontSize:20}}>Cancel Trip</Text>
+              </TouchableOpacity>
+            }
+          </View>
       </View>
     );
   }
@@ -266,13 +272,15 @@ export default class RiderPositionScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
     alignItems: "center"
   },
   map: {
-  width: 350,
-  height: 500,
+    flex: 7,
+    width: 350,
+    height: 500,
   },
   bubble: {
     flex: 1,
@@ -280,6 +288,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20
+  },
+  list_container: {
+    flex: 1
+  },
+  button_container:{
+    flex: 1
   },
   latlng: {
     width: 200,
@@ -291,14 +305,13 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 250,
   },
-  buttonContainer: {
+  distance_container: {
     flexDirection: "row",
     marginVertical: 20,
     backgroundColor: "transparent"
   },
   item: {
-    padding: 10,
     fontSize: 18,
-    height: 44,
+    height: 30,
   }
 });
