@@ -34,137 +34,128 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
         firstName: data.names[0].givenName,
         lastName: data.names[0].familyName}));
       }
-  }
-  , [gresponse]);
+    }
+    , [gresponse]);
 
 
     return (
       <View style={styles.container}>
 
-        <View style={styles.create_profile_container}>
-        <Text style={styles.title}>Create Profile</Text>
-          <Text>With</Text>
-          {/*
-          <TouchableOpacity
-          style={styles.button}
-          onPress={() => {this.props.navigation.navigate('QRTabs')}}>
-          <Text style={{color: "#FFFFFF"}}>Next</Text>
-          </TouchableOpacity>
-          */}
+      <View style={styles.create_profile_container}>
+      <Text style={styles.title}>Create Profile</Text>
+      <Text>With</Text>
+      <TouchableOpacity style={styles.fbbutton}>
+        <Text
+          style={[styles.button_text]}> Connect with Facebook
+        </Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity style={styles.gbutton}
+      onPress={ () => {
+        gpromptAsync();
+      }}>
 
-          <TouchableOpacity style={styles.fbbutton}>
-            <Text
-              style={[styles.button_text]}> Connect with Facebook
-            </Text>
-          </TouchableOpacity>
+      <Text
+      style={[styles.button_text]}> Connect with Google
+      </Text>
+      </TouchableOpacity>
 
-          <TouchableOpacity style={styles.gbutton}
-          onPress={ () => {
-            gpromptAsync();
-            }}>
+      <TouchableOpacity style={styles.button}>
+      <Text
+      onPress={() => navigate('SignUp')}
+      style={[styles.button_text]}> Create New Account
+      </Text>
+      </TouchableOpacity>
 
-            <Text
-              style={[styles.button_text]}> Connect with Google
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Text
-              onPress={() => navigate('SignUp')}
-              style={[styles.button_text]}> Create New Account
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-        <View style={styles.empty_container}>
-        </View>
       </View>
-      )
+
+      <View style={styles.empty_container}>
+      </View>
+      </View>
+    )
+  }
+
+
+
+
+  const styles = StyleSheet.create({
+
+    container: {
+      flex: 1,
+      backgroundColor: "white",
+      alignItems: "center",
+    },
+
+    create_profile_container: {
+      flex: 3,
+      justifyContent: "space-evenly",
+      alignItems: "center",
+    },
+
+    empty_container: {
+      flex: 2,
+    },
+
+    title: {
+      marginBottom: 20,
+      fontWeight: "bold",
+      fontSize: 24,
+      color: "#404e5a"
+
+    },
+
+    button_text: {
+      fontSize: 17,
+      color:'white'
+    },
+
+    button: {
+      alignItems: "center",
+      backgroundColor: "#404E5A",
+      padding: 10,
+      width: 250,
+      borderRadius:8,
+
+    },
+    // fbbutton: {
+    //   alignItems: "center",
+    //   backgroundColor: "#4267B2",
+    //   padding: 10,
+    //   width: 250,
+    //   borderRadius:8,
+    // },
+    gbutton: {
+      alignItems: "center",
+      backgroundColor: "#DB4437",
+      padding: 10,
+      width: 250,
+      borderRadius:8,
+    },
+    routeOrientation: {
+      flexDirection: "row",
+      alignItems: 'center',
+    },
+    textInput: {
+      backgroundColor: "#FFFFFF",
+      borderWidth: 1,
+      borderColor: "#AAB7BD"
+
+    },
+
+    iconSize: {
+      width: 48,
+      height: 48,
+    },
+
+    standardSize: { width: 212, height: 48 },
+    wideSize: { width: 312, height: 48 },
+
+    GoogleSigninButton: {
+      // Icon: BUTTON_SIZE_ICON,
+      // Standard: BUTTON_SIZE_STANDARD,
+      // Wide: BUTTON_SIZE_WIDE,
+      // Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
+      // Light: "#FFFFFF",
+      // Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
     }
-
-
-
-
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-  },
-
-  create_profile_container: {
-    flex: 3,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-
-  empty_container: {
-    flex: 2,
-  },
-
-  title: {
-    marginBottom: 20,
-    fontWeight: "bold",
-    fontSize: 24,
-    color: "#404e5a"
-
-  },
-
-  button_text: {
-    fontSize: 17,
-    color:'white'
-  },
-
-  button: {
-    alignItems: "center",
-    backgroundColor: "#404E5A",
-    padding: 10,
-    width: 250,
-    borderRadius:8,
-
-  },
-  fbbutton: {
-    alignItems: "center",
-    backgroundColor: "#4267B2",
-    padding: 10,
-    width: 250,
-    borderRadius:8,
-  },
-  gbutton: {
-    alignItems: "center",
-    backgroundColor: "#DB4437",
-    padding: 10,
-    width: 250,
-    borderRadius:8,
-  },
-  routeOrientation: {
-    flexDirection: "row",
-    alignItems: 'center',
-  },
-  textInput: {
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#AAB7BD"
-
-  },
-
-  iconSize: {
-    width: 48,
-    height: 48,
-  },
-
-  standardSize: { width: 212, height: 48 },
-  wideSize: { width: 312, height: 48 },
-
-GoogleSigninButton: {
-  // Icon: BUTTON_SIZE_ICON,
-  // Standard: BUTTON_SIZE_STANDARD,
-  // Wide: BUTTON_SIZE_WIDE,
-  // Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
-  // Light: "#FFFFFF",
-  // Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
-}
-});
+  });

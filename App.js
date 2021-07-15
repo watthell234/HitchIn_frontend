@@ -29,7 +29,7 @@ import EndTripScreen from './src/Screens/EndTrip';
 // const Stack = createStackNavigator();
 
 const RootStack = createStackNavigator({
-  // Profile: UserProfile,
+  Profile: UserProfile,
   Start: {
         screen: InitScreen,
         navigationOptions: {

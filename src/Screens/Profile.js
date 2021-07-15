@@ -20,64 +20,80 @@ export default class UserProfile extends React.Component {
     this.getUserInfo();
     this.setState({
     })
-    }
+  }
 
-    onEditProfile = () => {
-      this.setState({TextInputDisableStatus: true})
-    }
+  onEditProfile = () => {
+    this.setState({TextInputDisableStatus: !this.state.TextInputDisableStatus})
+    console.log(this.state.TextInputDisableStatus)
+  }
 
   async getUserInfo() {
-      const userId = await AsyncStorage.getItem("userID");
-      const authToken = await AsyncStorage.getItem('authToken');
-      console.log(parseInt(userId.replace(/['"]+/g, '')));
-      http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
-      .then((response) => this.setState({
-                                          firstName: response.data.firstName,
-                                          lastName: response.data.lastName,
-                                          phoneNumber: response.data.phoneNumber,
-                                          email: response.data.email
-                                        }
-                                      )
-                        )
-                      }
+    const userId = await AsyncStorage.getItem("userID");
+    const authToken = await AsyncStorage.getItem('authToken');
+    http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
+    .then((response) => this.setState({
+      firstName: response.data.firstName,
+      lastName: response.data.lastName,
+      phoneNumber: response.data.phoneNumber,
+      email: response.data.email
+    }
+  )
+)
+}
 
-    render() {
-      const {phoneNumber, firstName, lastName, email} = this.state
-      return (
-        <View style={styles.profileContainer}>
-        <LogOut navigation={this.props.navigation}/>
-        <Text style={styles.title}
-          category='h1'>Profile
-        </Text>
-        <Image
-        style={{
-          width: 100,
-          height: 100,
-          borderRadius: 50}}
-        source={{uri:'https://lh3.googleusercontent.com/a-/AOh14Gicy9B_XxvruvQqYk4qc9woNsGvRMSNGya1g71V=s100'}}
-        />
-        <TextInput
-          style={styles.title}
-          value={firstName + " " +lastName}
-          editable={this.state.TextInputDisableStatus}
-        />
-        <TextInput
-          value={phoneNumber}
-          editable={this.state.TextInputDisableStatus}
-        />
-        <TextInput
-          value= {email}
-          editable={this.state.TextInputDisableStatus}
-        />
-        <TextInput
-          value='Password'
-        />
-        <TouchableOpacity
-            style={styles.button}
-            onPress={this.onEditProfile}>
-            <Text style={{color: "#FFFFFF", fontSize:20}}>Update Profile</Text>
-        </TouchableOpacity>
-        </View>
+render() {
+  const {phoneNumber, firstName, lastName, email, TextInputDisableStatus} = this.state
+
+  let buttonText;
+  if (TextInputDisableStatus) {
+   buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Save</Text>
+ } else {
+   buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Update Profile</Text>
+ }
+  return (
+    <View style={styles.profileContainer}>
+    <LogOut navigation={this.props.navigation}/>
+    <Text style={styles.title}
+    category='h1'>Profile
+    </Text>
+    <Image
+    style={{
+      width: 100,
+      height: 100,
+      borderRadius: 50}}
+      source={{uri:'https://lh3.googleusercontent.com/a-/AOh14Gicy9B_XxvruvQqYk4qc9woNsGvRMSNGya1g71V=s100'}}
+      />
+      <TextInput
+      style={styles.title}
+      value={firstName}
+      onChangeText={(firstName) => this.setState({firstName}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      style={styles.title}
+      value={lastName}
+      onChangeText={lastName => this.setState({lastName}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value={phoneNumber}
+      onChangeText={phoneNumber => this.setState({phoneNumber}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value={email}
+      onChangeText={(email) => this.setState({email})}
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value='Password'
+      />
+      <TouchableOpacity
+      style={styles.button}
+      onPress={this.onEditProfile}>
+      {buttonText}
+      </TouchableOpacity>
+      </View>
 
     );
   }
