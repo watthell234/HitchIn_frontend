@@ -45,6 +45,10 @@ export default class DriverPositionScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE
       },
+      destination_marker: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      },
       map_region: null,
       travel_distance: 0,
       prevLatLng: {},
@@ -80,30 +84,46 @@ export default class DriverPositionScreen extends Component {
   }
 
   async setupWebsocket(){
+
+    let pickup_latitude;
+    let pickup_longitude;
+    let dropoff_latitude;
+    let dropoff_longitude;
+    let passenger_list;
+    let driver;
+
     try{
       tripID = this.props.navigation.getParam('tripID', null);
+      socket = this.props.navigation.getParam('socket', null);
+
       pickup = this.props.navigation.getParam('pickup', null);
+      pickup_latitude = await AsyncStorage.getItem("pickup_latitude");
+      pickup_longitude = await AsyncStorage.getItem("pickup_longitude");
+
       dropoff = this.props.navigation.getParam('dropoff', null);
+      dropoff_latitude = await AsyncStorage.getItem("dropoff_latitude");
+      dropoff_longitude = await AsyncStorage.getItem("dropoff_longitude");
+
+      passenger_list = this.props.navigation.getParam('passenger_list', null);
+      driver = this.props.navigation.getParam('driver', null);
     }catch(error){
       console.log("could not retrieve information fron asyncstorage.", error);
     }
 
-    let passenger_list = this.props.navigation.getParam('passenger_list', null);
-    let driver = this.props.navigation.getParam('driver', null);
-
-    // console.log("passengers: ");
-    // console.log(passenger_list);
-    // console.log("driver: ");
-    // console.log(driver);
+    dropoff_latitude = parseFloat(dropoff_latitude);
+    dropoff_longitude = parseFloat(dropoff_longitude);
 
     this.setState({
       passengers: {
         driver: driver,
         passenger_list: passenger_list
+      },
+      destination_marker: {
+        latitude: dropoff_latitude,
+        longitude: dropoff_longitude
       }
     })
 
-    socket = this.props.navigation.getParam('socket', null);
   }
 
   async getPermission() {
@@ -132,7 +152,6 @@ export default class DriverPositionScreen extends Component {
 
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    //
     // console.log("-------------------");
     // console.log(latitude);
     // console.log(longitude);
@@ -203,17 +222,20 @@ export default class DriverPositionScreen extends Component {
           showUserLocation
           followUserLocation
           loadingEnabled
-          minZoomLevel={15}
+          minZoomLevel={14}
           initialRegion={this.state.map_region}
           onRegionChange={(map_region) => this._handleMapRegionChange(map_region)}>
           <Polyline coordinates={this.state.polyline_coordinates} strokeWidth={5} />
           <Marker
             coordinate={this.state.marker}
           />
-        </MapView> : <Text> Loading Map... </Text>}
+          <Marker
+            coordinate={this.state.destination_marker}
+          />
+        </MapView> : <Text style={styles.map}> Loading Map... </Text>}
         <View style={styles.distance_container}>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
-            <Text style={styles.bottomBarContent}>
+            <Text style={styles.distance_text}>
               {parseFloat(this.state.travel_distance).toFixed(2)} mile
             </Text>
           </TouchableOpacity>
@@ -230,7 +252,7 @@ export default class DriverPositionScreen extends Component {
         <TouchableOpacity
             style={styles.button}
             onPress={() => {this.handle_end_trip()}}>
-            <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
+            <Text style={styles.button_text}>End Trip</Text>
         </TouchableOpacity>
         </View>
       </View>
@@ -247,15 +269,15 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 7,
-    width: 350,
-    height: 500,
+    width: screen.width,
+    height: screen.height,
   },
   bubble: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,0.7)",
     paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20
+    paddingVertical: 5,
+    borderRadius: 15
   },
   list_container: {
     flex: 1
@@ -273,10 +295,18 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 250,
   },
+  button_text: {
+    color: "#FFFFFF",
+    fontSize: 20
+  },
   distance_container: {
     flexDirection: "row",
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor: "transparent"
+  },
+  distance_text: {
+    color: "#FFFFFF",
+    fontSize: 20
   },
   item: {
     fontSize: 18,

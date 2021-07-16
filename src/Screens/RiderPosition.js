@@ -44,6 +44,10 @@ export default class RiderPositionScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE
       },
+      destination_marker: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      },
       map_region: null,
       travel_distance: 0,
       prevLatLng: {},
@@ -72,22 +76,42 @@ export default class RiderPositionScreen extends Component {
     this.getPermission();
   }
 
-  componentWillUnmount() {
-
+  async componentWillUnmount() {
+    await this.watchID.remove();
+    socket.emit('leave_trip', {userID: userID});
+    socket.disconnect();
   }
 
   async setupWebsocket(){
     let tripID;
     let driver;
+    let pickup_latitude;
+    let pickup_longitude;
+    let dropoff_latitude;
+    let dropoff_longitude;
+
     try{
       userID = this.props.navigation.getParam('userID', null);
       socket = this.props.navigation.getParam('socket', null);
       tripID = this.props.navigation.getParam('tripID', null);
       driver = this.props.navigation.getParam('driver', null);
+
+      pickup_latitude = await AsyncStorage.getItem("pickup_latitude");
+      pickup_longitude = await AsyncStorage.getItem("pickup_longitude");
+
+      dropoff_latitude = await AsyncStorage.getItem("dropoff_latitude");
+      dropoff_longitude = await AsyncStorage.getItem("dropoff_longitude");
     }catch(error){
       console.log("could not retrieve information fron asyncstorage.", error);
     }
     // console.log(driver);
+
+    this.setState({
+      destination_marker: {
+        latitude: dropoff_latitude,
+        longitude: dropoff_longitude
+      }
+    })
 
     socket.emit('init_passenger_list', {tripID: tripID});
 
@@ -227,7 +251,7 @@ export default class RiderPositionScreen extends Component {
           showUserLocation
           followUserLocation
           loadingEnabled
-          minZoomLevel={15}
+          minZoomLevel={14}
           zoomControlEnabled={true}
           initialRegion={this.state.map_region}
           onRegionChange={(map_region) => this._handleMapRegionChange(map_region)}>
@@ -235,10 +259,13 @@ export default class RiderPositionScreen extends Component {
           <Marker
             coordinate={this.state.marker}
           />
-        </MapView>: <Text> Loading Map... </Text>}
+          <Marker
+            coordinate={this.state.destination_marker}
+          />
+        </MapView>: <Text style={styles.map}> Loading Map... </Text>}
         <View style={styles.distance_container}>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
-            <Text style={styles.bottomBarContent}>
+            <Text style={styles.distance_text}>
               {parseFloat(this.state.travel_distance).toFixed(2)} mile
             </Text>
           </TouchableOpacity>
@@ -256,12 +283,12 @@ export default class RiderPositionScreen extends Component {
               <TouchableOpacity
               style={styles.button}
               onPress={() => {this.handle_safety_toolkit()}}>
-              <Text style={{color: "#FFFFFF", fontSize:20}}>Safety Toolkit</Text>
+              <Text style={style.button_text}>Safety Toolkit</Text>
               </TouchableOpacity>
               : <TouchableOpacity
               style={styles.button}
               onPress={() => {this.handle_cancel_trip()}}>
-              <Text style={{color: "#FFFFFF", fontSize:20}}>Cancel Trip</Text>
+              <Text style={style.button_text}>Cancel Trip</Text>
               </TouchableOpacity>
             }
           </View>
@@ -279,15 +306,15 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 7,
-    width: 350,
-    height: 500,
+    width: screen.width,
+    height: screen.height,
   },
   bubble: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,0.7)",
     paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20
+    paddingVertical: 5,
+    borderRadius: 15
   },
   list_container: {
     flex: 1
@@ -305,10 +332,18 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 250,
   },
+  button_text: {
+    color: "#FFFFFF",
+    fontSize: 20
+  },
   distance_container: {
     flexDirection: "row",
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor: "transparent"
+  },
+  distance_text: {
+    color: "#FFFFFF",
+    fontSize: 20
   },
   item: {
     fontSize: 18,
