@@ -24,11 +24,13 @@ export default class SignUpScreen extends React.Component {
         input['email'] = params.email;
         input['firstName'] = params.firstName;
         input['lastName'] = params.lastName;
+        input['photoUrl'] = params.photoUrl;
 
         this.setState({ input });
         console.log(this.props.navigation.state.params.email);
         console.log(this.props.navigation.state.params.firstName);
         console.log(this.props.navigation.state.params.lastName);
+        console.log(this.props.navigation.state.params.photoUrl);
       }
 
     }

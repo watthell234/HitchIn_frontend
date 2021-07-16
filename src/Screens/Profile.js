@@ -87,6 +87,8 @@ render() {
       />
       <TextInput
       value='Password'
+      editable={TextInputDisableStatus}
+      secureTextEntry={true}
       />
       <TouchableOpacity
       style={styles.button}
