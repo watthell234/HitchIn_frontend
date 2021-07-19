@@ -51,10 +51,8 @@ export default class RiderPositionScreen extends Component {
       map_region: null,
       travel_distance: 0,
       prevLatLng: {},
-      passengers:{
-        driver: null,
-        passenger_list: null
-      }
+      driver: null,
+      passenger_list: null
       // routeCoordinates: [],
       // distanceTravelled: 0,
       // prevLatLng: {},
@@ -121,19 +119,15 @@ export default class RiderPositionScreen extends Component {
     //how are we getting the driver?
     socket.on('passenger_list', (response) => {
       this.setState({
-        passengers: {
-          driver: driver,
-          passenger_list: response.passenger_list
-        }
+        driver: driver,
+        passenger_list: response.passenger_list
       })
     })
 
     socket.on('passenger_update', (response) => {
       // console.log(response.passenger_list);
       this.setState({
-        passengers: {
-          passenger_list: response.passenger_list
-        }
+        passenger_list: response.passenger_list
       })
     })
 
@@ -273,10 +267,10 @@ export default class RiderPositionScreen extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.item}>Driver: {this.state.passengers.driver}</Text>
+        <Text style={styles.item}>Driver: {this.state.driver}</Text>
         <View style={styles.list_container}>
         <FlatList
-            data={this.state.passengers.passenger_list}
+            data={this.state.passenger_list}
             renderItem={({item}) => <Text style={styles.item}>{item.passenger_name}</Text>}
             keyExtractor={item => String(item.passenger_id)}
           />
