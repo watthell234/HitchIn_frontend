@@ -27,14 +27,12 @@ export default class UserProfile extends React.Component {
       console.log(parseInt(userId.replace(/['"]+/g, '')));
       http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
       .then((response) => this.setState({
-                                          firstName: response.data.firstName,
-                                          lastName: response.data.lastName,
-                                          phoneNumber: response.data.phoneNumber,
-                                          email: response.data.email
-                                        }
-                                      )
-                        )
-                      }
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        phoneNumber: response.data.phoneNumber,
+        email: response.data.email})
+    )
+  }
 
     render() {
       const {phoneNumber, firstName, lastName, email} = this.state
