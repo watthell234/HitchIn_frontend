@@ -106,6 +106,9 @@ export default class RiderPositionScreen extends Component {
     }
     // console.log(driver);
 
+    dropoff_latitude = parseFloat(dropoff_latitude);
+    dropoff_longitude = parseFloat(dropoff_longitude);
+
     this.setState({
       destination_marker: {
         latitude: dropoff_latitude,
