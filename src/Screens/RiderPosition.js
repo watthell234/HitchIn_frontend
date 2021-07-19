@@ -283,12 +283,12 @@ export default class RiderPositionScreen extends Component {
               <TouchableOpacity
               style={styles.button}
               onPress={() => {this.handle_safety_toolkit()}}>
-              <Text style={style.button_text}>Safety Toolkit</Text>
+              <Text style={styles.button_text}>Safety Toolkit</Text>
               </TouchableOpacity>
               : <TouchableOpacity
               style={styles.button}
               onPress={() => {this.handle_cancel_trip()}}>
-              <Text style={style.button_text}>Cancel Trip</Text>
+              <Text style={styles.button_text}>Cancel Trip</Text>
               </TouchableOpacity>
             }
           </View>
