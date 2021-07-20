@@ -31,10 +31,22 @@ export default class CarpoolRouteScreen extends React.Component {
 
     async storeLocations() {
       try{
-        let pickup = this.state.selectedItems.pickup_location;
-        let dropoff = this.state.selectedItems.dropoff_location;
-        await AsyncStorage.setItem("pickup", pickup);
-        await AsyncStorage.setItem("dropoff", dropoff);
+        let pickup_location = this.state.selectedItems.pickup.location;
+        let pickup_latitude = this.state.selectedItems.pickup.latitude;
+        let pickup_longitude = this.state.selectedItems.pickup.longitude;
+
+        let dropoff_location = this.state.selectedItems.dropoff.location;
+        let dropoff_latitude = this.state.selectedItems.dropoff.latitude;
+        let dropoff_longitude = this.state.selectedItems.dropoff.longitude;
+
+
+        await AsyncStorage.setItem("pickup", pickup_location);
+        await AsyncStorage.setItem("pickup_latitude", String(pickup_latitude));
+        await AsyncStorage.setItem("pickup_longitude", String(pickup_longitude));
+
+        await AsyncStorage.setItem("dropoff", dropoff_location);
+        await AsyncStorage.setItem("dropoff_latitude", String(dropoff_latitude));
+        await AsyncStorage.setItem("dropoff_longitude", String(dropoff_longitude));
       }catch(error) {
         console.log("Couldn't store locations", error)
       }
@@ -56,11 +68,11 @@ export default class CarpoolRouteScreen extends React.Component {
         const dropoff_picker_items = [];
 
         pickup_list.map((item) => {
-          pickup_picker_items.push({label:item.location_name, value:item.location_name.toLowerCase()})
+          pickup_picker_items.push({label:item.location_name, value: {location: item.location_name.toLowerCase(), latitude: item.latitude, longitude: item.longitude}})
         })
 
         dropoff_list.map((item) => {
-          dropoff_picker_items.push({label:item.location_name, value:item.location_name.toLowerCase()})
+          dropoff_picker_items.push({label:item.location_name, value:{location: item.location_name.toLowerCase(), latitude: item.latitude, longitude: item.longitude}})
         })
 
         this.setState({
@@ -103,7 +115,7 @@ export default class CarpoolRouteScreen extends React.Component {
                             },
                           }}
                             placeholder={pickup_placeholder}
-                            onValueChange={(itemValue) => this.onPickerSelect("pickup_location", itemValue)}
+                            onValueChange={(itemValue) => this.onPickerSelect("pickup", itemValue)}
                             items={pickup_list}
                             useNativeAndroidPickerStyle={false}
                       />
@@ -120,12 +132,12 @@ export default class CarpoolRouteScreen extends React.Component {
                             },
                           }}
                             placeholder={dropoff_placeholder}
-                            onValueChange={(value) => this.onPickerSelect("dropoff_location", value)}
+                            onValueChange={(value) => this.onPickerSelect("dropoff", value)}
                             items={dropoff_list}
                             useNativeAndroidPickerStyle={false}
                       />
                     : <Text> Loading dropoff list... </Text>}
-                    {selectedItems['pickup_location'] && selectedItems['dropoff_location'] ?
+                    {selectedItems['pickup'] && selectedItems['dropoff'] ?
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {this.handleSubmit()}}>
