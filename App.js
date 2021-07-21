@@ -29,13 +29,6 @@ import EndTripScreen from './src/Screens/EndTrip';
 // const Stack = createStackNavigator();
 
 const RootStack = createStackNavigator({
-  CreateProfile: {
-                screen: CreateProfileScreen,
-                navigationOptions: {
-                  title: "Sign Up"
-                }
-              },
-  Profile: UserProfile,
   Start: {
         screen: InitScreen,
         navigationOptions: {

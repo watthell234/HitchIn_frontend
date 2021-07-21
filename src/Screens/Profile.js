@@ -13,6 +13,7 @@ export default class UserProfile extends React.Component {
       lastName: null,
       email: null,
       phoneNumber: null,
+      photoUrl: null,
       TextInputDisableStatus: false
     }
   }
@@ -35,15 +36,21 @@ export default class UserProfile extends React.Component {
       firstName: response.data.firstName,
       lastName: response.data.lastName,
       phoneNumber: response.data.phoneNumber,
-      email: response.data.email
+      email: response.data.email,
+      photoUrl: response.data.photoUrl
     }
   )
 )
 }
 
 render() {
-  const {phoneNumber, firstName, lastName, email, TextInputDisableStatus} = this.state
-
+  const {phoneNumber, firstName, lastName, email, TextInputDisableStatus, photoUrl} = this.state
+  let uri;
+  if (photoUrl) {
+    uri = {uri: photoUrl.toString()}
+  } else {
+    uri = {uri: 'https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046'}
+  }
   let buttonText;
   if (TextInputDisableStatus) {
    buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Save</Text>
@@ -61,7 +68,7 @@ render() {
       width: 100,
       height: 100,
       borderRadius: 50}}
-      source={{uri:'https://lh3.googleusercontent.com/a-/AOh14Gicy9B_XxvruvQqYk4qc9woNsGvRMSNGya1g71V=s100'}}
+      source={uri}
       />
       <TextInput
       style={styles.title}
