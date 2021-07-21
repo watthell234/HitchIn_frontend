@@ -12,57 +12,97 @@ export default class UserProfile extends React.Component {
       firstName: null,
       lastName: null,
       email: null,
-      phoneNumber: null
+      phoneNumber: null,
+      photoUrl: null,
+      TextInputDisableStatus: false
     }
   }
   componentDidMount() {
     this.getUserInfo();
     this.setState({
     })
-    }
-
-  async getUserInfo() {
-      const userId = await AsyncStorage.getItem("userID");
-      const authToken = await AsyncStorage.getItem('authToken');
-      console.log(parseInt(userId.replace(/['"]+/g, '')));
-      http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
-      .then((response) => this.setState({
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
-        phoneNumber: response.data.phoneNumber,
-        email: response.data.email})
-    )
   }
 
-    render() {
-      const {phoneNumber, firstName, lastName, email} = this.state
-      return (
-        <View style={styles.profileContainer}>
-        <LogOut navigation={this.props.navigation}/>
-        <Text style={styles.title}
-          category='h1'>Profile
-        </Text>
-        <Image
-        style={{
-          width: 100,
-          height: 100,
-          borderRadius: 50}}
-        source={{uri:'https://lh3.googleusercontent.com/a-/AOh14Gicy9B_XxvruvQqYk4qc9woNsGvRMSNGya1g71V=s100'}}
-        />
-        <TextInput
-          style={styles.title}
-          value={firstName + " " +lastName}
-        />
-        <TextInput
-          value={phoneNumber}
-        />
-        <TextInput
-          value= {email}
-        />
-        <TextInput
-          value='Password'
-        />
-        </View>
+  onEditProfile = () => {
+    this.setState({TextInputDisableStatus: !this.state.TextInputDisableStatus})
+    console.log(this.state.TextInputDisableStatus)
+  }
+
+  async getUserInfo() {
+    const userId = await AsyncStorage.getItem("userID");
+    const authToken = await AsyncStorage.getItem('authToken');
+    http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
+    .then((response) => this.setState({
+      firstName: response.data.firstName,
+      lastName: response.data.lastName,
+      phoneNumber: response.data.phoneNumber,
+      email: response.data.email,
+      photoUrl: response.data.photoUrl
+    }
+  )
+)
+}
+
+render() {
+  const {phoneNumber, firstName, lastName, email, TextInputDisableStatus, photoUrl} = this.state
+  let uri;
+  if (photoUrl) {
+    uri = {uri: photoUrl.toString()}
+  } else {
+    uri = {uri: 'https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046'}
+  }
+  let buttonText;
+  if (TextInputDisableStatus) {
+   buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Save</Text>
+ } else {
+   buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Update Profile</Text>
+ }
+  return (
+    <View style={styles.profileContainer}>
+    <LogOut navigation={this.props.navigation}/>
+    <Text style={styles.title}
+    category='h1'>Profile
+    </Text>
+    <Image
+    style={{
+      width: 100,
+      height: 100,
+      borderRadius: 50}}
+      source={uri}
+      />
+      <TextInput
+      style={styles.title}
+      value={firstName}
+      onChangeText={(firstName) => this.setState({firstName}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      style={styles.title}
+      value={lastName}
+      onChangeText={lastName => this.setState({lastName}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value={phoneNumber}
+      onChangeText={phoneNumber => this.setState({phoneNumber}) }
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value={email}
+      onChangeText={(email) => this.setState({email})}
+      editable={TextInputDisableStatus}
+      />
+      <TextInput
+      value='Password'
+      editable={TextInputDisableStatus}
+      secureTextEntry={true}
+      />
+      <TouchableOpacity
+      style={styles.button}
+      onPress={this.onEditProfile}>
+      {buttonText}
+      </TouchableOpacity>
+      </View>
 
     );
   }

@@ -21,6 +21,7 @@ import DriverPositionScreen from './src/Screens/DriverPosition';
 
 import QRReaderScreen from './src/Screens/QRreader';
 import RiderPositionScreen from './src/Screens/RiderPosition';
+import UserProfile from './src/Screens/Profile'
 
 import EndTripScreen from './src/Screens/EndTrip';
 

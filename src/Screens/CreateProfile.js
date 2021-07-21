@@ -29,60 +29,48 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
           'Content-Type': 'application/json'
         },
       }).then(response => response.json())
-      .then(data => navigate('SignUp',
+      .then(data =>  navigate('SignUp',
       { email: data.emailAddresses[0].value,
         firstName: data.names[0].givenName,
-        lastName: data.names[0].familyName}));
-      }
+        lastName: data.names[0].familyName,
+        photoUrl: data.photos[0].url
+      }));
+    }
   }
   , [gresponse]);
 
 
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
 
-        <View style={styles.create_profile_container}>
-        <Text style={styles.title}>Create Profile</Text>
-          <Text>With</Text>
-          {/*
-          <TouchableOpacity
-          style={styles.button}
-          onPress={() => {this.props.navigation.navigate('QRTabs')}}>
-          <Text style={{color: "#FFFFFF"}}>Next</Text>
-          </TouchableOpacity>
-          */}
-
-
-          <TouchableOpacity style={styles.fbbutton}>
-            <Text
-              style={[styles.button_text]}> Connect with Facebook
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.gbutton}
-          onPress={ () => {
-            gpromptAsync();
-            }}>
-
-            <Text
-              style={[styles.button_text]}> Connect with Google
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Text
-              onPress={() => navigate('SignUp')}
-              style={[styles.button_text]}> Create New Account
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-        <View style={styles.empty_container}>
-        </View>
-      </View>
-      )
-    }
+    <View style={styles.create_profile_container}>
+    <Text style={styles.title}>Create Profile</Text>
+    <Text>With</Text>
+    <TouchableOpacity style={styles.fbbutton}>
+    <Text
+    style={[styles.button_text]}> Connect with Facebook
+    </Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.gbutton}
+    onPress={ () => {
+      gpromptAsync();
+    }}>
+    <Text
+    style={[styles.button_text]}> Connect with Google
+    </Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.button}>
+    <Text
+    onPress={() => navigate('SignUp')}
+    style={[styles.button_text]}> Create New Account
+    </Text>
+    </TouchableOpacity>
+    </View>
+    <View style={styles.empty_container}>
+    </View>
+    </View>
+  )
+}
 
 
 
@@ -126,13 +114,13 @@ const styles = StyleSheet.create({
     borderRadius:8,
 
   },
-  fbbutton: {
-    alignItems: "center",
-    backgroundColor: "#4267B2",
-    padding: 10,
-    width: 250,
-    borderRadius:8,
-  },
+  // fbbutton: {
+  //   alignItems: "center",
+  //   backgroundColor: "#4267B2",
+  //   padding: 10,
+  //   width: 250,
+  //   borderRadius:8,
+  // },
   gbutton: {
     alignItems: "center",
     backgroundColor: "#DB4437",
@@ -159,12 +147,12 @@ const styles = StyleSheet.create({
   standardSize: { width: 212, height: 48 },
   wideSize: { width: 312, height: 48 },
 
-GoogleSigninButton: {
-  // Icon: BUTTON_SIZE_ICON,
-  // Standard: BUTTON_SIZE_STANDARD,
-  // Wide: BUTTON_SIZE_WIDE,
-  // Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
-  // Light: "#FFFFFF",
-  // Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
-}
+  GoogleSigninButton: {
+    // Icon: BUTTON_SIZE_ICON,
+    // Standard: BUTTON_SIZE_STANDARD,
+    // Wide: BUTTON_SIZE_WIDE,
+    // Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
+    // Light: "#FFFFFF",
+    // Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
+  }
 });
