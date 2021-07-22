@@ -31,7 +31,7 @@ export default class UserProfile extends React.Component {
   async getUserInfo() {
     const userId = await AsyncStorage.getItem("userID");
     const authToken = await AsyncStorage.getItem('authToken');
-    http.get(`/user/${parseInt(userId.replace(/['"]+/g, ''))}`)
+    http.get(`/user/${userId}`)
     .then((response) => this.setState({
       firstName: response.data.firstName,
       lastName: response.data.lastName,
