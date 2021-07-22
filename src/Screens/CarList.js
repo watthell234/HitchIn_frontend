@@ -109,6 +109,11 @@ export default function CarListScreen({navigation}) {
         /> :
         <Text> Waiting on your car list...</Text>
       }
+      <TouchableOpacity
+      style={styles.button}
+      onPress={() => {handleAddCar()}}>
+      <Text style={{color: "#FFFFFF"}}>Add Car</Text>
+      </TouchableOpacity>
       </View>
       {selectedCar ?
       <TouchableOpacity
@@ -119,11 +124,6 @@ export default function CarListScreen({navigation}) {
       :
       <Text> Please, select a car. </Text>
       }
-      <TouchableOpacity
-      style={styles.button}
-      onPress={() => {handleAddCar()}}>
-      <Text style={{color: "#FFFFFF"}}>Add Car</Text>
-      </TouchableOpacity>
       </View>
     )
 }

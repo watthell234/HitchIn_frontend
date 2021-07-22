@@ -26,7 +26,7 @@ export default class CarInfoScreen extends React.Component {
 
   async storeCarID(carID) {
     try{
-      await AsyncStorage.setItem("carID", carID);
+      await AsyncStorage.setItem("carID", JSON.stringify(carID));
     }catch(error) {
       console.log("something went wrong", error)
     }
