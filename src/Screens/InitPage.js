@@ -3,7 +3,7 @@ import { Text, View, Button, TextInput, Image, ImageBackground, Keyboard, Toucha
 import axios from 'axios';
 import io from 'socket.io-client';
 import styles from './styles/styles_initpage';
-// import { socket } from '/Users/cyril/Desktop/HitchIn/hitchFront/App';
+import { http, getAxios } from './constants/hitchBackendapi';
 
 
 export default class InitScreen extends React.Component {
@@ -15,58 +15,13 @@ export default class InitScreen extends React.Component {
     }
 
   }
-  //
-  // tearDownWebsocket = () => {
-  //
-  // }
-  //
   componentDidMount() {
 
-    // this.setupWebsocket();
+    http.get(`/`)
+    .then((response) => console.log(response.data));
 
   }
-  //
-  // componentWillUnmount() {
-  //   this.tearDownWebsocket();
-  // }
-  //
-  setupWebsocket = () => {
-    this.socket = io("wss://hitchin-server.herokuapp.com/");
-    // this.socket = io("wss://127.0.0.1:5000/");
-    console.log(this.socket.connected);
-    this.sendMessage();
-    console.log(this.socket.connected);
 
-
-    // this.socket.on("roomjoin", (e) => {
-    //   console.log(e.data);
-    //   this.setState({dataFromServer: e.data});
-    // });
-    //
-    //
-    // this.socket.on("endtrip", (t) => {
-    //   this.props.navigation.navigate('EndTrip')
-    //   console.log(t.data);
-    //   this.setState({endData: t.data});
-    // });
-
-
-  }
-  //
-  sendMessage =  () => {
-
-    this.socket.on("my_response", (response) => {
-      console.log(response);
-    });
-
-  }
-  //
-  // endTrip =  () => {
-  //
-  //   this.socket.emit("leave", {pool_id: carQr});
-  //
-  //
-  // }
 
   render() {
     return (
@@ -75,30 +30,7 @@ export default class InitScreen extends React.Component {
       {'\n'}Welcome to{'\n'}
       <Text style={styles.title_hitchin}> HitchIn </Text>
       </Text>
-      {/*
-        <TouchableOpacity
-        style={styles.button}
-        onPress={() => {this.sendMessage()}}>
-        <Text style={{color: "#FFFFFF", fontSize:20}}>message</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-        style={styles.button}
-        onPress={() => {this.endTrip()}}>
-        <Text style={{color: "#FFFFFF", fontSize:20}}>End Trip</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.title}category='h3'>
-        {'\n'}{this.state.dataFromServer}
-        </Text>
-
-        <Text style={styles.title}category='h3'>
-        {'\n'}{this.state.endData}
-        </Text>
-
-        */}
         <Image style={styles.hitchin_logo} source={require('./assets/car.png')}></Image>
-
         <TouchableOpacity
         style={styles.signup_button}
         onPress={() => {this.props.navigation.navigate('CreateProfile')}}>
