@@ -56,15 +56,17 @@ export default class QRReaderScreen extends React.Component {
       // console.log("room ID: " + response.sid);
     });
 
+    console.log(pickup.replace(/ /g, "_"));
+
     socket.emit('init_ride', {pickup: pickup, dropoff: dropoff});
 
-    socket.on('car_list_' + pickup.replace(" ", "_"), (data) => {
+    socket.on('car_list_' + pickup.replace(/ /g, "_"), (data) => {
       this.setState({
         car_list: data.car_list
       })
     })
 
-    socket.on('updated_car_list_' + pickup.replace(" ", "_"), (data) => {
+    socket.on('updated_car_list_' + pickup.replace(/ /g, "_"), (data) => {
       // console.log("CAR LIST:");
       // console.log(data.car_list);
       // console.log("------------------");
