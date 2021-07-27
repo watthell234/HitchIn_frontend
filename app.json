@@ -3,7 +3,7 @@
     "name": "HitchIn",
     "scheme": "hitchin",
     "slug": "hitchin",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/Screens/assets/icon.png",
     "splash": {
@@ -24,7 +24,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/Screens/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "versionCode": 2
       },
       "package": "com.watthell234.hitchin"
     },
