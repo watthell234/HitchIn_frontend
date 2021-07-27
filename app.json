@@ -25,9 +25,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/Screens/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF",
-        "versionCode": 2
       },
-      "package": "com.watthell234.hitchin"
+      "package": "com.watthell234.hitchin",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./src/Screens/assets/favicon.png"
