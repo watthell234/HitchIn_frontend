@@ -3,6 +3,7 @@ import { ActivityIndicator, StatusBar, StyleSheet, Text, View, Button, TextInput
 import { createAppContainer, NavigationContainer, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Sentry from 'sentry-expo';
 
 
 // import io from 'socket.io-client';
@@ -27,6 +28,13 @@ import EndTripScreen from './src/Screens/EndTrip';
 
 // const Tab = createBottomTabNavigator();
 // const Stack = createStackNavigator();
+Sentry.init({
+  dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
+  enableInExpoDevelopment: true,
+  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
+
+Sentry.Native.nativeCrash();
 
 const RootStack = createStackNavigator({
   Start: {

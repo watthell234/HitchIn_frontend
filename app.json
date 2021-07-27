@@ -19,19 +19,31 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.watthell234.hitch"
+      "bundleIdentifier": "com.watthell234.hitchin"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/Screens/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.watthell234.hitch"
+      "package": "com.watthell234.hitchin"
     },
     "web": {
       "favicon": "./src/Screens/assets/favicon.png"
     },
     "description": "Casual Carpooling for the community",
-    "githubUrl": "https://github.com/watthell234/HitchIn"
+    "githubUrl": "https://github.com/watthell234/HitchIn",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "hitchin",
+            "project": "hitchin",
+            "authToken": "54459f25832b4804b2d6b05546423e8d50f211b96b804b4bad85a3d1417f7d68"
+          }
+        }
+      ]
+    }
   }
 }
