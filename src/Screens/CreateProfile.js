@@ -11,7 +11,7 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
   const [grequest, gresponse, gpromptAsync] = Google.useAuthRequest({
     expoClientId: '375582128350-5t6kr6tuuaai9cabijrsm521gqoe1dv2.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
-    androidClientId: '375582128350-p67ti8isnrf30ps3gghfgrd7lavp9r55.apps.googleusercontent.com',
+    androidClientId: '375582128350-9ptmmdija9ac2u08h7dvfnu5t87d0cl5.apps.googleusercontent.com',
     webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
   });
 

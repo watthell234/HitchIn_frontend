@@ -27,6 +27,11 @@
         "backgroundColor": "#FFFFFF",
       },
       "package": "com.watthell234.hitchin",
+      "config": {
+                "googleMaps": {
+                    "apiKey": "AIzaSyCnusuCPO6Htob_7VJ25g45uO30U0z0Fts"
+                }
+            },
       "versionCode": 3
     },
     "web": {
