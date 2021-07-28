@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyb
 import axios from 'axios';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
+import * as Sentry from 'sentry-expo';
 
 
 
@@ -34,7 +35,7 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
         firstName: data.names[0].givenName,
         lastName: data.names[0].familyName,
         photoUrl: data.photos[0].url
-      }));
+      })).catch(err => Sentry.captureException(err));
     }
   }
   , [gresponse]);
