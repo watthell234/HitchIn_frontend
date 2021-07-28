@@ -27,7 +27,7 @@
         "backgroundColor": "#FFFFFF",
       },
       "package": "com.watthell234.hitchin",
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "favicon": "./src/Screens/assets/favicon.png"
