@@ -104,7 +104,7 @@ class AuthLoadingScreen extends React.Component {
   }
 }
 
-export default createAppContainer(
+const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
@@ -118,3 +118,11 @@ export default createAppContainer(
     }
   )
 );
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <AppContainer />
+    );
+  }
+}
