@@ -26,15 +26,25 @@ import UserProfile from './src/Screens/Profile'
 
 import EndTripScreen from './src/Screens/EndTrip';
 
+const routingInstrumentation = new Sentry.Native.ReactNavigationV4Instrumentation();
+
 // const Tab = createBottomTabNavigator();
 // const Stack = createStackNavigator();
 Sentry.init({
   dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
   enableInExpoDevelopment: true,
   debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  integrations: [
+    new Sentry.Native.ReactNativeTracing({
+      tracingOrigins: ["https://hitchin-server.herokuapp.com"],
+      routingInstrumentation,
+    }),
+  ],
+  tracesSampleRate: 1.0,
+  sessionTrackingIntervalMillis: 10000,
 });
 
-Sentry.Native.nativeCrash();
+Sentry.Native.captureException('message')
 
 const RootStack = createStackNavigator({
   Start: {
@@ -120,9 +130,13 @@ const AppContainer = createAppContainer(
 );
 
 export default class App extends React.Component {
+  appContainer = React.createRef();
+  componentDidMount() {
+  routingInstrumentation.registerAppContainer(this.appContainer);
+}
   render() {
     return (
-      <AppContainer />
+      <AppContainer ref={this.appContainer} />
     );
   }
 }

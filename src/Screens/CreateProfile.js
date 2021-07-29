@@ -9,12 +9,16 @@ import * as Sentry from 'sentry-expo';
 
 export default function CreateProfileScreen({navigation: {navigate}}) {
 
+try {
   const [grequest, gresponse, gpromptAsync] = Google.useAuthRequest({
     expoClientId: '375582128350-5t6kr6tuuaai9cabijrsm521gqoe1dv2.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
     androidClientId: '375582128350-9ptmmdija9ac2u08h7dvfnu5t87d0cl5.apps.googleusercontent.com',
     webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
   });
+
+
+
 
   React.useEffect(() => {
     if (gresponse?.type === 'success') {
@@ -72,6 +76,11 @@ export default function CreateProfileScreen({navigation: {navigate}}) {
     </View>
   )
 }
+catch (e) {
+  Sentry.captureException(e)
+}
+}
+
 
 
 

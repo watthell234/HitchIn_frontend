@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HitchIn",
-    "scheme": "hitchin",
+    "scheme": "com.watthell234.hitchin",
     "slug": "hitchin",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/Screens/assets/adaptive-icon.png",
+        "foregroundImage": "./src/Screens/assets/favicon.png",
         "backgroundColor": "#FFFFFF",
       },
       "package": "com.watthell234.hitchin",
@@ -32,7 +32,7 @@
                     "apiKey": "AIzaSyCnusuCPO6Htob_7VJ25g45uO30U0z0Fts"
                 }
             },
-      "versionCode": 4
+      "versionCode": 8
     },
     "web": {
       "favicon": "./src/Screens/assets/favicon.png"
