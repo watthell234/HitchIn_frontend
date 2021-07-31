@@ -19,7 +19,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.watthell234.hitchin"
+      "bundleIdentifier": "com.watthell234.hitchin",
+      "ios.icon": "./src/Screens/assets/favicon.png",
+      "buildNumber": "2.0.0",
+      "config": {
+                "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA"
+      }
     },
     "android": {
       "adaptiveIcon": {
