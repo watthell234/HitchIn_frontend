@@ -175,7 +175,7 @@ export default class SignUpScreen extends React.Component {
       Please provide your
       </Text>
       <TextInput
-      keyboardType="number-pad"
+      keyboardType="phone-pad"
       maxLength={10}
       style={styles.textInput}
       onChangeText={(value) => this.handleChange('phoneNumber', value)}
@@ -203,6 +203,7 @@ export default class SignUpScreen extends React.Component {
 
       <TextInput
       style={styles.textInput}
+      keyboardType="email-address"
       onChangeText={(value) => this.handleChange('email', value)}
       value={this.state.input.email}
       placeholder="Email"

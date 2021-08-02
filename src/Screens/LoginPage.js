@@ -73,6 +73,7 @@ export default class LoginScreen extends React.Component {
                       category='h1'>Welcome back!</Text>
                 <TextInput
                     style={styles.textInput}
+                    keyboardType="phone-pad"
                     onChangeText={(value) => this.handleTextChange('phoneNumber', value)}
                     placeholder="Mobile Phone Number"
                     value={this.state.phoneNumber}
