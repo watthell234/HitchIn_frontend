@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, SafeAreaView} 
+from 'react-native';
 import { http,  getAxios, http_jwt } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -58,6 +59,7 @@ render() {
    buttonText = <Text style={{color: "#FFFFFF", fontSize:20}}>Update Profile</Text>
  }
   return (
+    <SafeAreaView>
     <View style={styles.profileContainer}>
     <LogOut navigation={this.props.navigation}/>
     <Text style={styles.title}
@@ -87,6 +89,12 @@ render() {
       onChangeText={phoneNumber => this.setState({phoneNumber}) }
       editable={TextInputDisableStatus}
       />
+      <View style={{justifyContent: "space-between", flexDirection: "row"}}>
+        <View style={{flex: 1}}/>
+        <Text onPress={() => {
+          this.props.navigation.toggleDrawer()
+        }}>Hi mom</Text>
+      </View>
       <TextInput
       value={email}
       onChangeText={(email) => this.setState({email})}
@@ -103,6 +111,7 @@ render() {
       {buttonText}
       </TouchableOpacity>
       </View>
+      </SafeAreaView>
 
     );
   }
