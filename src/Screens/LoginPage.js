@@ -41,7 +41,7 @@ export default class LoginScreen extends React.Component {
           // console.log(response.data.auth_token)
           this.storeToken(response.data.id, response.data.auth_token)
         })
-        .then(() => this.props.navigation.navigate('Drawer'))
+        .then(() => this.props.navigation.navigate('LoggedIn'))
         .catch((error) => {
           if(error.response){
             let errors = {};

@@ -54,7 +54,7 @@ export default class CarpoolRouteScreen extends React.Component {
 
     handleSubmit() {
       this.storeLocations();
-      this.props.navigation.navigate('RideOrDrive');
+      this.props.navigation.navigate('BottomTab');
     }
 
     componentDidMount = () => {

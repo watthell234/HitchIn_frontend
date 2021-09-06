@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, SafeAreaView} 
+import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, SafeAreaView}
 from 'react-native';
 import { http,  getAxios, http_jwt } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
@@ -89,12 +89,6 @@ render() {
       onChangeText={phoneNumber => this.setState({phoneNumber}) }
       editable={TextInputDisableStatus}
       />
-      <View style={{justifyContent: "space-between", flexDirection: "row"}}>
-        <View style={{flex: 1}}/>
-        <Text onPress={() => {
-          this.props.navigation.toggleDrawer()
-        }}>Hi mom</Text>
-      </View>
       <TextInput
       value={email}
       onChangeText={(email) => this.setState({email})}
