@@ -132,12 +132,12 @@ export default class PairingScreen extends React.Component {
     // }
   }
 
-  goHome(){
+  cancelTrip(){
     // console.log("tripID: " + tripID);
     // console.log(pickup);
     socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
     socket.disconnect();
-    this.props.navigation.navigate('LoggedIn');
+    this.props.navigation.navigate('CarList');
   }
 
   render() {
@@ -162,8 +162,8 @@ export default class PairingScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {this.goHome()}}>
-          <Text style={{color: "#FFFFFF", fontSize:20}}>Home</Text>
+          onPress={() => {this.cancelTrip()}}>
+          <Text style={{color: "#FFFFFF", fontSize:20}}>Cancel Trip</Text>
         </TouchableOpacity>
         <Text>{list_str}</Text>
       </View>

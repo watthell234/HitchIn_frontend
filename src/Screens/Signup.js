@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   StyleSheet, Text, View, Button, TextInput,
-  Image, ImageBackground, Keyboard, TouchableOpacity, ScrollView
+  Image, ImageBackground, Keyboard, TouchableOpacity,
+  SafeAreaView, ScrollView
 } from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
@@ -100,9 +101,9 @@ export default class SignUpScreen extends React.Component {
       errors['email'] = "Invalid email."
     }
 
-    if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 10){
+    if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 8){
       isValid = false;
-      errors['password'] = "Password must be: \n • At least 10 characters \n • Only contain letters and numbers"
+      errors['password'] = "Password must be: \n • At least 8 characters \n • Only contain letters and numbers"
     }
 
     if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
@@ -116,6 +117,7 @@ export default class SignUpScreen extends React.Component {
       errors
     }
   )
+
 
     return isValid;
   }
@@ -173,11 +175,11 @@ export default class SignUpScreen extends React.Component {
   }
 
   render() {
-    // const {accountCreate} = this.state;
+
     return (
+      <SafeAreaView>
       <ScrollView>
       <View style={styles.container}>
-      <View style={styles.profileContainer}>
       <Text style={styles.paragraph}>
       Please provide your
       </Text>
@@ -196,7 +198,8 @@ export default class SignUpScreen extends React.Component {
       onChangeText={(value) => this.handleChange('firstName', value)}
       value={this.state.input.firstName}
       placeholder="First Name"
-      onBlur={Keyboard.dismiss}
+      returnKeyType="next"
+      onSubmitEditing={() => this.lastNameRef.focus()}
       />
       <Text> {this.state.errors['firstName']} </Text>
       <TextInput
@@ -204,7 +207,11 @@ export default class SignUpScreen extends React.Component {
       onChangeText={(value) => this.handleChange('lastName', value)}
       value={this.state.input.lastName}
       placeholder="Last Name"
-      onBlur={Keyboard.dismiss}
+      returnKeyType="next"
+      ref={ref => {
+            this.lastNameRef = ref;
+          }}
+      onSubmitEditing={() => this.emailRef.focus()}
       />
       <Text> {this.state.errors['lastName']} </Text>
 
@@ -214,7 +221,12 @@ export default class SignUpScreen extends React.Component {
       onChangeText={(value) => this.handleChange('email', value)}
       value={this.state.input.email}
       placeholder="Email"
-      onBlur={Keyboard.dismiss}
+      returnKeyType="next"
+      ref={ref => {
+            this.emailRef = ref;
+          }}
+      onSubmitEditing={() => this.passwordRef.focus()}
+
       />
       <Text> {this.state.errors['email']} </Text>
       <TextInput
@@ -222,8 +234,12 @@ export default class SignUpScreen extends React.Component {
       onChangeText={(value) => this.handleChange('password', value)}
       value={this.state.input.password}
       placeholder="Password"
-      onBlur={Keyboard.dismiss}
       secureTextEntry={true}
+      returnKeyType="next"
+      ref={ref => {
+            this.passwordRef = ref;
+          }}
+      onSubmitEditing={() => this.confirmPassRef.focus()}
       />
       <Text> {this.state.errors['password']} </Text>
       <TextInput
@@ -231,13 +247,17 @@ export default class SignUpScreen extends React.Component {
       onChangeText={(value) => this.handleChange('confirmPassword', value)}
       value={this.state.input.confirmPassword}
       placeholder="Confirm Password"
+      ref={ref => {
+            this.confirmPassRef = ref;
+          }}
       onBlur={Keyboard.dismiss}
       secureTextEntry={true}
       />
       <Text> {this.state.errors['confirmPassword']} </Text>
 
       </View>
-      {this.state.clicked?
+      {
+      this.state.clicked?
       <TouchableOpacity
       style={styles.button}>
       <Text style={{color: "#FFFFFF", fontSize:20}}>Creating account...</Text>
@@ -251,6 +271,8 @@ export default class SignUpScreen extends React.Component {
       }
       </View>
       </ScrollView>
+      </SafeAreaView>
+
     );
 
   }

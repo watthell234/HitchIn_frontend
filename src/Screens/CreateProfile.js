@@ -61,7 +61,7 @@ try {
       gpromptAsync();
     }}>
     <Text
-    style={[styles.button_text]}> Connect with Google
+    style={[styles.button_text]}>Google
     </Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.button}>

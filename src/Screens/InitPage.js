@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity } from 'react-native';
+import { Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity, SafeAreaView }
+from 'react-native';
 import axios from 'axios';
 import io from 'socket.io-client';
 import styles from './styles/styles_initpage';
@@ -7,6 +8,7 @@ import { http, getAxios } from './constants/hitchBackendapi';
 
 
 export default class InitScreen extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -22,9 +24,12 @@ export default class InitScreen extends React.Component {
 
   }
 
+  
+
 
   render() {
     return (
+      <SafeAreaView style={styles.safearea}>
       <View style={styles.container}>
       <Text style={styles.title} category='h1'>
       {'\n'}Welcome to{'\n'}
@@ -48,6 +53,7 @@ export default class InitScreen extends React.Component {
         </TouchableOpacity>
         </View>
         </View>
+        </SafeAreaView>
       )
     }
   }

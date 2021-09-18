@@ -1,8 +1,11 @@
 import React from 'react';
-import { ActivityIndicator, StatusBar, StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
-import { createAppContainer, NavigationContainer, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { ActivityIndicator, StatusBar, StyleSheet, SafeAreaView, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import { createAppContainer, NavigationContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+// import { createDrawerNavigator } from 'react-navigation-drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as Sentry from 'sentry-expo';
 
 
@@ -26,117 +29,156 @@ import UserProfile from './src/Screens/Profile'
 
 import EndTripScreen from './src/Screens/EndTrip';
 
-const routingInstrumentation = new Sentry.Native.ReactNavigationV4Instrumentation();
 
-// const Tab = createBottomTabNavigator();
-// const Stack = createStackNavigator();
-// Sentry.init({
-//   dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
-//   enableInExpoDevelopment: true,
-//   debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
-//   integrations: [
-//     new Sentry.Native.ReactNativeTracing({
-//       tracingOrigins: ["https://hitchin-server.herokuapp.com"],
-//       routingInstrumentation,
-//     }),
-//   ],
-//   tracesSampleRate: 0.1,
-//   sessionTrackingIntervalMillis: 10000,
-// });
+Sentry.init({
+  dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
+  enableInExpoDevelopment: true,
+  debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
 
-// Sentry.Native.captureException('message')
 
 const RootStack = createStackNavigator({
-  Start: {
-        screen: InitScreen,
-        navigationOptions: {
-        headerShown: false}}
-        ,
+  HitchIn: {
+    screen: InitScreen,
+  }
+  ,
   Login: LoginScreen,
   CreateProfile: {
-                screen: CreateProfileScreen,
-                navigationOptions: {
-                  title: "Sign Up"
-                }
-              },
+    screen: CreateProfileScreen,
+    navigationOptions: {
+      title: "Sign Up",
+
+    }
+  },
   SignUp: {
-          screen: SignUpScreen,
-          navigationOptions: {
-            title: "Sign Up"
-          }
-        }
+    screen: SignUpScreen,
+    navigationOptions: {
+      title: "Sign Up"
+    }
+  }
 
 });
 
-const LoggedInStack = createStackNavigator({
-  CarpoolRoute: CarpoolRouteScreen,
-  RideOrDrive: RideOrDriveScreen,
-  CarList: CarListScreen,
-  CarInfo: CarInfoScreen,
-});
 // Later down the road we will have to
 // Move all the trip related screens to here.
-const DriverTripStack = createStackNavigator({
-  Pairing: PairingScreen,
-  DriverPosition: DriverPositionScreen,
-  EndTrip: EndTripScreen
-})
+const DriverStack = createStackNavigator({
+  CarList: {
+    screen: CarListScreen,
+    navigationOptions:  {
+      headerLeft: () => null,
+      headerShown: false,
+    }},
+    CarInfo: {
+      screen : CarInfoScreen,
+      navigationOptions:  {
+        headerLeft: () => null,
+        headerShown: false,
+      }},
+      Pairing: {
+        screen: PairingScreen,
+        navigationOptions:  {
+          headerLeft: () => null,
+          headerShown: false,
+        }},
+        DriverPosition: DriverPositionScreen,
+        EndTrip: EndTripScreen
+      })
 
-const RiderTripStack = createStackNavigator({
-  QRReader: QRReaderScreen,
-  RiderPosition: RiderPositionScreen,
-  EndTrip: EndTripScreen
-})
+      const RiderStack = createStackNavigator({
+        QRReader: { screen: QRReaderScreen,
+          navigationOptions:  {
+            headerLeft: () => null,
+            headerShown: false,
+          }},
+          RiderPosition: { screen: RiderPositionScreen,
+            navigationOptions:  {
+              headerLeft: () => null,
+              headerShown: false,
+            }},
+            EndTrip: { screen: EndTripScreen,
+              navigationOptions:  {
+                headerLeft: () => null,
+                headerShown: false,
+              }},
+            })
 
-class AuthLoadingScreen extends React.Component {
-  componentDidMount() {
-    this._bootstrapAsync();
-  }
+            const BottomTab = createBottomTabNavigator({
+              Ride: { screen: RiderStack,
+                navigationOptions:  {
+                  title: 'Rider',
+                  tabBarIcon:({tintColor})=>(
+                    <Icon name="people-outline" color={tintColor} size={25}/>
+                  ) },
+                },
+                Drive: { screen: DriverStack,
+                  navigationOptions:  {
+                    title: 'Driver',
+                    tabBarIcon:({tintColor})=>(
+                      <Icon name="car-outline" color={tintColor} size={25}/>
+                    ) }},
+                    Profile:  { screen: UserProfile,
+                      navigationOptions:  {
+                        title: 'Driver',
+                        tabBarIcon:({tintColor})=>(
+                          <Icon name="person-outline" color={tintColor} size={25}/>
+                        ) }
+                      }},
+                      {
+                        initialRouteName: "Profile",
+                      }
+                    );
 
-  async _bootstrapAsync() {
-    try {
-      let userToken = await AsyncStorage.getItem("authToken");
-      this.props.navigation.navigate(userToken ? 'LoggedIn' : 'Root')
-    } catch (error) {
-      console.log("Could not retrieve token", error);
-    }
-  }
+                    const LoggedInStack = createStackNavigator({
+                      CarpoolRoute: CarpoolRouteScreen,
+                      BottomTab: BottomTab
+                    });
 
-  render() {
-    return (
+                    class AuthLoadingScreen extends React.Component {
+                      componentDidMount() {
+                        this._bootstrapAsync();
+                      }
 
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle='default' />
-      </View>
-    )
+                      async _bootstrapAsync() {
+                        try {
+                          let userToken = await AsyncStorage.getItem("authToken");
+                          this.props.navigation.navigate(userToken ? 'LoggedIn' : 'Root')
+                        } catch (error) {
+                          console.log("Could not retrieve token", error);
+                        }
+                      }
 
-  }
-}
+                      render() {
+                        return (
 
-const AppContainer = createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      Root: RootStack,
-      LoggedIn: LoggedInStack,
-      DriverTrip: DriverTripStack,
-      RiderTrip: RiderTripStack,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    }
-  )
-);
+                          <View>
+                          <ActivityIndicator />
+                          <StatusBar barStyle='default' />
+                          </View>
+                        )
 
-export default class App extends React.Component {
-  // appContainer = React.createRef();
-  // componentDidMount() {
-  //   routingInstrumentation.registerAppContainer(this.appContainer);
-  // }
-  render() {
-    return (
-      <AppContainer />
-    );
-  }
-}
+                      }
+                    }
+
+                    const AppContainer = createAppContainer(
+                      createSwitchNavigator(
+                        {
+                          AuthLoading: AuthLoadingScreen,
+                          Root: RootStack,
+                          LoggedIn: LoggedInStack,
+                          Driver: DriverStack,
+                          RiderTrip: RiderStack,
+                          Tabs: BottomTab,
+                        },
+                        {
+                          initialRouteName: 'AuthLoading',
+                        }
+                      )
+                    );
+
+                    export default class App extends React.Component {
+                      render() {
+                        return (
+                          <AppContainer />
+                        );
+                      }
+                    }
