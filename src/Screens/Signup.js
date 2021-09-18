@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   StyleSheet, Text, View, Button, TextInput,
-  Image, ImageBackground, Keyboard, TouchableOpacity
+  Image, ImageBackground, Keyboard, TouchableOpacity, ScrollView
 } from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
 import { Checkbox } from 'react-native-paper';
@@ -14,6 +14,7 @@ export default class SignUpScreen extends React.Component {
     this.state = {
       input: {},
       errors: {},
+      clicked: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,6 +51,10 @@ export default class SignUpScreen extends React.Component {
   }
 
   handleSubmit(event){
+
+    this.setState({
+      clicked: true
+    })
 
     if(this.validate())
     {
@@ -106,8 +111,8 @@ export default class SignUpScreen extends React.Component {
     }
 
     //warning: setState is asynchronous
-    this.setState(
-      {
+    this.setState({
+      clicked: false,
       errors
     }
   )
@@ -148,6 +153,7 @@ export default class SignUpScreen extends React.Component {
 
       this.setState(
         {
+          clicked: false,
           errors
         }
       )
@@ -169,6 +175,7 @@ export default class SignUpScreen extends React.Component {
   render() {
     // const {accountCreate} = this.state;
     return (
+      <ScrollView>
       <View style={styles.container}>
       <View style={styles.profileContainer}>
       <Text style={styles.paragraph}>
@@ -230,12 +237,20 @@ export default class SignUpScreen extends React.Component {
       <Text> {this.state.errors['confirmPassword']} </Text>
 
       </View>
+      {this.state.clicked?
+      <TouchableOpacity
+      style={styles.button}>
+      <Text style={{color: "#FFFFFF", fontSize:20}}>Creating account...</Text>
+      </TouchableOpacity>
+      :
       <TouchableOpacity
       style={styles.button}
       onPress={this.handleSubmit}>
       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
       </TouchableOpacity>
+      }
       </View>
+      </ScrollView>
     );
 
   }

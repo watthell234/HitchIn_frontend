@@ -11,6 +11,7 @@ export default class LoginScreen extends React.Component {
         this.state = {
             input: {},
             errors: {},
+            clicked: false
         }
     }
 
@@ -35,6 +36,9 @@ export default class LoginScreen extends React.Component {
 
     handleSubmit() {
         const {phoneNumber, password} = this.state.input;
+        this.setState({
+          clicked: true
+        })
         http.post('/login', {phoneNumber, password})
         .then((response) => {
           // console.log(response.data.id)
@@ -54,7 +58,8 @@ export default class LoginScreen extends React.Component {
             }
 
             this.setState({
-              errors
+              errors,
+              clicked: false
             })
           } else if(errors.request){
             console.log(error.request);
@@ -89,11 +94,16 @@ export default class LoginScreen extends React.Component {
                     secureTextEntry={true}
                 />
                 <Text> {this.state.errors['password']} </Text>
-                <TouchableOpacity
+                {this.state.clicked? <TouchableOpacity
+                    style={styles.button}
+                    disabled={true}>
+                    <Text style={{color: "#FFFFFF"}}>Logging In...</Text>
+                </TouchableOpacity>
+                :<TouchableOpacity
                     style={styles.button}
                     onPress={() => this.handleSubmit()}>
                     <Text style={{color: "#FFFFFF"}}>Login</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
         </View>
         );
