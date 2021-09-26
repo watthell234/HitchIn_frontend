@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Image} from 'react-native';
 import { http } from './constants/hitchBackendapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
@@ -154,6 +154,11 @@ export default class PairingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>HitchIn</Text>
+        <Image style={{
+          width: 200,
+          height: 200}}
+          source={{uri: "https://storage.googleapis.com/hitchin_qr/qr_code"}}
+          />
         <Text>Carpool Ready? {this.state.passengerCount} (including driver)</Text>
         <TouchableOpacity
           style={styles.button}
