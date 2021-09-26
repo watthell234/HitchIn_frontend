@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HitchIn",
-    "scheme": "com.watthell234.hitchin",
+    "scheme": "hitchin",
     "slug": "hitchin",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,10 @@
       "bundleIdentifier": "com.watthell234.hitchin",
       "buildNumber": "1.0.1",
       "config": {
-                "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA"
+                "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA",
+                "branch": {
+                  "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
+                }
       }
     },
     "android": {
@@ -34,8 +37,20 @@
       "config": {
                 "googleMaps": {
                     "apiKey": "AIzaSyCnusuCPO6Htob_7VJ25g45uO30U0z0Fts"
+                },
+                "branch": {
+                  "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
                 }
+
             },
+      "intentFilters": [{
+          "action": "VIEW",
+          "category": ["DEFAULT", "BROWSABLE"],
+          "data":{
+            "scheme": "hitchin",
+            "host": "hitchin.test-app.link"
+          }
+      }],
       "versionCode": 9
     },
     "web": {

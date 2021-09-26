@@ -15,6 +15,7 @@ export default class SignUpScreen extends React.Component {
     this.state = {
       input: {},
       errors: {},
+      clicked: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,6 +52,10 @@ export default class SignUpScreen extends React.Component {
   }
 
   handleSubmit(event){
+
+    this.setState({
+      clicked: true
+    })
 
     if(this.validate())
     {
@@ -107,8 +112,8 @@ export default class SignUpScreen extends React.Component {
     }
 
     //warning: setState is asynchronous
-    this.setState(
-      {
+    this.setState({
+      clicked: false,
       errors
     }
   )
@@ -150,6 +155,7 @@ export default class SignUpScreen extends React.Component {
 
       this.setState(
         {
+          clicked: false,
           errors
         }
       )
@@ -249,14 +255,23 @@ export default class SignUpScreen extends React.Component {
       />
       <Text> {this.state.errors['confirmPassword']} </Text>
 
+      </View>
+      {
+      this.state.clicked?
+      <TouchableOpacity
+      style={styles.button}>
+      <Text style={{color: "#FFFFFF", fontSize:20}}>Creating account...</Text>
+      </TouchableOpacity>
+      :
       <TouchableOpacity
       style={styles.button}
       onPress={this.handleSubmit}>
       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
       </TouchableOpacity>
-      </View>
+    }
       </ScrollView>
       </SafeAreaView>
+
     );
 
   }

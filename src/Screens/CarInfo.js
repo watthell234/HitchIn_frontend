@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Image, ImageBackground, Keyboard, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button,
+  TextInput, Image, ImageBackground, Keyboard,
+  TouchableOpacity, ScrollView
+} from 'react-native';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { http_jwt } from './constants/hitchBackendapi';
@@ -12,6 +15,7 @@ export default class CarInfoScreen extends React.Component {
     super(props);
     this.state = {
       input: {},
+      clicked: false
     }
   };
 
@@ -33,6 +37,9 @@ export default class CarInfoScreen extends React.Component {
   }
 
   async handleSubmit() {
+    this.setState({
+      clicked: true
+    })
     const {car_maker, car_color, car_year, car_plate, ezpass_tag} = this.state.input;
     let userID;
     let token;
@@ -57,6 +64,9 @@ export default class CarInfoScreen extends React.Component {
         this.props.navigation.navigate('Pairing');
       })
       .catch((error) => {
+        this.setState({
+          clicked: false
+        })
         console.log("Could not post '/car'", error)
       })
     }
@@ -80,8 +90,10 @@ export default class CarInfoScreen extends React.Component {
                           color: 'gray',
                         };
     return (
+
       <View style={styles.container}>
         <LogOut navigation={this.props.navigation}/>
+
         <View>
             <Text style={styles.title} category='h1'>Car Info</Text>
             <RNPickerSelect
@@ -125,13 +137,21 @@ export default class CarInfoScreen extends React.Component {
                 value={this.state.input.ezpass_tag}
                 onBlur={Keyboard.dismiss}
             />
-            <TouchableOpacity
+            {this.state.clicked ?
+              <TouchableOpacity
+                style={styles.button}
+                disabled={true}>
+                <Text style={{color: "#FFFFFF"}}>Creating QR Code...</Text>
+              </TouchableOpacity>
+              :
+              <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.handleSubmit()}>
                 <Text style={{color: "#FFFFFF"}}>Create QR Code</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>}
         </View>
       </View>
+
     )
   }
 }

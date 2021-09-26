@@ -5805,6 +5805,13 @@ expo-barcode-scanner@~9.1.0:
   dependencies:
     lodash "^4.6.0"
 
+expo-branch@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/expo-branch/-/expo-branch-3.0.0.tgz#769ebc9648b19cddd9410cc7cffaf83bbfa9c37e"
+  integrity sha512-csCdGJXGPqu1qvxfYvgPC1cT8ByYHqBiI/aGyBjI7jReacV6Am9tuFxXLxkGvSsjP2WSfw93TFz42YkvDTbgkg==
+  dependencies:
+    react-native-branch "5.0.0"
+
 expo-cli@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/expo-cli/-/expo-cli-4.5.2.tgz#9af1a3c1db80cdfec3bf21969963feb2709f2fc1"
@@ -11111,6 +11118,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-native-branch@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-5.0.0.tgz#9d2102abb3c9a577ce4327e434151ece2b4c7c78"
+  integrity sha512-6VInx3bvWOfEJ916zdA1yzJhcjB26N0oMUJInW3reFIijsk6KOjyM46UH3/MixdNUOV/nZn1JoRZM+wpLffDWQ==
 
 react-native-dropdown-picker@^5.1.21:
   version "5.1.21"
