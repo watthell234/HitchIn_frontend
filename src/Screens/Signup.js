@@ -268,8 +268,7 @@ export default class SignUpScreen extends React.Component {
       onPress={this.handleSubmit}>
       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
       </TouchableOpacity>
-      }
-      </View>
+    }
       </ScrollView>
       </SafeAreaView>
 
