@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import Branch, { BranchEvent } from 'react-native-branch'
+import Branch, { BranchEvent } from 'react-native-branch'
 import * as Sentry from 'sentry-expo';
 
 
@@ -37,12 +37,12 @@ Sentry.init({
   debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
 });
 
-// Branch.subscribe(bundle => {
-//   if (bundle && bundle.params && !bundle.error) {
-//       console.log("link exists");
-//       console.log(bundle.params);
-//   }
-// });
+Branch.subscribe(bundle => {
+  if (bundle && bundle.params && !bundle.error) {
+      console.log("link exists");
+      console.log(bundle.params);
+  }
+});
 
 
 const RootStack = createStackNavigator({
