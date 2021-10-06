@@ -61,7 +61,7 @@ export default class CarInfoScreen extends React.Component {
         carID = response.data.car_id;
         this.storeCarID(carID);
         console.log("qr_id: " + response.data.qr_id);
-        this.props.navigation.navigate('DriverTrip');
+        this.props.navigation.navigate('Pairing');
       })
       .catch((error) => {
         this.setState({
