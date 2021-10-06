@@ -16,17 +16,28 @@ export default class PairingScreen extends React.Component {
       this.state = {
         driver: '',
         passengerCount: 1,
-        passenger_list: []
+        passenger_list: [],
+        qrUrl: null
       }
   }
 
   componentDidMount() {
     this.setup_pool();
+    this.getCarQr();
   }
 
   componentWillUnmount() {
     socket.emit('delete_trip', {tripID: tripID, pickup: pickup, dropoff: dropoff});
     socket.disconnect();
+  }
+
+  async getCarQr() {
+    const carId = await AsyncStorage.getItem("carID");
+    http.get(`/car/${carId}`)
+    .then((response) => this.setState({
+      qrUrl: response.data.qr_url
+    }))
+
   }
 
   async setup_pool() {
@@ -150,6 +161,13 @@ export default class PairingScreen extends React.Component {
       passenger_info = "Passenger: " + value.passenger_name;
       list_str = list_str + passenger_info + '\n';
     })
+    const { qrUrl } = this.state;
+    let uri;
+    if (qrUrl) {
+      uri = {uri: qrUrl.toString()}
+    } else {
+      uri = {uri: 'https://storage.googleapis.com/hitchin_qr/hitchin_website.pdf'}
+    }
 
     return (
       <View style={styles.container}>
@@ -157,7 +175,7 @@ export default class PairingScreen extends React.Component {
         <Image style={{
           width: 200,
           height: 200}}
-          source={{uri: "https://storage.googleapis.com/hitchin_qr/qr_code"}}
+          source={{uri: qrUrl}}
           />
         <Text>Carpool Ready? {this.state.passengerCount} (including driver)</Text>
         <TouchableOpacity
