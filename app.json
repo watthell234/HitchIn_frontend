@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.watthell234.hitchin",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "config": {
                 "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA",
                 "branch": {
@@ -51,7 +51,7 @@
             "host": "hitchin.test-app.link"
           }
       }],
-      "versionCode": 9
+      "versionCode": 10
     },
     "web": {
       "favicon": "./src/Screens/assets/favicon.png"
