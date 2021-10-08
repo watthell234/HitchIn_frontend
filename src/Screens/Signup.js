@@ -255,7 +255,7 @@ export default class SignUpScreen extends React.Component {
       />
       <Text> {this.state.errors['confirmPassword']} </Text>
 
-      </View>
+
       {
       this.state.clicked?
       <TouchableOpacity
@@ -269,6 +269,7 @@ export default class SignUpScreen extends React.Component {
       <Text style={{color: "#FFFFFF", fontSize:20}}>Next</Text>
       </TouchableOpacity>
     }
+      </View>
       </ScrollView>
       </SafeAreaView>
 

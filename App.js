@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Branch, { BranchEvent } from 'react-native-branch'
+import Branch, { BranchEvent } from 'react-native-branch';
 import * as Sentry from 'sentry-expo';
 
 
@@ -126,7 +126,7 @@ const DriverStack = createStackNavigator({
                     ) }},
                     Profile:  { screen: UserProfile,
                       navigationOptions:  {
-                        title: 'Driver',
+                        title: 'Profile',
                         tabBarIcon:({tintColor})=>(
                           <Icon name="person-outline" color={tintColor} size={25}/>
                         ) }
