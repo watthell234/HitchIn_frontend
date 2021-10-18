@@ -21,6 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.watthell234.hitchin",
       "buildNumber": "1.0.4",
+      "usesAppleSignIn": true,
       "config": {
                 "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA",
                 "branch": {

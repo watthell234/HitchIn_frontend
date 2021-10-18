@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as Sentry from 'sentry-expo';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 
 
@@ -70,6 +71,29 @@ try {
     style={[styles.button_text]}> Create New Account
     </Text>
     </TouchableOpacity>
+    <AppleAuthentication.AppleAuthenticationButton
+      buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+      cornerRadius={5}
+      style={{ width: 200, height: 44 }}
+      onPress={async () => {
+        try {
+          const credential = await AppleAuthentication.signInAsync({
+            requestedScopes: [
+              AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+              AppleAuthentication.AppleAuthenticationScope.EMAIL,
+            ],
+          }).then(response => console.log(response));
+          // signed in
+        } catch (e) {
+          if (e.code === 'ERR_CANCELED') {
+            // handle that the user canceled the sign-in flow
+          } else {
+            // handle other errors
+          }
+        }
+      }}
+    />
     </View>
     <View style={styles.empty_container}>
     </View>
