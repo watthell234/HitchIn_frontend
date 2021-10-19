@@ -83,7 +83,11 @@ try {
               AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
               AppleAuthentication.AppleAuthenticationScope.EMAIL,
             ],
-          }).then(response => console.log(response));
+          }).then(response => navigate('SignUp', {
+            email: response.email,
+            firstName: response.fullName.givenName,
+            lastName: response.fullName.familyName}))
+            .catch(err => Sentry.captureException(err));
           // signed in
         } catch (e) {
           if (e.code === 'ERR_CANCELED') {
