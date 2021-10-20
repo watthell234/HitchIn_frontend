@@ -10,7 +10,7 @@ export default class EndTripScreen extends React.Component {
 
 
   onPress() {
-    this.props.navigation.navigate('LoggedIn');
+    this.props.navigation.navigate('BottomTab');
   }
 
     render() {
