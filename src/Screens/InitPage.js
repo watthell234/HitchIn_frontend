@@ -24,7 +24,7 @@ export default class InitScreen extends React.Component {
 
   }
 
-  
+
 
 
   render() {
@@ -38,7 +38,7 @@ export default class InitScreen extends React.Component {
         <Image style={styles.hitchin_logo} source={require('./assets/car.png')}></Image>
         <TouchableOpacity
         style={styles.signup_button}
-        onPress={() => {this.props.navigation.navigate('CreateProfile')}}>
+        onPress={() => {this.props.navigation.navigate('SignUp')}}>
         <Text style={{color: "#FFFFFF", fontSize:20}}>
         GET STARTED
         </Text>

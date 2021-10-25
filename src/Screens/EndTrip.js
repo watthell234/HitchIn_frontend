@@ -10,7 +10,7 @@ export default class EndTripScreen extends React.Component {
 
 
   onPress() {
-    this.props.navigation.navigate('BottomTab');
+    this.props.navigation.navigate('CarpoolRoute');
   }
 
     render() {

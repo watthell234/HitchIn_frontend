@@ -51,13 +51,13 @@ const RootStack = createStackNavigator({
   }
   ,
   Login: LoginScreen,
-  CreateProfile: {
-    screen: CreateProfileScreen,
-    navigationOptions: {
-      title: "Sign Up",
-
-    }
-  },
+  // CreateProfile: {
+  //   screen: CreateProfileScreen,
+  //   navigationOptions: {
+  //     title: "Sign Up",
+  //
+  //   }
+  // },
   SignUp: {
     screen: SignUpScreen,
     navigationOptions: {
@@ -88,8 +88,18 @@ const DriverStack = createStackNavigator({
           headerLeft: () => null,
           headerShown: false,
         }},
-        DriverPosition: DriverPositionScreen,
-        EndTrip: EndTripScreen
+        DriverPosition: {
+          screen: DriverPositionScreen,
+          navigationOptions:  {
+          headerLeft: () => null,
+          headerShown: false,
+        }},
+        EndTrip: {
+          screen: EndTripScreen,
+          navigationOptions:  {
+          headerLeft: () => null,
+          headerShown: false,
+        }}
       })
 
       const RiderStack = createStackNavigator({
@@ -107,7 +117,7 @@ const DriverStack = createStackNavigator({
               navigationOptions:  {
                 headerLeft: () => null,
                 headerShown: false,
-              }},
+              }}
             })
 
             const BottomTab = createBottomTabNavigator({
@@ -130,9 +140,10 @@ const DriverStack = createStackNavigator({
                         tabBarIcon:({tintColor})=>(
                           <Icon name="person-outline" color={tintColor} size={25}/>
                         ) }
-                      }},
+                      },
+                    },
                       {
-                        initialRouteName: "Profile",
+                        initialRouteName: "Drive",
                       }
                     );
 
@@ -173,9 +184,10 @@ const DriverStack = createStackNavigator({
                           AuthLoading: AuthLoadingScreen,
                           Root: RootStack,
                           LoggedIn: LoggedInStack,
-                          Driver: DriverStack,
-                          RiderTrip: RiderStack,
+                          // Driver: DriverStack,
+                          // RiderTrip: RiderStack,
                           Tabs: BottomTab,
+                          CarpoolRoute: CarpoolRouteScreen,
                         },
                         {
                           initialRouteName: 'AuthLoading',
