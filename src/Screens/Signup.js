@@ -5,7 +5,6 @@ import {
   SafeAreaView, ScrollView
 } from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
-import { Checkbox } from 'react-native-paper';
 import { styles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

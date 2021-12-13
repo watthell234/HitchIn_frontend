@@ -3,7 +3,7 @@ import { ActivityIndicator, StatusBar, StyleSheet, SafeAreaView, Text, View, But
 import { createAppContainer, NavigationContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-// import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 // import Branch, { BranchEvent } from 'react-native-branch';
@@ -31,12 +31,12 @@ import UserProfile from './src/Screens/Profile'
 import EndTripScreen from './src/Screens/EndTrip';
 
 
-Sentry.init({
-  dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
-  enableInExpoDevelopment: true,
-  debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
-});
-//
+// Sentry.init({
+//   dsn: 'https://ec5caaabba9b489686c9f1768c117b62@o931327.ingest.sentry.io/5880255',
+//   enableInExpoDevelopment: true,
+//   debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+// });
+// //
 // Branch.subscribe(bundle => {
 //   if (bundle && bundle.params && !bundle.error) {
 //       console.log("link exists");
@@ -63,7 +63,7 @@ const RootStack = createStackNavigator({
     navigationOptions: {
       title: "Sign Up"
     }
-  }
+  },
 
 });
 
@@ -187,7 +187,7 @@ const DriverStack = createStackNavigator({
                           // Driver: DriverStack,
                           // RiderTrip: RiderStack,
                           Tabs: BottomTab,
-                          CarpoolRoute: CarpoolRouteScreen,
+
                         },
                         {
                           initialRouteName: 'AuthLoading',
