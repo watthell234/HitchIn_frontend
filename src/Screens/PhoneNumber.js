@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet, Text, View, Button, TextInput,
   Image, ImageBackground, Keyboard, TouchableOpacity,
-  SafeAreaView, ScrollView
+  SafeAreaView, ScrollView, ActivityIndicator
 } from 'react-native';
 import { http, getAxios } from './constants/hitchBackendapi';
 import { styles } from './styles/styles';
@@ -71,38 +71,17 @@ export default class PhoneNumberScreen extends React.Component {
     //this checks if phone number only contains numbers
     let phoneRegExp = /^[0-9]+$/;
 
-    //this chekcs if name only contains letters
-    let nameRegExp = /^[a-z]+$/i;
-
     //this checks if password only contains letters and numbers
-    let passwordRegExp = /^[a-z0-9]+$/i;
-
-    //this checks if email is valid
-    let emailRegExp = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
+    let passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$/;
 
     if (!input['phoneNumber'] || !phoneRegExp.test(input['phoneNumber']) || input['phoneNumber'].length != 10) {
       isValid = false;
       errors['phoneNumber'] = "Not a valid phone number."
     }
 
-    if (!input['firstName'] || !nameRegExp.test(input['firstName'])){
+    if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 7){
       isValid = false;
-      errors['firstName'] = "Invalid first name."
-    }
-
-    if (!input['lastName'] || !nameRegExp.test(input['lastName'])){
-      isValid = false;
-      errors['lastName'] = "Invalid last name."
-    }
-
-    if(!input['email'] || !emailRegExp.test(input['email'])){
-      isValid = false;
-      errors['email'] = "Invalid email."
-    }
-
-    if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 8){
-      isValid = false;
-      errors['password'] = "Password must be: \n • At least 8 characters \n • Only contain letters and numbers"
+      errors['password'] = "Password must be: \n • At least 7 characters \n • Only contain letters and numbers"
     }
 
     if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
@@ -133,35 +112,15 @@ export default class PhoneNumberScreen extends React.Component {
 
   onSignUp() {
 
-    const { phoneNumber, firstName, lastName, email, password, photoUrl } = this.state.input;
+    const { phoneNumber, password } = this.state.input;
 
-    http.post('/sign-up', {phoneNumber, firstName, lastName, email, password, photoUrl})
-    .then((response) => this.storeToken(response.data.id, response.data.auth_token))
-    .then(() => {this.props.navigation.navigate('LoggedIn')})
-    .catch((error) => {
-      //401
-      let status = error.response.status;
-      let errors = {};
+     this.props.navigation.navigate('UserProfile', {
+       phoneNumber: phoneNumber,
+       password: password,
+       }
+     )
+    }
 
-      console.log(error.response);
-      if (status == 401)
-      {
-        errors['email'] = "email already exists";
-      }
-      else if(status == 402){
-        errors['phoneNumber'] = "phone number already exists";
-      }
-
-      this.setState(
-        {
-          clicked: false,
-          errors
-        }
-      )
-
-    });
-
-  }
 
 
   checkPassword(password) {
@@ -221,10 +180,7 @@ export default class PhoneNumberScreen extends React.Component {
 
       {
       this.state.clicked?
-      <TouchableOpacity
-      style={styles.button}>
-      <Text style={{color: "#FFFFFF", fontSize:20}}>Creating account...</Text>
-      </TouchableOpacity>
+      <ActivityIndicator size="small" color="#404e5a" />
       :
       <TouchableOpacity
       style={styles.button}
