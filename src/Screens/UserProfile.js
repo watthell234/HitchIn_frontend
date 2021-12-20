@@ -68,22 +68,11 @@ export default class UserProfileScreen extends React.Component {
     let errors = {};
     let isValid = true;
 
-    //this checks if phone number only contains numbers
-    let phoneRegExp = /^[0-9]+$/;
-
     //this chekcs if name only contains letters
     let nameRegExp = /^[a-z]+$/i;
 
-    //this checks if password only contains letters and numbers
-    let passwordRegExp = /^[a-z0-9]+$/i;
-
     //this checks if email is valid
     let emailRegExp = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
-
-    if (!input['phoneNumber'] || !phoneRegExp.test(input['phoneNumber']) || input['phoneNumber'].length != 10) {
-      isValid = false;
-      errors['phoneNumber'] = "Not a valid phone number."
-    }
 
     if (!input['firstName'] || !nameRegExp.test(input['firstName'])){
       isValid = false;
@@ -98,16 +87,6 @@ export default class UserProfileScreen extends React.Component {
     if(!input['email'] || !emailRegExp.test(input['email'])){
       isValid = false;
       errors['email'] = "Invalid email."
-    }
-
-    if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 8){
-      isValid = false;
-      errors['password'] = "Password must be: \n • At least 8 characters \n • Only contain letters and numbers"
-    }
-
-    if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
-      isValid = false;
-      errors['confirmPassword'] = "Please confirm your password.";
     }
 
     //warning: setState is asynchronous

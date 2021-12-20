@@ -27,7 +27,8 @@ import DriverPositionScreen from './src/Screens/DriverPosition';
 import QRReaderScreen from './src/Screens/QRreader';
 import RiderPositionScreen from './src/Screens/RiderPosition';
 import UserProfile from './src/Screens/Profile'
-
+import PhoneNumberScreen from './src/Screens/PhoneNumber';
+import UserProfileScreen from './src/Screens/UserProfile';
 import EndTripScreen from './src/Screens/EndTrip';
 
 
@@ -58,6 +59,13 @@ const RootStack = createStackNavigator({
   //
   //   }
   // },
+  PhoneNumber: {
+    screen: PhoneNumberScreen
+  },
+  UserProfile: {
+    screen: UserProfileScreen
+  },
+
   SignUp: {
     screen: SignUpScreen,
     navigationOptions: {
