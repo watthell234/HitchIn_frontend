@@ -60,10 +60,16 @@ const RootStack = createStackNavigator({
   //   }
   // },
   PhoneNumber: {
-    screen: PhoneNumberScreen
+    screen: PhoneNumberScreen,
+    navigationOptions: {
+      title: "Sign Up: 1 of 2"
+    }
   },
   UserProfile: {
-    screen: UserProfileScreen
+    screen: UserProfileScreen,
+    navigationOptions: {
+      title: "Sign Up: 2 of 2"
+    }
   },
 
   SignUp: {
