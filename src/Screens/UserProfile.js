@@ -25,6 +25,8 @@ export default class UserProfileScreen extends React.Component {
     if (this.props.navigation.state.params) {
       let input = this.state.input;
       let params = this.props.navigation.state.params
+      input['phoneNumber'] = params.phoneNumber;
+      input['password'] = params.password;
       input['email'] = params.email;
       input['firstName'] = params.firstName;
       input['lastName'] = params.lastName;

@@ -81,7 +81,7 @@ export default class PhoneNumberScreen extends React.Component {
 
     if(!input['password'] || !passwordRegExp.test(input['password']) || input['password'].length < 7){
       isValid = false;
-      errors['password'] = "Password must be: \n • At least 7 characters \n • Only contain letters and numbers"
+      errors['password'] = "Password must be: \n • At least 7 characters \n • May contain letters, numbers, and symbols"
     }
 
     if(!input['confirmPassword'] || input['password'] != input['confirmPassword']){
@@ -98,16 +98,6 @@ export default class PhoneNumberScreen extends React.Component {
 
 
     return isValid;
-  }
-
-  async storeToken(user, token) {
-    try {
-      await AsyncStorage.setItem("userID", JSON.stringify(user));
-      await AsyncStorage.setItem("authToken", JSON.stringify(token));
-
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
   }
 
   onSignUp() {
