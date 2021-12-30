@@ -21,6 +21,7 @@ import haversine from "haversine";
 import io from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 const screen = Dimensions.get('window');
 
@@ -127,12 +128,24 @@ export default class DriverPositionScreen extends Component {
   }
 
   async getPermission() {
-    let { status } = await Location.requestPermissionsAsync();
-    if(status === 'granted') {
-      this.getLocation();
-    }else{
-      console.log('Permission access was denied');
+    if (Platform.OS === "ios") {
+      let { status } = await requestTrackingPermissionsAsync();
+      let { permStatus } = await Location.requestForegroundPermissionsAsync();
+        if( status === 'granted') {
+          this.getLocation();
+        }else{
+          console.log('Permission access was denied');
+        }
+    } else {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+        if( status === 'granted') {
+          this.getLocation();
+        }else{
+          console.log('Permission access was denied');
+        }
     }
+
+
   }
 
   async getLocation() {

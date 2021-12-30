@@ -149,7 +149,7 @@ export default class RiderPositionScreen extends Component {
   }
 
   async getPermission() {
-    let { status } = await Location.requestPermissionsAsync();
+    let { status } = await Location.requestForegroundPermissionsAsync();
     if(status === 'granted') {
       this.getLocation();
     }else{

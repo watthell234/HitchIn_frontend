@@ -51,16 +51,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>HitchIn needs your location to be able to provide driver and rider active trip information in case of an emergency.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your camera</string>
+	<string>Allow $(PRODUCT_NAME) to access your camera. HitchIn needs your camera to Check In to a ride.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<string>Allow $(PRODUCT_NAME) to access your location. HitchIn needs your location to be able to provide driver and rider active trip information in case of an emergency.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<string>Allow $(PRODUCT_NAME) to access your location. HitchIn needs your location to be able to provide driver and rider active trip information in case of an emergency.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<string>Allow $(PRODUCT_NAME) to access your location. HitchIn needs your location to be able to provide driver and rider active trip information in case of an emergency.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
+	<string>Allow $(PRODUCT_NAME) to access your microphone. HitchIn needs your microphone to make emergency phone calls.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

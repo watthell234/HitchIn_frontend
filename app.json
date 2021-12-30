@@ -17,41 +17,51 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      "expo-tracking-transparency"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.watthell234.hitchin",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "usesAppleSignIn": true,
       "config": {
-                "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA",
-                "branch": {
-                  "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
-                }
+        "googleMapsApiKey": "AIzaSyAyZ069PMTtSMXhyMk_qK1Q3G1g6rmLsiA",
+        "branch": {
+          "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
+        }
+      },
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "This app uses location to be able to offer a secure and more enjoyable experience."
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/Screens/assets/favicon.png",
-        "backgroundColor": "#FFFFFF",
+        "backgroundColor": "#FFFFFF"
       },
       "package": "com.watthell234.hitchin",
       "config": {
-                "googleMaps": {
-                    "apiKey": "AIzaSyCnusuCPO6Htob_7VJ25g45uO30U0z0Fts"
-                },
-                "branch": {
-                  "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
-                }
-
-            },
-      "intentFilters": [{
+        "googleMaps": {
+          "apiKey": "AIzaSyCnusuCPO6Htob_7VJ25g45uO30U0z0Fts"
+        },
+        "branch": {
+          "apiKey": "key_test_ag7rvnsMzslXmqwGgaq6ombasvflYyZY"
+        }
+      },
+      "intentFilters": [
+        {
           "action": "VIEW",
-          "category": ["DEFAULT", "BROWSABLE"],
-          "data":{
+          "category": [
+            "DEFAULT",
+            "BROWSABLE"
+          ],
+          "data": {
             "scheme": "hitchin",
             "host": "hitchin.test-app.link"
           }
-      }],
+        }
+      ],
       "versionCode": 14
     },
     "web": {
