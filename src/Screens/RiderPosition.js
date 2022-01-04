@@ -149,11 +149,21 @@ export default class RiderPositionScreen extends Component {
   }
 
   async getPermission() {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if(status === 'granted') {
-      this.getLocation();
-    }else{
-      console.log('Permission access was denied');
+    if (Platform.OS === "ios") {
+      let { status } = await requestTrackingPermissionsAsync();
+      let { permStatus } = await Location.requestForegroundPermissionsAsync();
+        if( status === 'granted') {
+          this.getLocation();
+        }else{
+          console.log('Permission access was denied');
+        }
+    } else {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+        if( status === 'granted') {
+          this.getLocation();
+        }else{
+          console.log('Permission access was denied');
+        }
     }
   }
 
